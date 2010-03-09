@@ -1,0 +1,261 @@
+body
+{
+  margin: 0;
+  background: url('../images/back.jpg');
+  background-attachment: fixed;
+}
+
+.header
+{
+#  background: url('../images/header_bg.png');
+#  height: 80px;
+}
+
+.middle
+{
+  padding-top: 5px;  
+  padding-bottom: 20px;
+  font-family: 'trebuchet ms';
+  font-size: 11px;
+  
+}
+
+.middle_content
+{
+   width:780px;min-height:500px;padding-left:10px;
+}
+
+
+
+.content
+{
+  margin-left: 20px;
+  min-height: 300px;
+  width : 750px;
+  /*border: 1px solid red;*/
+  float: left;
+}
+.sidebar
+{
+  width : 190px;
+  border: 1px solid #C4D3D6;
+  float: left;
+  margin-left: 10px;
+  font-size: 12px;
+  font-family: arial;
+  color: #7E8186;
+  background: url('../images/form_bg.png') repeat-x #FFFFFF;
+}
+
+.bottom
+{
+  font-size: 10px;
+  text-align: left;
+  font-family: arial;
+  padding: 0 0 0 20px;
+  height: 30px;
+  background: url('../images/footer_bg.png');
+  color:  #fff;
+  
+}
+.footer
+{
+  font-size: 10px;
+  text-align: left;
+  font-family: arial;
+  padding: 10px 0 10px 10px;
+  height: 20px;
+  color:  #666;
+  
+}
+
+.textbox
+{
+  border: 1px solid #AEB9BD;
+  background-color: #EDF5F7;
+}
+
+.success
+{
+  color:#009900;
+  font-size: 11px;
+}
+
+.success ul
+{
+  margin-left:8px;
+  padding-left:8px;
+}
+
+.td_caption
+{
+   font-size:15px;
+   font-weight:bold;
+   color:#003366;
+   text-align:left;
+   height: 30px;
+   text-decoration: underline;
+}
+
+.td_search_1
+{
+  width:150px;
+  text-align:right;
+  border-width: 1px 1px 1px 1px;
+  border-style: solid;
+  border-color: #D7D8DA;
+  height: 25px;
+  padding-right: 5px; 
+  font-size: 11px; 
+}
+
+.td_search_2
+{
+  width:250px;
+  text-align:left;
+  border-width: 1px 1px 1px 1px;
+  border-style: solid;
+  border-color: #D7D8DA;
+  padding-left: 5px;
+  padding-right: 5px;
+  font-size: 11px; 
+}
+
+.error
+{
+  color:red;
+  font-size: 11px;
+}
+
+.error ul
+{
+  margin-left:8px;padding-left:8px;
+}
+
+.td1
+{
+  width:140px;
+  text-align:right;
+  border-width: 1px 1px 1px 1px;
+  border-style: solid;
+  border-color: #D7D8DA;
+  height: 40px;
+  padding-right: 5px;
+  font-size: 11px; 
+}
+.td2
+{
+  
+  text-align:left;
+  border-width: 1px 1px 1px 1px;
+  border-style: solid;
+  border-color: #D7D8DA;
+  padding-left: 5px;
+  font-size: 11px; 
+}
+
+.td_data_top
+{
+  font-weight:bold;font-size:11px;height:30px;
+  border:1px solid #D7D8DA;
+  background-color: #336699;
+  color: #fff;
+  text-align: center;
+}
+
+.td_data_middle
+{
+  border:1px solid #D7D8DA;
+  font-size: 12px;
+  color: #333333;
+  text-align: center;
+  height: 25px;
+}
+
+/*login form*/
+.sidebar_top
+{
+  font-size:11px;height:25px;color:#FFFFFF;font-weight:bold;text-align:left;background:url('../images/sidebar_top.png');
+  padding-left: 10px;
+}
+
+.sidebar_middle
+{
+  width:184px;
+  text-align:left;
+  background:url('../images/sidebar_middle.png');
+}
+
+.sidebar_bottom
+{
+ font-size:12px;height:25px;color:#fff;font-weight:bold;text-align:left;background:url('../images/sidebar_bottom.png');
+}
+
+
+.td1_forgot
+{
+  width:150px;
+  text-align:right;
+  border-width: 1px 1px 1px 1px;
+  border-style: solid;
+  border-color: #D7D8DA;
+  height: 40px;
+  padding-right: 5px;
+}
+.td2_forgot
+{
+  width:200px;
+  text-align:left;
+  border-width: 1px 1px 1px 1px;
+  border-style: solid;
+  border-color: #D7D8DA;
+  padding-left: 5px;
+}
+
+.table_body
+{
+   border-collapse: collapse;
+   width: 800px;
+   background: url('../images/body_bg.png');
+}
+
+A:link {text-decoration: none; color: #000000;}
+A:visited {text-decoration: none;  color: #000000;}
+A:active {text-decoration: none; color: #000000;}
+A:hover {text-decoration: none; color: #003366;}
+
+.top_sidebar_table
+{
+  font-size: 12px;
+  font-weight: bold;
+  padding-left:10px;
+  background: url('../images/sidebar_middle_top.png');
+  color:#003366;
+}
+
+.middle_sidebar_table
+{
+  font-size: 11px;
+  color: #336699;
+  padding-left: 10px;
+}
+
+  .td1_tooltip
+  {
+    font-size: 11px;
+    font-family: arial;
+    font-weight: bold;
+    text-align: right;
+  }
+  .td2_tooltip
+  {
+    font-size: 11px;
+    font-family: arial;
+    text-align: left;
+  }
+/*Login area*/
+
+
+
+
+

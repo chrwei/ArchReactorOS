@@ -1,0 +1,559 @@
+{include file="admin/header.html"}
+{literal}
+<script language=javascript>
+checked = false;
+  function checkedAll (frm1) {
+	var aa= document.getElementById('frm1');
+	    if (checked == false)
+          {
+           checked = true
+          }
+        else
+          {
+          checked = false
+          }
+	for (var i =0; i < aa.elements.length; i++) 
+	{
+	 aa.elements[i].checked = checked;
+	}
+  }
+  
+  function delete_order(frm1) {
+   
+  var aa = document.getElementById('frm1');
+	var check = false;
+	
+  for (var i =0; i < aa.elements.length; i++) 
+	{
+	  
+    if (aa.elements[i].checked == true)
+	  {
+      check = true;
+    }
+ 
+	}
+	
+  if (check == true)  
+  {
+    var conf_del = confirm('Are you sure want to delete ?');
+    if (conf_del == true) {
+      aa.submit();
+    }
+    
+  }  
+  else {
+    alert("Not order selected");    
+  }
+ 
+  }
+  </script>
+{/literal}
+ <!-- begin :: midle -->
+  <tr>
+    <td class="middle">
+      <div class="middle_content">  
+      {include file="admin/sidebar.html"}
+
+      {if $pf == 'browse'  || !$pf} 
+      <table style="margin-left:15px;width:570px;border-collapse:collapse;" align="left">
+        <tr>
+          <td>
+            <table style="border-collapse:collapse;" align="left">
+              <tr>
+                <td colspan="2" class="td_caption">Search Order</td>
+              </tr>
+              <form action="order.php?pf=search" method="post">
+              <tr>
+                <td class="td_search_1" style="width:150px;">Search For :</td>
+                <td class="td_search_2" style="padding-left:8px;width:250px;">
+                  <input type="text" name="search_for" class="textbox" value="{$search_for}" style="width:210px;">
+                </td>
+              </tr>
+              <tr>
+                <td class="td_search_1">Search In :</td>
+                <td class="td_search_2" style="padding-left:8px;">
+                  <select name="search_in" class="textbox" style="width:210px;">
+                    <option value="username">Username</option>
+                    <option value="firstname">Firstname</option>
+                    <option value="lastname">Lastname</option>
+                    <option value="email">Email</option>
+                    <option value="name">Product Name</option>
+                    <option value="description">Description</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td class="td_search_1"><input type="checkbox" name="filter_date_order" value="true">Filter Date Order :</td>
+                <td class="td_search_2">
+                  <table align="left" width="100%">
+  									<tr>
+  										<td style="border:0px;">
+  											<select name="month_order" class="textbox">
+                          <option value="1">January</option>
+                          <option value="2">February</option>
+                          <option value="3">March</option>
+                          <option value="4">April</option>
+                          <option value="5">May</option>
+                          <option value="6">June</option>
+                          <option value="7">July</option>
+                          <option value="8">August</option>
+                          <option value="9">September</option>
+                          <option value="10">October</option>
+                          <option value="11">November</option>
+                          <option value="12">December</option>
+                        </select>
+                        <select name="day_order" class="textbox">
+                        {assign var="i_tmp" value="1"}
+  						          {section name=i loop=31}
+  							         <option value="{$i_tmp}">{$i_tmp}</option>
+                        {assign var="i_tmp" value=$i_tmp+1}
+  						          {/section}
+  						          </select>
+  						          <select name="year_order" class="textbox">
+                        {assign var="i_tmp" value="2008"}
+  						          {section name=i loop=31}
+  							         <option value="{$i_tmp}">{$i_tmp}</option>
+                        {assign var="i_tmp" value=$i_tmp+1}
+  						          {/section}
+  						          </select>
+  						          <br>
+  						          <font style="font-size:11px;color:blue;"> To </font>
+  						          <br>
+  						          <select name="to_month_order" class="textbox">
+                          <option value="1">January</option>
+                          <option value="2">February</option>
+                          <option value="3">March</option>
+                          <option value="4">April</option>
+                          <option value="5">May</option>
+                          <option value="6">June</option>
+                          <option value="7">July</option>
+                          <option value="8">August</option>
+                          <option value="9">September</option>
+                          <option value="10">October</option>
+                          <option value="11">November</option>
+                          <option value="12">December</option>
+                        </select>
+                        <select name="to_day_order" class="textbox">
+                        {assign var="i_tmp" value="1"}
+  						          {section name=i loop=31}
+  							         <option value="{$i_tmp}">{$i_tmp}</option>
+                        {assign var="i_tmp" value=$i_tmp+1}
+  						          {/section}
+  						          </select>
+  						          <select name="to_year_order" class="textbox">
+                        {assign var="i_tmp" value="2008"}
+  						          {section name=i loop=31}
+  							         <option value="{$i_tmp}">{$i_tmp}</option>
+                        {assign var="i_tmp" value=$i_tmp+1}
+  						          {/section}
+  						          </select>
+  										</td>
+  									</tr>
+  								</table>                
+                </td>
+              </tr>
+              <tr>
+                <td class="td_search_1"><input type="checkbox" name="filter_date_expire" value="true">Filter Date Expire :</td>
+                <td class="td_search_2">
+                  <table align="left" width="100%">
+  									<tr>
+  										<td style="border:0px;">
+  											<select name="month_expire" class="textbox">
+                          <option value="1">January</option>
+                          <option value="2">February</option>
+                          <option value="3">March</option>
+                          <option value="4">April</option>
+                          <option value="5">May</option>
+                          <option value="6">June</option>
+                          <option value="7">July</option>
+                          <option value="8">August</option>
+                          <option value="9">September</option>
+                          <option value="10">October</option>
+                          <option value="11">November</option>
+                          <option value="12">December</option>
+                        </select>
+                        <select name="day_expire" class="textbox">
+                        {assign var="i_tmp" value="1"}
+  						          {section name=i loop=31}
+  							         <option value="{$i_tmp}">{$i_tmp}</option>
+                        {assign var="i_tmp" value=$i_tmp+1}
+  						          {/section}
+  						          </select>
+  						          <select name="year_expire" class="textbox">
+                        {assign var="i_tmp" value="2008"}
+  						          {section name=i loop=31}
+  							         <option value="{$i_tmp}">{$i_tmp}</option>
+                        {assign var="i_tmp" value=$i_tmp+1}
+  						          {/section}
+  						          </select>
+  						          <br>
+  						          <font style="font-size:11px;color:blue;"> To </font>
+  						          <br>
+  						          <select name="to_month_expire" class="textbox">
+                          <option value="1">January</option>
+                          <option value="2">February</option>
+                          <option value="3">March</option>
+                          <option value="4">April</option>
+                          <option value="5">May</option>
+                          <option value="6">June</option>
+                          <option value="7">July</option>
+                          <option value="8">August</option>
+                          <option value="9">September</option>
+                          <option value="10">October</option>
+                          <option value="11">November</option>
+                          <option value="12">December</option>
+                        </select>
+                        <select name="to_day_expire" class="textbox">
+                        {assign var="i_tmp" value="1"}
+  						          {section name=i loop=31}
+  							         <option value="{$i_tmp}">{$i_tmp}</option>
+                        {assign var="i_tmp" value=$i_tmp+1}
+  						          {/section}
+  						          </select>
+  						          <select name="to_year_expire" class="textbox">
+                        {assign var="i_tmp" value="2008"}
+  						          {section name=i loop=31}
+  							         <option value="{$i_tmp}">{$i_tmp}</option>
+                        {assign var="i_tmp" value=$i_tmp+1}
+  						          {/section}
+  						          </select>
+  										</td>
+  									</tr>
+  								</table>                
+                </td>
+              </tr>
+              <tr>
+                <td class="td_search_1"></td>
+                <td class="td_search_2"><input type="submit" value="Search"></td>
+              </tr>
+              </form>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <table style="width:570px;border-collapse:collapse;" align="left">
+              <tr>
+                <td colspan="6" class="td_caption">
+                  Orders
+                </td>
+              </tr>
+              {if $success}    
+              <tr>
+                <td colspan="5" class="success">
+                  Confirmation :
+                  <ul><li>Delete data is success</li></ul>
+                </td>
+              </tr>
+              {/if}                 
+              {if !$orders}
+              <tr>
+                <td colspan="5" style="font-size:11px;text-align:center;color:red;">
+                  ======== Not order data ========
+                </td>
+              </tr>
+              {else}
+              {if $paging}
+              <tr>
+                <td colspan="5" style="font-size:11px;color:green;font-weight:bold;text-align:left;"> {$paging} </td>
+              </tr>
+              {/if}              
+              <tr>
+                <td class="td_data_top" style="width:20px;"><input type='checkbox' name='checkall' onclick='checkedAll();'></td>
+                <td class="td_data_top" style="width:30px;">No.</td>
+                <td class="td_data_top" style=";">Username</td>
+                <td class="td_data_top" style="width:150px">Product</td>
+                <td class="td_data_top" style="width:100px;">Date Order</td>
+                <td class="td_data_top" style="width:100px;">Status</td>
+              </tr>
+              <form id="frm1" action="order.php?pf=delete" method="post">
+              {assign var="i_tmp" value="1"}
+              {section name=i loop=$orders}
+                <tr bgcolor="{$orders[i].color}">             
+                  <td class="td_data_middle">
+                    <input type="checkbox" value="{$orders[i].order_id}" name="delete[]">
+                  </td>
+                  <td class="td_data_middle">{$orders[i].no}.</td>
+                  <td class="td_data_middle">
+                    <div class="view_detail" ajaxurl="ajax.php?tooltip=order&order_id={$orders[i].order_id}" style="cursor: pointer;">
+                       {$orders[i].username}
+                    </div>  
+                  </div>
+                  <td class="td_data_middle">
+                  {$orders[i].name}
+                  </td>
+                  <td style="text-align:center;"  class="td_data_middle">{$orders[i].date_order}</td>
+                  <td style="text-align:center;"  class="td_data_middle">{$orders[i].expire_in}</td>
+                </tr>
+                {assign var="i_tmp" value=$i_tmp+1}
+                {/section}    
+                </form>
+                <tr>
+                  <td colspan="5" style="height:50px;text-align:left;">
+                    <input type="button" name="del" value="Delete" onclick="delete_order();"></td>
+                   </td>
+                </tr>
+                {/if}
+            </table> 
+          </td>
+        </tr>
+      </table>  
+      {/if}
+      {if $pf == 'search'} 
+      <table style="margin-left:15px;width:570px;border-collapse:collapse;" align="left">
+        <tr>
+          <td>
+            <table style="border-collapse:collapse;" align="left">
+              <tr>
+                <td colspan="2" class="td_caption">Search Order</td>
+              </tr>
+              <form action="order.php?pf=search" method="post">
+              {if $error}    
+              <tr>
+                <td colspan="2" class="error">
+                    Confirmation :
+                    <ul>
+                      {assign var="i_tmp" value="1"}
+                      {section name=i loop=$error}
+                      <li>
+                      {$error[i]}
+                      </li>
+                      {assign var="i_tmp" value=$i_tmp+1}
+                      {/section}
+                    </ul>
+                </td>
+              </tr>
+              {/if}
+              <tr>
+                <td class="td_search_1" style="width:150px;">Search For :</td>
+                <td class="td_search_2" style="padding-left:8px;width:250px;"><input type="text" name="search_for" class="textbox" value="{$search_for}" style="width:210px;"></td>
+              </tr>
+              <tr>
+                <td class="td_search_1">Search In :</td>
+                <td class="td_search_2" style="padding-left:8px;">
+                  <select name="search_in" class="textbox" style="width:210px;">
+                    <option value="username" {if $search_in == username}selected{/if}>Username</option>
+                    <option value="firstname" {if $search_in == firstname}selected{/if}>Firstname</option>
+                    <option value="lastname" {if $search_in == lastname}selected{/if}>Lastname</option>
+                    <option value="email" {if $search_in == email}selected{/if}>Email</option>
+                    <option value="name" {if $search_in == name}selected{/if}>Product Name</option>
+                    <option value="description" {if $search_in == description}selected{/if}>Description</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td class="td_search_1"><input type="checkbox" name="filter_date_order" value="true">Filter Date Order :</td>
+                <td class="td_search_2">
+                  <table align="left" width="100%">
+  									<tr>
+  										<td style="border:0px;">
+  											<select name="month_order" class="textbox">
+                          <option value="1" {if $month_order == 1}selected{/if}>January</option>
+                          <option value="2" {if $month_order == 2}selected{/if}>February</option>
+                          <option value="3" {if $month_order == 3}selected{/if}>March</option>
+                          <option value="4" {if $month_order == 4}selected{/if}>April</option>
+                          <option value="5" {if $month_order == 5}selected{/if}>May</option>
+                          <option value="6" {if $month_order == 6}selected{/if}>June</option>
+                          <option value="7" {if $month_order == 7}selected{/if}>July</option>
+                          <option value="8" {if $month_order == 8}selected{/if}>August</option>
+                          <option value="9" {if $month_order == 9}selected{/if}>September</option>
+                          <option value="10" {if $month_order == 10}selected{/if}>October</option>
+                          <option value="11" {if $month_order == 11}selected{/if}>November</option>
+                          <option value="12" {if $month_order == 12}selected{/if}>December</option>
+                        </select>
+                        <select name="day_order" class="textbox">
+                        {assign var="i_tmp" value="1"}
+  						          {section name=i loop=31}
+  							         <option value="{$i_tmp}" {if $day_order == $i_tmp}selected{/if}>{$i_tmp}</option>
+                        {assign var="i_tmp" value=$i_tmp+1}
+  						          {/section}
+  						          </select>
+  						          <select name="year_order" class="textbox">
+                        {assign var="i_tmp" value="2008"}
+  						          {section name=i loop=31}
+  							         <option value="{$i_tmp}" {if $year_order == $i_tmp}selected{/if}>{$i_tmp}</option>
+                        {assign var="i_tmp" value=$i_tmp+1}
+  						          {/section}
+  						          </select>
+  						          <br>
+  						          <font style="font-size:11px;color:blue;"> To </font>
+  						          <br>
+  						          <select name="to_month_order" class="textbox">
+                          <option value="1" {if $to_month_order == 1}selected{/if}>January</option>
+                          <option value="2" {if $to_month_order == 2}selected{/if}>February</option>
+                          <option value="3" {if $to_month_order == 3}selected{/if}>March</option>
+                          <option value="4" {if $to_month_order == 4}selected{/if}>April</option>
+                          <option value="5" {if $to_month_order == 5}selected{/if}>May</option>
+                          <option value="6" {if $to_month_order == 6}selected{/if}>June</option>
+                          <option value="7" {if $to_month_order == 7}selected{/if}>July</option>
+                          <option value="8" {if $to_month_order == 8}selected{/if}>August</option>
+                          <option value="9" {if $to_month_order == 9}selected{/if}>September</option>
+                          <option value="10" {if $to_month_order == 10}selected{/if}>October</option>
+                          <option value="11" {if $to_month_order == 11}selected{/if}>November</option>
+                          <option value="12" {if $to_month_order == 12}selected{/if}>December</option>
+                        </select>
+                        <select name="to_day_order" class="textbox">
+                        {assign var="i_tmp" value="1"}
+  						          {section name=i loop=31}
+  							         <option value="{$i_tmp}" {if $to_day_order == $i_tmp}selected{/if}>{$i_tmp}</option>
+                        {assign var="i_tmp" value=$i_tmp+1}
+  						          {/section}
+  						          </select>
+  						          <select name="to_year_order" class="textbox">
+                        {assign var="i_tmp" value="2008"}
+  						          {section name=i loop=31}
+  							         <option value="{$i_tmp}" {if $to_year_order == $i_tmp}selected{/if}>{$i_tmp}</option>
+                        {assign var="i_tmp" value=$i_tmp+1}
+  						          {/section}
+  						          </select>
+  										</td>
+  									</tr>
+  								</table>                
+                </td>
+              </tr>
+              <tr>
+                <td class="td_search_1"><input type="checkbox" name="filter_date_expire" value="true">Filter Date Expire :</td>
+                <td class="td_search_2">
+                  <table align="left" width="100%">
+  									<tr>
+  										<td style="border:0px;">
+  											<select name="month_expire" class="textbox">
+                          <option value="1" {if $month_expire == 1}selected{/if}>January</option>
+                          <option value="2" {if $month_expire == 2}selected{/if}>February</option>
+                          <option value="3" {if $month_expire == 3}selected{/if}>March</option>
+                          <option value="4" {if $month_expire == 4}selected{/if}>April</option>
+                          <option value="5" {if $month_expire == 5}selected{/if}>May</option>
+                          <option value="6" {if $month_expire == 6}selected{/if}>June</option>
+                          <option value="7" {if $month_expire == 7}selected{/if}>July</option>
+                          <option value="8" {if $month_expire == 8}selected{/if}>August</option>
+                          <option value="9" {if $month_expire == 9}selected{/if}>September</option>
+                          <option value="10" {if $month_expire == 10}selected{/if}>October</option>
+                          <option value="11" {if $month_expire == 11}selected{/if}>November</option>
+                          <option value="12" {if $month_expire == 12}selected{/if}>December</option>
+                        </select>
+                        <select name="day_expire" class="textbox">
+                        {assign var="i_tmp" value="1"}
+  						          {section name=i loop=31}
+  							         <option value="{$i_tmp}" {if $day_expire == $i_tmp}selected{/if}>{$i_tmp}</option>
+                        {assign var="i_tmp" value=$i_tmp+1}
+  						          {/section}
+  						          </select>
+  						          <select name="year_expire" class="textbox">
+                        {assign var="i_tmp" value="2008"}
+  						          {section name=i loop=31}
+  							         <option value="{$i_tmp}" {if $year_expire == $i_tmp}selected{/if}>{$i_tmp}</option>
+                        {assign var="i_tmp" value=$i_tmp+1}
+  						          {/section}
+  						          </select>
+  						          <br>
+  						          <font style="font-size:11px;color:blue;"> To </font>
+  						          <br>
+  						          <select name="to_month_expire" class="textbox">
+                          <option value="1" {if $to_month_expire == 1}selected{/if}>January</option>
+                          <option value="2" {if $to_month_expire == 2}selected{/if}>February</option>
+                          <option value="3" {if $to_month_expire == 3}selected{/if}>March</option>
+                          <option value="4" {if $to_month_expire == 4}selected{/if}>April</option>
+                          <option value="5" {if $to_month_expire == 5}selected{/if}>May</option>
+                          <option value="6" {if $to_month_expire == 6}selected{/if}>June</option>
+                          <option value="7" {if $to_month_expire == 7}selected{/if}>July</option>
+                          <option value="8" {if $to_month_expire == 8}selected{/if}>August</option>
+                          <option value="9" {if $to_month_expire == 9}selected{/if}>September</option>
+                          <option value="10" {if $to_month_expire == 10}selected{/if}>October</option>
+                          <option value="11" {if $to_month_expire == 11}selected{/if}>November</option>
+                          <option value="12" {if $to_month_expire == 12}selected{/if}>December</option>
+                        </select>
+                        <select name="to_day_expire" class="textbox">
+                        {assign var="i_tmp" value="1"}
+  						          {section name=i loop=31}
+  							         <option value="{$i_tmp}" {if $to_day_expire == $i_tmp}selected{/if}>{$i_tmp}</option>
+                        {assign var="i_tmp" value=$i_tmp+1}
+  						          {/section}
+  						          </select>
+  						          <select name="to_year_expire" class="textbox">
+                        {assign var="i_tmp" value="2008"}
+  						          {section name=i loop=31}
+  							         <option value="{$i_tmp}" {if $to_year_expire == $i_tmp}selected{/if}>{$i_tmp}</option>
+                        {assign var="i_tmp" value=$i_tmp+1}
+  						          {/section}
+  						          </select>
+  										</td>
+  									</tr>
+  								</table>                
+                </td>
+              </tr>
+              <tr>
+                <td class="td_search_1"></td>
+                <td class="td_search_2"><input type="submit" value="Search"></td>
+              </tr>
+              </form>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <table style="width:570px;border-collapse:collapse;" align="left">
+              <tr>
+                <td colspan="6" class="td_caption">
+                  Search result
+                </td>
+              </tr>
+              {if $success}    
+              <tr>
+                <td colspan="5" class="success">
+                  Confirmation :
+                  <ul><li>Delete data is success</li></ul>
+                </td>
+              </tr>
+              {/if}                 
+              {if !$orders}
+              <tr>
+                <td colspan="5" style="font-size:11px;text-align:center;color:red;">
+                  ======== Not search result ========
+                </td>
+              </tr>
+              {else}
+              <tr>
+                <td class="td_data_top" style="width:20px;"><input type='checkbox' name='checkall' onclick='checkedAll();'></td>
+                <td class="td_data_top" style="width:30px;">No.</td>
+                <td class="td_data_top" style=";">Username</td>
+                <td class="td_data_top" style="width:150px">Product</td>
+                <td class="td_data_top" style="width:100px;">Date Order</td>
+                <td class="td_data_top" style="width:100px;">Status</td>
+              </tr>
+              <form id="frm1" action="order.php?pf=delete" method="post">
+              {assign var="i_tmp" value="1"}
+              {section name=i loop=$orders}
+                <tr bgcolor="{$orders[i].color}">             
+                  <td class="td_data_middle">
+                    <input type="checkbox" value="{$orders[i].order_id}" name="delete[]">
+                  </td>
+                  <td class="td_data_middle">{$orders[i].no}.</td>
+                  <td class="td_data_middle">
+                    <div class="view_detail" ajaxurl="ajax.php?tooltip=order&order_id={$orders[i].order_id}" style="cursor: pointer;">
+                       {$orders[i].username}
+                    </div>  
+                  </div>
+                  <td class="td_data_middle">
+                  {$orders[i].name}
+                  </td>
+                  <td style="text-align:center;"  class="td_data_middle">{$orders[i].date_order}</td>
+                  <td style="text-align:center;"  class="td_data_middle">{$orders[i].expire_in}</td>
+                </tr>
+                {assign var="i_tmp" value=$i_tmp+1}
+                {/section}    
+                </form>
+                <tr>
+                  <td colspan="5" style="height:50px;text-align:left;">
+                    <input type="button" name="del" value="Delete" onclick="delete_order();"></td>
+                   </td>
+                </tr>
+                {/if}
+            </table> 
+          </td>
+        </tr>
+      </table>        
+      {/if}
+      </div>
+    </td>
+  </tr>
+{include file="admin/footer.html"}

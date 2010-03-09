@@ -1,0 +1,71 @@
+{include file="header.html"}
+  <tr>
+    <td class="middle">
+      <div class="middle_content">
+          <table align="left" style="border-collapse:collapse;background-color:#e4edf6;"  align="left">
+            <tr>
+              <td class="sidebar_top">
+                Member Login
+              </td>
+            </tr>
+            <form method="post" action="login.php">
+            <input type="hidden" name="pf" value="login">
+            <input type="hidden" name="b" value="{$b}">
+            {if $error}    
+            <tr style="background:url('images/sidebar_middle.png')">
+              <td class="error">
+                  <ul style="margin-left:8px;padding-left:8px;margin-bottom:10px;margin-top:10px;">
+                    {assign var="i_tmp" value="1"}
+                    {section name=i loop=$error}
+                    <li>
+                    {$error[i]}
+                    </li>
+                    {assign var="i_tmp" value=$i_tmp+1}
+                    {/section}
+                  </ul>
+              </td>
+            </tr>
+            {/if}
+            <tr>
+              <td class="sidebar_middle">
+                &nbsp;Username :
+                <br>
+                &nbsp;<input type="text" name="username" value="{$username}" class="textbox" style="width:173px;">
+              </td>
+            </tr>
+            <tr>
+              <td class="sidebar_middle">
+                &nbsp;Password :
+                <br>
+                &nbsp;<input type="password" name="password" class="textbox" value="{$password}" class="textbox" style="width:173px;">
+              </td>
+            </tr>
+            <tr>
+              <td class="sidebar_middle">
+                <input type="checkbox" name="remember">Remember me<br>
+                &nbsp;<input type="submit" value="Login" style="width:90px;"><br>
+                &nbsp;<font style="color:#ff0000;font-size:10px;"><a href="request_password.php">Lost Password ?</a></font>
+              </td>
+            </tr>
+            </form>
+            <tr>
+              <td class="sidebar_bottom"></td>
+            </tr>
+          </table>
+          <table style="margin-left:20px;width:570px;" align="left">
+            <tr>
+              <td><font style="font-size:20px;font-weight:bold;color:#003366;">Need an account? Sign up now to access {$site_name}</font>
+                  <br>
+                  <hr>
+                  <p style="font-size:14px;">
+                    <!-- create text in here-->
+                  </p>        
+                  <img src="images/signup.png" style="cursor:pointer;" onclick="javascript:window.location.href='register.php'">
+              </td>
+            </tr>
+          </table>
+      </div>
+    </td>
+  </tr>
+
+  {include file="footer.html"}

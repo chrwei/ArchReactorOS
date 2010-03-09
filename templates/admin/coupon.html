@@ -1,0 +1,740 @@
+{include file="admin/header.html"}
+{literal}
+<script language="javascript">
+checked = false;
+  function checkedAll (frm1) {
+	var aa= document.getElementById('frm1');
+	    if (checked == false)
+          {
+           checked = true
+          }
+        else
+          {
+          checked = false
+          }
+	for (var i =0; i < aa.elements.length; i++) 
+	{
+	 aa.elements[i].checked = checked;
+	}
+  }
+  
+  function delete_coupon(frm1) {
+   
+  var aa = document.getElementById('frm1');
+	var check = false;
+	
+  for (var i =0; i < aa.elements.length; i++) 
+	{
+	  
+    if (aa.elements[i].checked == true)
+	  {
+      check = true;
+    }    
+	}
+	
+	
+  if (check == true)  
+  {
+    var conf_del = confirm('Are you sure want to delete ?');
+    if (conf_del == true) {
+      aa.submit();
+    }
+    
+  }  
+  else {
+    alert("Not coupon selected");    
+  }
+ 
+  }
+  
+  function add_product_discount(frm1) {
+   
+  var aa = document.getElementById('frm1');
+	var check = false;
+	
+  for (var i =0; i < aa.elements.length; i++) 
+	{
+	  
+    if (aa.elements[i].checked == true)
+	  {
+      check = true;
+    }    
+	}
+	
+	
+  if (check == true)  
+  {
+    var conf_del = confirm('Are you sure want to add?');
+    if (conf_del == true) {
+      aa.submit();
+    }
+    
+  }  
+  else {
+    alert("Not product selected");    
+  }
+ 
+  }
+
+  
+  function delete_product_discount(frm1) {
+   
+  var aa = document.getElementById('frm1');
+	var check = false;
+	
+  for (var i =0; i < aa.elements.length; i++) 
+	{
+	  
+    if (aa.elements[i].checked == true)
+	  {
+      check = true;
+    }    
+	}
+	
+	
+  if (check == true)  
+  {
+    var conf_del = confirm('Are you sure want to add?');
+    if (conf_del == true) {
+      aa.submit();
+    }
+    
+  }  
+  else {
+    alert("Not product selected");    
+  }
+ 
+  }
+  </script>
+{/literal}
+  <tr>
+    <td class="middle">
+      <div class="middle_content">  
+      {include file="admin/sidebar.html"}
+      {if $pf == 'browse' || !$pf} 
+      <table style="margin-left:15px;width:570px;border-collapse:collapse;" align="left">
+        <tr>
+          <td>
+            <table style="border-collapse:collapse;" align="left">
+              <form action="coupon.php?pf=search" method="post">
+              <tr>
+                <td colspan="2" class="td_caption">Search Coupon</td>
+              </tr>
+              <tr>
+                <td class="td_search_1">Search For :</td>
+                <td class="td_search_2"><input type="text" name="search_for" class="textbox" value="{$search_for}" style="width:200px;"></td>
+              </tr>
+              <tr bgcolor="#f7f7f7">
+                <td class="td_search_1">Search In :</td>
+                <td class="td_search_2">
+                  <select name="search_in" class="textbox" style="width:200px;">
+                    <option value="coupon_code">Coupon Code</option>
+                    <option value="coupon_value">Coupon Value</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td class="td_search_1"></td>
+                <td class="td_search_2"><input type="submit" value="Search"></td>
+              </tr>
+              </form>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <table style="width:570px;border-collapse:collapse;" align="left">
+              <tr>
+                <td colspan="6" class="td_caption">
+                  Coupons
+                </td>
+              </tr>
+              {if $success}    
+              <tr>
+                <td colspan="5" class="success">
+                  Confirmation :
+                  <ul><li>Delete data is success</li></ul>
+                </td>
+              </tr>
+              {/if}                 
+              {if !$coupons}
+              <tr>
+                <td colspan="5" style="font-size:11px;text-align:center;color:red;">
+                 ======== Not coupon data ========
+                </td>
+              </tr>
+              {else}
+              {if $paging}
+              <tr>
+                <td colspan="5" style="font-size:11px;color:green;font-weight:bold;text-align:left;"> {$paging} </td>
+              </tr>
+              {/if}
+              <tr>
+                <td class="td_data_top" style="width:20px;"><input type='checkbox' name='checkall' onclick='checkedAll();'></td>
+                <td class="td_data_top" style="width:30px;">No.</td>
+                <td class="td_data_top" style="width:100px;">Code</td>
+                <td class="td_data_top" style="width:100px;">Discount Value</td>
+                <td class="td_data_top" style="">Manage Coupon</td>
+                <td class="td_data_top" style="width:100px;">Edit Coupon</td>
+                <td class="td_data_top" style="width:100px;">Active</td>
+              </tr>
+              <form id="frm1" action="coupon.php?pf=delete" method="post">
+              {assign var="i_tmp" value="1"}
+              {section name=i loop=$coupons}
+              <tr bgcolor="{$coupons[i].color}">             
+                <td class="td_data_middle"><input type="checkbox" value="{$coupons[i].coupon_id}" name="delete[]"></td>
+                <td class="td_data_middle">{$coupons[i].no}.</td>
+                <td class="td_data_middle" style="text-align:left;padding-left:5px;"><div class="view_detail" ajaxurl="ajax.php?tooltip=coupon&id={$coupons[i].coupon_id}" style="cursor: pointer;">{$coupons[i].coupon_code}</div></td>  
+                <td class="td_data_middle" style="text-align:left;padding-left:5px;">{$coupons[i].coupon_value}</td>
+                <td class="td_data_middle"><a href="coupon.php?pf=detail&id={$coupons[i].coupon_id}" title="add discount">Manage</a></td>
+                <td class="td_data_middle"><a href="coupon.php?pf=edit&id={$coupons[i].coupon_id}" title="add discount">Edit</a></td>
+                <td class="td_data_middle">{$coupons[i].coupon_active}</td>
+              </tr>
+              {assign var="i_tmp" value=$i_tmp+1}
+              {/section}
+              <tr>
+                <td colspan="5" style="height:50px;text-align:left;">
+                  <input type="button" name="del" value="Delete" onclick="delete_coupon();">
+                </td>
+              </tr>     
+              {/if}
+              </form>  
+            </table> 
+          </td>
+        </tr>
+      </table>      
+      {/if}
+
+      {if $pf == 'search'} 
+      <table style="margin-left:15px;width:570px;border-collapse:collapse;" align="left">
+        <tr>
+          <td>
+            <table style="border-collapse:collapse;">
+              <form action="coupon.php?pf=search" method="post">
+              <tr>
+                <td colspan="2" class="td_caption">Search Coupon</td>
+              </tr>
+              {if $error}    
+              <tr>
+                <td colspan="2" class="error">
+                    Confirmation :
+                    <ul>
+                      {assign var="i_tmp" value="1"}
+                      {section name=i loop=$error}
+                      <li>
+                      {$error[i]}
+                      </li>
+                      {assign var="i_tmp" value=$i_tmp+1}
+                      {/section}
+                    </ul>
+                </td>
+              </tr>
+              {/if}
+              <tr>
+                <td class="td_search_1">Search For :</td>
+                <td class="td_search_2"><input type="text" name="search_for" class="textbox" value="{$search_for}" style="width:200px;"></td>
+              </tr>
+              <tr bgcolor="#f7f7f7">
+                <td class="td_search_1">Search In :</td>
+                <td class="td_search_2">
+                  <select name="search_in" class="textbox" style="width:200px;">
+                    <option value="coupon_code" {if $search_in == coupon_code}selected{/if}>Coupon Code</option>
+                    <option value="coupon_value" {if $search_in == coupon_value}selected{/if}>Coupon Value</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td class="td_search_1"></td>
+                <td class="td_search_2"><input type="submit" value="Search"></td>
+              </tr>
+              </form>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <table style="width:570px;border-collapse:collapse;" align="left">
+              <tr>
+                <td colspan="6" class="td_caption">
+                  Search result
+                </td>
+              </tr>
+              {if $success}    
+              <tr>
+                <td colspan="5" class="success">
+                  Confirmation :
+                  <ul><li>Delete data success</li></ul>
+                </td>
+              </tr>
+              {/if}                 
+              {if !$coupons}
+              <tr>
+                <td colspan="5" style="font-size:11px;text-align:center;color:red;">
+                  ======== Not search result ========
+                </td>
+              </tr>
+              {else}
+              <tr>
+                <td class="td_data_top" style="width:20px;"><input type='checkbox' name='checkall' onclick='checkedAll();'></td>
+                <td class="td_data_top" style="width:30px;">No.</td>
+                <td class="td_data_top" style="width:100px;">Code</td>
+                <td class="td_data_top" style="width:100px;">Discount Value</td>
+                <td class="td_data_top" style="">Manage Coupon</td>
+                <td class="td_data_top" style="width:100px;">Edit Coupon</td>
+                <td class="td_data_top" style="width:100px;">Active</td>
+              </tr>
+              <form id="frm1" action="coupon.php?pf=delete" method="post">
+              {assign var="i_tmp" value="1"}
+              {section name=i loop=$coupons}
+              <tr bgcolor="{$coupons[i].color}">             
+                <td class="td_data_middle"><input type="checkbox" value="{$coupons[i].coupon_id}" name="delete[]"></td>
+                <td class="td_data_middle">{$coupons[i].no}.</td>
+                <td class="td_data_middle" style="text-align:left;padding-left:5px;"><div class="view_detail" ajaxurl="ajax.php?tooltip=coupon&id={$coupons[i].coupon_id}" style="cursor: pointer;">{$coupons[i].coupon_code}</div></td>  
+                <td class="td_data_middle" style="text-align:left;padding-left:5px;">{$coupons[i].coupon_value}</td>
+                <td class="td_data_middle"><a href="coupon.php?pf=detail&id={$coupons[i].coupon_id}" title="add discount">Manage</a></td>
+                <td class="td_data_middle"><a href="coupon.php?pf=edit&id={$coupons[i].coupon_id}" title="add discount">Edit</a></td>
+                <td class="td_data_middle">{$coupons[i].coupon_active}</td>
+              </tr>
+              {assign var="i_tmp" value=$i_tmp+1}
+              {/section}
+              <tr>
+                <td colspan="5" style="height:50px;text-align:left;">
+                  <input type="button" name="del" value="Delete Coupon" onclick="delete_coupon();">
+                </td>
+              </tr>     
+              {/if}
+              </form>  
+            </table>
+          </td>
+        </tr>
+      </table>
+      {/if}
+      {if $pf == 'detail'}
+        <table style="margin-left:15px;width:570px;border-collapse:collapse;" align="left">
+          <tr>
+            <td class="td_caption">
+              Coupon Detail
+            </td>
+          </tr>
+          <tr>
+            <td class="td_data_middle" bgcolor="#f7f7f7">
+              <table align="left" style="font-size:12px;">
+                <tr><td>Code</td><td> : {$coupon_code}</td></tr>
+                <tr><td>Value</td><td> : {$coupon_value}</td></tr>
+                <tr><td>Period</td><td> : {$period}</td></tr>
+                <tr><td>Usage</td><td> : {$usage} (usage / limit)</td></tr>
+                <tr><td colspan="2" style="text-align:left"><input type="button" name="add" value="Add Product Discount" onclick="javascript:window.location.href='coupon.php?pf=add_product_discount&id={$coupon_id}';"> <input type="button" name="edit" value="Edit" onclick="javascript:window.location.href='coupon.php?pf=edit&id={$coupon_id}';"></td></tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td class="td_caption">
+              Product list using this coupon
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <table style="width:570px;border-collapse:collapse;" align="left">
+                {if $success}    
+                <tr>
+                  <td colspan="5" class="success">
+                    Confirmation :
+                    <ul><li>Delete data success</li></ul>
+                  </td>
+                </tr>
+                {/if}                 
+                {if !$coupon_product}
+                <tr>
+                  <td colspan="5" style="font-size:11px;text-align:center;color:red;">
+                    ======== Not some product using this coupon ========
+                  </td>
+                </tr>
+                {else}
+                <tr>
+                  <td class="td_data_top" style="width:20px;"><input type='checkbox' name='checkall' onclick='checkedAll();'></td>
+                  <td class="td_data_top" style="width:30px;">No.</td>
+                  <td class="td_data_top" style="">Name</td>
+                  <td class="td_data_top" style="width:100px;">Normal Price</td>
+                  <td class="td_data_top" style="width:100px;">Net Price</td>
+                </tr>
+                <form id="frm1" action="coupon.php?pf=detail&id={$coupon_id}" method="post">
+                <input type="hidden" name="process" value="delete">
+                {assign var="i_tmp" value="1"}
+                {section name=i loop=$coupon_product}
+                <tr bgcolor="{$coupon_product[i].color}">             
+                  <td class="td_data_middle"><input type="checkbox" value="{$coupon_product[i].product_id}" name="delete_discount[]"></td>
+                  <td class="td_data_middle">{$coupon_product[i].no}.</td>
+                  <td class="td_data_middle" style="text-align:left;padding-left:5px;">
+                    
+                      {$coupon_product[i].name}
+                   
+                  </td>  
+                  <td class="td_data_middle">{$coupon_product[i].price}</td>
+                  <td class="td_data_middle">{$coupon_product[i].discount}</a></td>
+                </tr>
+                {assign var="i_tmp" value=$i_tmp+1}
+                {/section}
+                <tr>
+                  <td colspan="5" style="height:50px;text-align:left;">
+                    <input type="button" name="del" value="Delete Discout Product" onclick="delete_product_discount();">
+                  </td>
+                </tr>     
+                {/if}
+                </form>  
+              </table>               
+            </td>
+          </tr>
+        </table>
+        {/if}
+        
+        {if $pf == 'add_product_discount'}
+        <table style="margin-left:15px;width:570px;border-collapse:collapse;" align="left">
+          <tr>
+            <td class="td_caption">
+              Coupon Detail
+            </td>
+          </tr>
+          <tr>
+            <td class="td_data_middle" bgcolor="#f7f7f7">
+              <table align="left" style="font-size:12px;">
+                <tr><td>Code</td><td> : {$coupon_code}</td></tr>
+                <tr><td>Value</td><td> : {$coupon_value}</td></tr>
+                <tr><td>Period</td><td> : {$period}</td></tr>
+                <tr><td>Usage</td><td> : {$usage} (usage / limit)</td></tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td class="td_caption">
+               Product List
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <table style="width:570px;border-collapse:collapse;" align="left">
+                {if $error}    
+                <tr>
+                  <td colspan="4" class="error">
+                    Confirmation :
+                    <ul>
+                      {assign var="i_tmp" value="1"}
+                      {section name=i loop=$error}
+                      <li>
+                      {$error[i]}
+                      </li>
+                      {assign var="i_tmp" value=$i_tmp+1}
+                      {/section}
+                    </ul>
+                  </td>
+                </tr>   
+                {/if}              
+                {if !$coupon_product}
+                <tr>
+                  <td colspan="4" style="font-size:11px;text-align:center;color:red;">
+                    ======== Not product list ========
+                  </td>
+                </tr>
+                {else}
+                <tr>
+                  <td class="td_data_top" style="width:20px;"><input type='checkbox' name='checkall' onclick='checkedAll();'></td>
+                  <td class="td_data_top" style="width:30px;">No.</td>
+                  <td class="td_data_top" style="">Name</td>
+                  <td class="td_data_top" style="width:100px;">Price</td>
+                </tr>
+                <form id="frm1" action="coupon.php?pf=add_product_discount&id={$coupon_id}" method="post">
+                <input type="hidden" name="process" value="add">
+                {assign var="i_tmp" value="1"}
+                {section name=i loop=$coupon_product}
+                <tr bgcolor="{$coupon_product[i].color}">             
+                  <td class="td_data_middle"><input type="checkbox" value="{$coupon_product[i].product_id}" name="add_discount[]"></td>
+                  <td class="td_data_middle">{$coupon_product[i].no}.</td>
+                  <td class="td_data_middle" style="text-align:left;padding-left:5px;">
+                    {$coupon_product[i].name}
+                  </td>  
+                  <td class="td_data_middle">{$coupon_product[i].price}</td>
+                </tr>
+                {assign var="i_tmp" value=$i_tmp+1}
+                {/section}
+                <tr>
+                  <td colspan="5" style="height:50px;text-align:left;">
+                    <input type="button" name="add" value="Add " onclick="add_product_discount();"> 
+                    <input type="button" name="back" value="Back" onclick="javascript:window.location.href='coupon.php?pf=detail&id={$coupon_id}';">
+                  </td>
+                </tr>     
+                {/if}
+                </form>  
+              </table>               
+            </td>
+          </tr>
+        </table>
+        {/if}
+        {if $pf == 'add'} 
+        <table style="margin-left:15px;width:570px;border-collapse:collapse;" align="left">
+          <tr>
+            <td colspan="2" class="td_caption">
+              Add Discount Coupon
+            </td>
+          </tr>
+          <form method="post" action="coupon.php?pf=add">
+          <input type="hidden" name="process" value="add">
+          {if $error}    
+          <tr>
+            <td colspan="2" class="error">
+              Confirmation :
+              <ul>
+                {assign var="i_tmp" value="1"}
+                {section name=i loop=$error}
+                <li>
+                {$error[i]}
+                </li>
+                {assign var="i_tmp" value=$i_tmp+1}
+                {/section}
+              </ul>
+            </td>
+          </tr>
+          {/if}
+          <tr>
+            <td class="td1" style="width:200px;">Coupon Code <br><font style="font-size:11px;color:blue;">Set with character and number combination</font></td>
+            <td class="td2">
+              <input type="text" name="coupon_code" class="textbox" value="{$coupon_code}" style="width:130px;">
+            </td>
+          </tr>
+          <tr bgcolor="#f7f7f7">
+            <td class="td1">Discount Value </td>
+            <td class="td2">
+              <table align="left" style="font-size:11px;">
+                <tr><td><input type="radio" name="coupon_value_type" value="price" {if $coupon_value_type == price}checked{/if}></td><td>Price</td><td><input type="text" name="price_coupon_value" value="{if $coupon_value_type == price}{$price_coupon_value}{/if}" class="textbox" style="width:125px;"></td></tr>
+                <tr><td><input type="radio" name="coupon_value_type" value="percentage" {if $coupon_value_type == percentage}checked{/if}></td><td>Percentage</td><td><input type="text" name="percentage_coupon_value" value="{if $coupon_value_type == percentage}{$percentage_coupon_value}{/if}" class="textbox" style="width:125px;"> <font style="font-size:11px;color:blue;"> %</font></td></tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">Start date<br><font style="font-size:11px;color:blue;">The date of the coupon will be active</font></td>
+            <td class="td2">
+              <table align="left" width="100%">
+								<tr>
+									<td style="border:0px;">
+                    <select name="month_start_date" class="textbox">
+                      <option value="1" {if $month_start_date == 1}selected{/if}>January</option>
+                      <option value="2" {if $month_start_date == 2}selected{/if}>February</option>
+                      <option value="3" {if $month_start_date == 3}selected{/if}>March</option>
+                      <option value="4" {if $month_start_date == 4}selected{/if}>April</option>
+                      <option value="5" {if $month_start_date == 5}selected{/if}>May</option>
+                      <option value="6" {if $month_start_date == 6}selected{/if}>June</option>
+                      <option value="7" {if $month_start_date == 7}selected{/if}>July</option>
+                      <option value="8" {if $month_start_date == 8}selected{/if}>August</option>
+                      <option value="9" {if $month_start_date == 9}selected{/if}>September</option>
+                      <option value="10" {if $month_start_date == 10}selected{/if}>October</option>
+                      <option value="11" {if $month_start_date == 11}selected{/if}>November</option>
+                      <option value="12" {if $month_start_date == 12}selected{/if}>December</option>
+                    </select>
+                    <select name="day_start_date" class="textbox">
+                    {assign var="i_tmp" value="1"}
+					          {section name=i loop=31}
+						         <option value="{$i_tmp}" {if $i_tmp == $day_start_date}selected{/if}>{$i_tmp}</option>
+                    {assign var="i_tmp" value=$i_tmp+1}
+					          {/section}
+					          </select>
+					          <select name="year_start_date" class="textbox">
+                    {assign var="i_tmp" value="2010"}
+					          {section name=i loop=31}
+						         <option value="{$i_tmp}" {if $i_tmp == $year_start_date}selected{/if}>{$i_tmp}</option>
+                    {assign var="i_tmp" value=$i_tmp+1}
+					          {/section}
+					          </select>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr bgcolor="#f7f7f7">
+            <td class="td1">Expire Date<br><font style="font-size:11px;color:blue;">The date of the coupon will be expire</font></td>
+            <td class="td2">
+              <table align="left" width="100%">
+								<tr>
+									<td style="border:0px;">
+										<select name="month_expire_date" class="textbox">
+                      <option value="1" {if $month_expire_date == 1}selected{/if}>January</option>
+                      <option value="2" {if $month_expire_date == 2}selected{/if}>February</option>
+                      <option value="3" {if $month_expire_date == 3}selected{/if}>March</option>
+                      <option value="4" {if $month_expire_date == 4}selected{/if}>April</option>
+                      <option value="5" {if $month_expire_date == 5}selected{/if}>May</option>
+                      <option value="6" {if $month_expire_date == 6}selected{/if}>June</option>
+                      <option value="7" {if $month_expire_date == 7}selected{/if}>July</option>
+                      <option value="8" {if $month_expire_date == 8}selected{/if}>August</option>
+                      <option value="9" {if $month_expire_date == 9}selected{/if}>September</option>
+                      <option value="10" {if $month_expire_date == 10}selected{/if}>October</option>
+                      <option value="11" {if $month_expire_date == 11}selected{/if}>November</option>
+                      <option value="12" {if $month_expire_date == 12}selected{/if}>December</option>
+                    </select>
+                    <select name="day_expire_date" class="textbox">
+                    {assign var="i_tmp" value="1"}
+					          {section name=i loop=31}
+						         <option value="{$i_tmp}" {if $i_tmp == $day_expire_date}selected{/if}>{$i_tmp}</option>
+                    {assign var="i_tmp" value=$i_tmp+1}
+					          {/section}
+					          </select>
+					          <select name="year_expire_date" class="textbox">
+                    {assign var="i_tmp" value="2010"}
+					          {section name=i loop=31}
+						         <option value="{$i_tmp}" {if $i_tmp == $year_expire_date}selected{/if}>{$i_tmp}</option>
+                    {assign var="i_tmp" value=$i_tmp+1}
+					          {/section}
+					          </select>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">Expire Usage<br><font style="font-size:11px;color:blue;">Limit of the coupon usage</font></td>
+            <td class="td2">
+              <input type="text" name="expire_usage" class="textbox" value="{$expire_usage}" style="width:130px;">
+              <font style="font-size:11px;color:blue;"> (Set empty or 0 for unlimited usage)</font>
+            </td>
+          </tr>
+          <tr bgcolor="#f7f7f7"><td class="td1"></td><td class="td2"><input type="submit" value="Add"></td></tr>
+          </form>
+        </table>
+        {/if}
+
+        {if $pf == 'edit'} 
+        <table style="margin-left:15px;width:570px;border-collapse:collapse;" align="left">
+          <tr>
+            <td colspan="2" class="td_caption">
+              Edit Discount Coupon
+            </td>
+          </tr>
+          <form method="post" action="coupon.php?pf=edit&id={$coupon_id}">
+          <input type="hidden" name="process" value="edit">
+          {if $success}    
+          <tr>
+            <td colspan="2" class="success">
+              Confirmation :
+              <ul><li>Update data success</li></ul>
+            </td>
+          </tr>
+          {/if} {if $error}    
+          <tr>
+            <td colspan="2" class="error">
+              Confirmation :
+              <ul>
+                {assign var="i_tmp" value="1"}
+                {section name=i loop=$error}
+                <li>
+                {$error[i]}
+                </li>
+                {assign var="i_tmp" value=$i_tmp+1}
+                {/section}
+              </ul>
+            </td>
+          </tr>
+          {/if}
+          <tr>
+            <td class="td1">Coupon Code <br><font style="font-size:11px;color:blue;">Set with character and number combination</font></td>
+            <td class="td2">
+              <input type="text" name="coupon_code" class="textbox" value="{$coupon_code}" style="width:130px;">
+            </td>
+          </tr>
+          <tr bgcolor="#f7f7f7">
+            <td class="td1" style="width:200px;">Coupon Value </td>
+            <td class="td2">
+              <table align="left" style="font-size:11px;">
+                <tr><td><input type="radio" name="coupon_value_type" value="price" {if $coupon_value_type == price}checked{/if}></td><td>Price</td><td><input type="text" name="price_coupon_value" value="{if $coupon_value_type == price}{$price_coupon_value}{/if}" class="textbox" style="width:125px;"></td></tr>
+                <tr><td><input type="radio" name="coupon_value_type" value="percentage" {if $coupon_value_type == percentage}checked{/if}></td><td>Percentage</td><td><input type="text" name="percentage_coupon_value" value="{if $coupon_value_type == percentage}{$percentage_coupon_value}{/if}" class="textbox" style="width:125px;"> <font style="font-size:11px;color:blue;"> %</font></td></tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">Start date<br><font style="font-size:11px;color:blue;">The date of the coupon will be active</font></td>
+            <td class="td2">
+              <table align="left" width="100%">
+								<tr>
+									<td style="border:0px;">
+                    <select name="month_start_date" class="textbox">
+                      <option value="1" {if $month_start_date == 1}selected{/if}>January</option>
+                      <option value="2" {if $month_start_date == 2}selected{/if}>February</option>
+                      <option value="3" {if $month_start_date == 3}selected{/if}>March</option>
+                      <option value="4" {if $month_start_date == 4}selected{/if}>April</option>
+                      <option value="5" {if $month_start_date == 5}selected{/if}>May</option>
+                      <option value="6" {if $month_start_date == 6}selected{/if}>June</option>
+                      <option value="7" {if $month_start_date == 7}selected{/if}>July</option>
+                      <option value="8" {if $month_start_date == 8}selected{/if}>August</option>
+                      <option value="9" {if $month_start_date == 9}selected{/if}>September</option>
+                      <option value="10" {if $month_start_date == 10}selected{/if}>October</option>
+                      <option value="11" {if $month_start_date == 11}selected{/if}>November</option>
+                      <option value="12" {if $month_start_date == 12}selected{/if}>December</option>
+                    </select>
+                    <select name="day_start_date" class="textbox">
+                    {assign var="i_tmp" value="1"}
+					          {section name=i loop=31}
+						         <option value="{$i_tmp}" {if $i_tmp == $day_start_date}selected{/if}>{$i_tmp}</option>
+                    {assign var="i_tmp" value=$i_tmp+1}
+					          {/section}
+					          </select>
+					          <select name="year_start_date" class="textbox">
+                    {assign var="i_tmp" value="2008"}
+					          {section name=i loop=31}
+						         <option value="{$i_tmp}" {if $i_tmp == $year_start_date}selected{/if}>{$i_tmp}</option>
+                    {assign var="i_tmp" value=$i_tmp+1}
+					          {/section}
+					          </select>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr bgcolor="#f7f7f7">
+            <td class="td1">Expire Date<br><font style="font-size:11px;color:blue;">The date of the coupon will be expire</font></td>
+            <td class="td2">
+              <table align="left" width="100%">
+								<tr>
+									<td style="border:0px;">
+										<select name="month_expire_date" class="textbox">
+                      <option value="1" {if $month_expire_date == 1}selected{/if}>January</option>
+                      <option value="2" {if $month_expire_date == 2}selected{/if}>February</option>
+                      <option value="3" {if $month_expire_date == 3}selected{/if}>March</option>
+                      <option value="4" {if $month_expire_date == 4}selected{/if}>April</option>
+                      <option value="5" {if $month_expire_date == 5}selected{/if}>May</option>
+                      <option value="6" {if $month_expire_date == 6}selected{/if}>June</option>
+                      <option value="7" {if $month_expire_date == 7}selected{/if}>July</option>
+                      <option value="8" {if $month_expire_date == 8}selected{/if}>August</option>
+                      <option value="9" {if $month_expire_date == 9}selected{/if}>September</option>
+                      <option value="10" {if $month_expire_date == 10}selected{/if}>October</option>
+                      <option value="11" {if $month_expire_date == 11}selected{/if}>November</option>
+                      <option value="12" {if $month_expire_date == 12}selected{/if}>December</option>
+                    </select>
+                    <select name="day_expire_date" class="textbox">
+                    {assign var="i_tmp" value="1"}
+					          {section name=i loop=31}
+						         <option value="{$i_tmp}" {if $i_tmp == $day_expire_date}selected{/if}>{$i_tmp}</option>
+                    {assign var="i_tmp" value=$i_tmp+1}
+					          {/section}
+					          </select>
+					          <select name="year_expire_date" class="textbox">
+                    {assign var="i_tmp" value="2008"}
+					          {section name=i loop=31}
+						         <option value="{$i_tmp}" {if $i_tmp == $year_expire_date}selected{/if}>{$i_tmp}</option>
+                    {assign var="i_tmp" value=$i_tmp+1}
+					          {/section}
+					          </select>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">Expire Usage<br><font style="font-size:11px;color:blue;">Limit of the coupon usage</font></font></td>
+            <td class="td2">
+              <input type="text" name="expire_usage" class="textbox" value="{$expire_usage}" style="width:130px;">
+              <font style="font-size:11px;color:blue;"> (Set empty or 0 for unlimited usage)</font>
+            </td>
+          </tr>
+          <tr bgcolor="#f7f7f7"><td class="td1"></td><td class="td2"><input type="submit" value="Save"> <input type="button" onclick="javascript:window.location.href='coupon.php?pf=detail&id={$coupon_id}';" value="Manage"></td></tr>
+          </form>
+        </table>
+        {/if}
+      </div>
+    </td>
+  </tr>
+{include file="admin/footer.html"}

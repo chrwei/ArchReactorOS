@@ -1,0 +1,46 @@
+{include file="admin/header.html"}
+  <tr>
+    <td class="middle">
+      <div class="middle_content">  
+      {include file="admin/sidebar.html"}
+      {if $pf == export} 
+      <table style="margin-left:15px;width:570px;border-collapse:collapse;" align="left">
+        <tr>
+          <td colspan="2" class="td_caption">Export mailing list</td>
+        </tr>              
+        <form method="post" action="mailing.php?pf=export">
+        <input type="hidden" name="process" value="export">
+        {if $error}    
+        <tr>
+          <td colspan="2" class="error">
+              Confirmation :
+              <ul>
+                {assign var="i_tmp" value="1"}
+                {section name=i loop=$error}
+                <li>
+                {$error[i]}
+                </li>
+                {assign var="i_tmp" value=$i_tmp+1}
+                {/section}
+              </ul>
+          </td>
+        </tr>
+        {/if}
+        <tr>
+          <td class="td1">Export </td>
+          <td class="td2">
+            <input type="radio" name="option" value="all" checked /> All member<br>
+            <input type="radio" name="option" value="active" /> Active member<br>
+            <input type="radio" name="option" value="inactive" /> Inactive/ Expire member<br>
+          </td>
+        </tr>              
+        <tr bgcolor="#f7f7f7">
+          <td class="td1"></td>
+          <td class="td2">
+            <input type="submit" value="Export">
+          </td>
+        </tr>
+        </form>
+      </table>
+      {/if}
+{include file="admin/footer.html"}

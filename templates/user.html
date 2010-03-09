@@ -1,0 +1,118 @@
+{include file="header.html"}
+  <tr>
+    <td class="middle">
+    <div class="middle_content">  
+      {include file='sidebar.html'}
+        <table style="margin-left:15px;width:570px;border-collapse:collapse;" align="left">
+          <tr>
+            <td colspan="2" class="td_caption">Edit Profile</td>
+          </tr>              
+          <form method="post" action="user.php?pf=detail">
+          <input type="hidden" name="process" value="edit">
+          <input type="hidden" name="user_id" value="{$user_id}">
+          {if $error}    
+          <tr>
+            <td colspan="2" class="error">
+                Confirmation :
+                <ul>
+                  {assign var="i_tmp" value="1"}
+                  {section name=i loop=$error}
+                  <li>
+                  {$error[i]}
+                  </li>
+                  {assign var="i_tmp" value=$i_tmp+1}
+                  {/section}
+                </ul>
+            </td>
+          </tr>
+          {/if}
+          {if $success}    
+          <tr>
+            <td colspan="2" class="success">
+              Confirmation :
+              <ul><li>Update data is success</li></ul>
+            </td>
+          </tr>
+          {/if}                 
+          <tr>
+            <td class="td1">Username </td>
+            <td class="td2">
+            <b>{$username}</b>
+            <input type="hidden" name="username" class="textbox" value="{$username}" style="width:200px;">
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">Password (leave blank to not change)</td>
+            <td class="td2">
+            <input type="password" name="password" class="textbox" value="{$password}" style="width:100px;">
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">Re-enter Password </td>
+            <td class="td2">
+            <input type="password" name="repassword" class="textbox" value="{$repassword}" style="width:100px;">
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">
+              Name <br>
+              <font style="font-size:9px;color:#ff0000;">First & Last name&nbsp;</font>
+            </td>
+            <td class="td2">
+              <input type="text" name="firstname" class="textbox" value="{$firstname}" style="width:200px;">
+              <input type="text" name="lastname" class="textbox" value="{$lastname}" style="width:200px;">
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">
+              Email
+            </td>
+            <td class="td2">
+              <input type="text" name="email" value="{$email}" style="width:200px;" class="textbox">
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">
+              Address 1
+            </td>
+            <td class="td2">
+              <input type="text" name="address1" value="{$address1}" style="width:200px;" class="textbox">
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">
+              Address 2
+            </td>
+            <td class="td2">
+              <input type="text" name="address2" value="{$address2}" style="width:200px;" class="textbox">
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">
+              City, State ZIP
+            </td>
+            <td class="td2">
+              <input type="text" name="city" value="{$city}" style="width:200px;" class="textbox">
+              <input type="text" name="state" value="{$state}" style="width:30px;" class="textbox">
+              <input type="text" name="zip" value="{$zip}" style="width:50px;" class="textbox">
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">
+              Phone
+            </td>
+            <td class="td2">
+              <input type="text" name="phone" value="{$phone}" style="width:200px;" class="textbox">
+            </td>
+          </tr>
+          <tr>
+              <td class="td1"></td><td class="td2"><input type="submit" value="Save">
+            </td>
+          </tr>
+          </form>
+        </table>
+      </div>
+    </td>
+  </tr>
+<!-- end :: midle -->
+{include file="footer.html"}

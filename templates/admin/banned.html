@@ -1,0 +1,358 @@
+{literal}
+<script language="javascript">
+checked = false;
+  function checkedAll (frm1) {
+	var aa= document.getElementById('frm1');
+	    if (checked == false)
+          {
+           checked = true
+          }
+        else
+          {
+          checked = false
+          }
+	for (var i =0; i < aa.elements.length; i++) 
+	{
+	 aa.elements[i].checked = checked;
+	}
+  }
+
+  function checkedAll2 (frm2) {
+	var aa= document.getElementById('frm2');
+	    if (checked == false)
+          {
+           checked = true
+          }
+        else
+          {
+          checked = false
+          }
+	for (var i =0; i < aa.elements.length; i++) 
+	{
+	 aa.elements[i].checked = checked;
+	}
+  }
+
+  
+  function delete_country(frm1) {
+   
+  var aa = document.getElementById('frm1');
+	var check = false;
+	
+  for (var i =0; i < aa.elements.length; i++) 
+	{
+	  
+    if (aa.elements[i].checked == true)
+	  {
+      check = true;
+    }
+	}
+	
+  if (check == true)  
+  {
+    var conf_del = confirm('Are you sure want to delete ?');
+    if (conf_del == true) {
+      aa.submit();
+    }
+    
+  }  
+  else {
+    alert("Not country selected");    
+  }
+ 
+  }
+
+  function delete_ip(frm2) {
+   
+  var aa = document.getElementById('frm2');
+	var check = false;
+	
+  for (var i =0; i < aa.elements.length; i++) 
+	{
+	  
+    if (aa.elements[i].checked == true)
+	  {
+      check = true;
+    }
+	}
+	
+  if (check == true)  
+  {
+    var conf_del = confirm('Are you sure want to delete?');
+    if (conf_del == true) {
+      aa.submit();
+    }
+    
+  }  
+  else {
+    alert("Not ip selected");    
+  }
+ 
+  }
+
+  </script>
+{/literal}
+{include file="admin/header.html"}
+  <tr>
+    <td class="middle">
+    <div class="middle_content">  
+      {include file='admin/sidebar.html'}
+        <table style="margin-left:15px;width:570px;border-collapse:collapse;" align="left">
+          {if $pf == 'country' || !$pf} 
+          <tr>
+            <td>
+              <table  style="width:570px;border-collapse:collapse;"  align="left">
+                <tr>
+                  <td colspan="4" class="td_caption">Country Banned</td>
+                </tr>     
+                {if $success_country}    
+                <tr>
+                  <td colspan="4" class="success">
+                    Confirmation :
+                    <ul><li>Delete data is success</li></ul>
+                  </td>
+                </tr>
+                {/if}
+                {if !$ban_country}
+                <tr>
+                  <td colspan="4" style="font-size:11px;text-align:center;color:red;">
+                    ======== Not coutry banned ========<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="4" style="font-size:11px;text-align:left;">
+                    <input type="button" onclick="javascript:window.location.href='banned.php?pf=add_banned_country'" value="Add">
+                  </td>
+                </tr>
+                {else}
+                <tr>
+                  <td class="td_data_top" style="width:30px;"><input type='checkbox' name='checkall' onclick='checkedAll();'></td>
+                  <td class="td_data_top" style="width:30px;">No.</td>
+                  <td class="td_data_top" style="">Country Name</td>
+                  <td class="td_data_top" style="width:100px;">Country Code</td>
+                </tr>
+                <form id="frm1" action="banned.php?pf=delete_banned_country" method="post">
+                {assign var="i_tmp" value="1"}
+                {section name=i loop=$ban_country}
+                <tr bgcolor="{$ban_country[i].color}">             
+                  <td class="td_data_middle"><input type="checkbox" value="{$ban_country[i].banned_id}" name="delete[]"></td>
+                  <td class="td_data_middle">{$ban_country[i].no}.</td>
+                  <td class="td_data_middle" style="text-align:left;padding-left:5px;">{$ban_country[i].country_name}</td>  
+                  <td class="td_data_middle">{$ban_country[i].country_code}</td>
+                </tr>
+                {assign var="i_tmp" value=$i_tmp+1}
+                {/section}
+                </form>   
+                <tr>
+                  <td colspan="5" style="height:50px;text-align:left;">
+                    <input type="button" name="del" value="Delete" onclick="delete_country();">
+                    <input type="button" name="add" value="Add" onclick="javascript:window.location.href='banned.php?pf=add_banned_country'">
+                  </td>
+                </tr> 
+                {/if}               
+              </table>      
+            </td>
+          </tr>
+          {/if}
+          {if $pf == 'ip'} 
+          <tr>
+            <td>
+              <table  style="width:570px;border-collapse:collapse;"  align="left">
+                <tr>
+                  <td colspan="4" class="td_caption">IP Banned</td>
+                </tr> 
+                {if $success_ip}    
+                <tr>
+                  <td colspan="4" class="success">
+                    Confirmation :
+                    <ul><li>Delete data success</li></ul>
+                  </td>
+                </tr>
+                {/if}    
+                {if !$ban_ip}
+                <tr>
+                  <td colspan="6" style="font-size:11px;text-align:center;color:red;">
+                    ======== Not ip banned ========<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="4" style="font-size:11px;text-align:left;">
+                    <input type="button" onclick="javascript:window.location.href='banned.php?pf=add_banned_ip'" value="Add">
+                  </td>
+                </tr>
+                {else}
+                <tr>
+                  <td class="td_data_top" style="width:30px;"><input type='checkbox' name='checkall' onclick='checkedAll2();'></td>
+                  <td class="td_data_top" style="width:30px;">No.</td>
+                  <td class="td_data_top" style="">Ip Address Start</td>
+                  <td class="td_data_top" style="">Ip Address End</td>
+                </tr>
+                <form id="frm2" action="banned.php?pf=delete_banned_ip" method="post">
+                {assign var="i_tmp" value="1"}
+                {section name=i loop=$ban_ip}
+                <tr bgcolor="{$ban_country[i].color}">             
+                  <td class="td_data_middle"><input type="checkbox" value="{$ban_ip[i].banned_id}" name="delete[]"></td>
+                  <td class="td_data_middle">{$ban_ip[i].no}.</td>
+                  <td class="td_data_middle">{$ban_ip[i].ip_address_start}</td>  
+                  <td class="td_data_middle">{$ban_ip[i].ip_address_end}</td>
+                </tr>
+                {assign var="i_tmp" value=$i_tmp+1}
+                {/section}     
+                </form> 
+                <tr>
+                  <td colspan="4" style="height:50px;text-align:left;">
+                    <input type="button" name="del" value="Delete" onclick="delete_ip();">
+                    <input type="button" name="add" value="Add" onclick="javascript:window.location.href='banned.php?pf=add_banned_ip'">
+                  </td>
+                </tr>  
+                {/if}             
+              </table>      
+            </td>
+          </tr>
+          {/if}
+        </table>
+        
+        {if $pf == 'add_banned_country'}
+        <table style="margin-left:15px;width:570px;border-collapse:collapse;width:" align="left">
+          <tr>
+            <td colspan="2" class="td_caption" style="width:100px;">Add Country Banned</td>
+          </tr>     
+          <form action="banned.php?pf=add_banned_country" method="post">
+          <input type="hidden" name="process" value="add">
+          {if $error}    
+          <tr>
+            <td colspan="2" class="error">
+              Confirmation :
+              <ul>
+                {assign var="i_tmp" value="1"}
+                {section name=i loop=$error}
+                <li>
+                {$error[i]}
+                </li>
+                {assign var="i_tmp" value=$i_tmp+1}
+                {/section}
+              </ul>
+            </td>
+          </tr>
+          {/if}
+          <tr>
+            <td class="td1">
+              Select Country<br>
+              <font style="font-size:10px;color:blue;">Press Ctrl For Choose <br>more than one&nbsp;</font>
+            </td>
+            <td class="td2">
+              <select name="country_code[]" multiple="multiple" style="width:410px;height:200px;" class="textbox">
+              	{assign var="i_tmp" value="1"}
+                {section name=i loop=$country}
+                <option value="{$country[i].country_code}:{$country[i].country_name}">{$country[i].country_name}</option>
+                {assign var="i_tmp" value=$i_tmp+1}
+                {/section} 
+              </select>
+            </td>
+          </tr>     
+          <tr bgcolor="#f7f7f7">
+            <td class="td1"></td>
+            <td class="td2"><input type="submit" value="Add" /></td>
+          </tr> 
+          </form>              
+        </table>         
+        {/if}
+        {if $pf == 'add_banned_ip'}
+        <table style="margin-left:15px;width:570px;border-collapse:collapse;width:" align="left">
+          <tr>
+            <td colspan="2" class="td_caption" style="width:100px;">Banned Single Ip</td>
+          </tr>     
+          <form action="banned.php?pf=add_banned_ip" method="post">
+          <input type="hidden" name="process" value="add_banned_single_ip">
+          {if $error_list_banned_single_ip}    
+          <tr>
+            <td colspan="2" class="error">
+              Confirmation :
+              <ul>
+                {assign var="i_tmp" value="1"}
+                {section name=i loop=$error_list_banned_single_ip}
+                <li>
+                {$error_list_banned_single_ip[i]}
+                </li>
+                {assign var="i_tmp" value=$i_tmp+1}
+                {/section}
+              </ul>
+            </td>
+          </tr>
+          {/if}
+          <tr>
+            <td class="td1">
+              Ip Address<br>
+              <font style="font-size:11px;color:blue;">
+                Example : 192.168.1.1&nbsp;
+              </font>
+            </td>
+            <td class="td2">
+                <input type="text" name="ip_a" class="textbox" value="{$ip_a}" style="width:30px;" maxlength="3" />&nbsp;-&nbsp;
+                <input type="text" name="ip_b" class="textbox" value="{$ip_b}" style="width:30px;" maxlength="3" />&nbsp;-&nbsp;
+                <input type="text" name="ip_c" class="textbox" value="{$ip_c}" style="width:30px;" maxlength="3" />&nbsp;-&nbsp;
+                <input type="text" name="ip_d" class="textbox" value="{$ip_d}" style="width:30px;" maxlength="3" />
+            </td>
+          </tr>          
+          <tr bgcolor="#f7f7f7">
+            <td class="td1"></td>
+            <td class="td2"><input type="submit" value="Add" /></td>
+          </tr> 
+          </form>              
+          <tr>
+            <td colspan="2" class="td_caption" style="width:100px;">Banned Range Ip</td>
+          </tr>     
+          <form action="banned.php?pf=add_banned_ip" method="post">
+          <input type="hidden" name="process" value="add_banned_range_ip">
+          {if $error_list_banned_range_ip}    
+          <tr>
+            <td colspan="2" class="error">
+              Confirmation :
+              <ul>
+                {assign var="i_tmp" value="1"}
+                {section name=i loop=$error_list_banned_range_ip}
+                <li>
+                {$error_list_banned_range_ip[i]}
+                </li>
+                {assign var="i_tmp" value=$i_tmp+1}
+                {/section}
+              </ul>
+            </td>
+          </tr>
+          {/if}
+          <tr>
+            <td class="td1">
+              Ip Address Start<br>
+              <font style="font-size:11px;color:blue;">
+                Example : 192.168.1.1&nbsp;
+              </font>
+            </td>
+            <td class="td2">
+                <input type="text" name="ip_start_a" class="textbox" value="{$ip_start_a}" style="width:30px;" maxlength="3" />&nbsp;-&nbsp;
+                <input type="text" name="ip_start_b" class="textbox" value="{$ip_start_b}" style="width:30px;" maxlength="3" />&nbsp;-&nbsp;
+                <input type="text" name="ip_start_c" class="textbox" value="{$ip_start_c}" style="width:30px;" maxlength="3" />&nbsp;-&nbsp;
+                <input type="text" name="ip_start_d" class="textbox" value="{$ip_start_d}" style="width:30px;" maxlength="3" />
+            </td>
+          </tr>     
+          <tr bgcolor="#f7f7f7">
+            <td class="td1">
+              Ip Address End<br>
+              <font style="font-size:11px;color:blue;">
+                Example : 192.168.1.10&nbsp;
+              </font>
+            </td>
+            <td class="td2">
+                <input type="text" name="ip_end_a" class="textbox" value="{$ip_end_a}" style="width:30px;" maxlength="3" />&nbsp;-&nbsp;
+                <input type="text" name="ip_end_b" class="textbox" value="{$ip_end_b}" style="width:30px;" maxlength="3" />&nbsp;-&nbsp;
+                <input type="text" name="ip_end_c" class="textbox" value="{$ip_end_c}" style="width:30px;" maxlength="3" />&nbsp;-&nbsp;
+                <input type="text" name="ip_end_d" class="textbox" value="{$ip_end_d}" style="width:30px;" maxlength="3" />
+            </td>
+          </tr>     
+          <tr>
+            <td class="td1"></td>
+            <td class="td2"><input type="submit" value="Add" /></td>
+          </tr> 
+          </form>              
+        </table>         
+        {/if}
+{include file="admin/footer.html"}        

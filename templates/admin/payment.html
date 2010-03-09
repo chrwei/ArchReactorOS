@@ -1,0 +1,713 @@
+{literal}
+<script language="javascript">
+function GetCurrencyCheckedValue(radioObj) {
+	if(!radioObj)
+		return "";
+	var radioLength = radioObj.length;
+	if(radioLength == undefined)
+		if(radioObj.checked)
+			return radioObj.value;
+		else
+			return "";
+	for(var i = 0; i < radioLength; i++) {
+		if(radioObj[i].checked) {
+			return radioObj[i].value;
+		}
+	}
+	return "";
+}
+
+function change_currency()
+{
+  var currency_id  = GetCurrencyCheckedValue(document.forms['frm1'].elements['currency_id']);
+  var form         = document.getElementById('frm1');
+    
+  if(!currency_id)
+  {
+    alert("Not currency selcted");
+  }
+  else
+  {
+    form.submit();
+  }
+}
+
+  </script>
+{/literal}
+{include file="admin/header.html"}
+  <tr>
+    <td class="middle">
+    <div class="middle_content">  
+      {include file='admin/sidebar.html'}
+        {if $pf == 'currency' || !$pf} 
+        <table style="margin-left:15px;width:570px;border-collapse:collapse;" align="left">
+          <tr><td class="td_caption">Current Currency</td></tr> 
+          <tr>
+            <td class="td_data_middle" bgcolor="#f7f7f7">
+              <table align="left" style="font-size:12px;">
+                <tr><td>Currency name</td><td> : {$currency_name}</td></tr>
+                <tr><td>Currency code</td><td> : {$currency_code}</td></tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+          <tr>
+            <td>
+              <table  style="width:570px;border-collapse:collapse;"  align="left">
+                <tr>
+                  <td colspan="4" class="td_caption">Currency Option</td>
+                </tr>     
+                <tr>
+                  <td class="td_data_top" style="width:30px;"></td>
+                  <td class="td_data_top" style="width:30px;">No.</td>
+                  <td class="td_data_top" style="">Currency Code</td>
+                  <td class="td_data_top" style="">Currency Name</td>
+                </tr>
+                <form id="frm1" action="payment.php?pf=change_currency" method="post" name="frm1">
+                <input type="hidden" name="process" value="change">
+                {assign var="i_tmp" value="1"}
+                {section name=i loop=$currs}
+                <tr bgcolor="{$currs[i].color}">             
+                  <td class="td_data_middle"><input type="radio" value="{$currs[i].currency_id}" name="currency_id" id="currency_id" {if $currs[i].currency_usage == 1}checked{/if}></td>
+                  <td class="td_data_middle">{$currs[i].no}.</td>
+                  <td class="td_data_middle">{$currs[i].currency_code}</td>  
+                  <td class="td_data_middle">{$currs[i].currency_name}</td>
+                </tr>
+                {assign var="i_tmp" value=$i_tmp+1}
+                {/section}
+                </form>   
+                <tr>
+                  <td colspan="5" style="height:50px;text-align:left;">
+                    <input type="button" name="change" value="Change Currency" onclick="change_currency();">
+                  </td>
+                </tr>               
+              </table>      
+            </td>
+          </tr>
+        </table>
+        {/if}
+        {if $pf == 'gateway'}
+        <table style="margin-left:15px;width:570px;border-collapse:collapse;" align="left">
+          <tr>
+            <td>
+              <table  style="width:570px;border-collapse:collapse;"  align="left">
+                <tr>
+                  <td colspan="4" class="td_caption">Payment Gateway</td>
+                </tr>     
+                <tr>
+                  <td class="td_data_top" style="width:30px;">No.</td>
+                  <td class="td_data_top" style="">Payment Gateway</td>
+                  <td class="td_data_top" style="width:80px;">Status</td>
+                  <td class="td_data_top" style="width:80px;">Setting</td>
+                </tr>
+                <tr>             
+                  <td class="td_data_middle" style="height:30px;">1.</td>
+                  <td class="td_data_middle" style="text-align:left;padding-left:5px;">Paypal Payment</td>  
+                  <td class="td_data_middle">
+                    {if $paypal_payments_status}<font color="green">Enable</font>{else}<font color="red">Disable</font>{/if}
+                    <input type="hidden" name="paypal_payments_status" value="{$paypal_payments_status}">
+                  </td>
+                  <td class="td_data_middle"><a href="payment.php?pf=gateway_setting&gateway_name=paypal_payments">Setting</a></td> 
+                </tr>
+                <tr bgcolor="#f7f7f7">             
+                  <td class="td_data_middle" style="height:30px;">2.</td>
+                  <td class="td_data_middle" style="text-align:left;padding-left:5px;">Paypal Subscibe</td>  
+                  <td class="td_data_middle">
+                    {if $paypal_subscribe_status}<font color="green">Enable</font>{else}<font color="red">Disable</font>{/if}
+                    <input type="hidden" name="paypal_subscribe_status" value="{$paypal_subscribe_status}">
+                  </td>
+                  <td class="td_data_middle"><a href="payment.php?pf=gateway_setting&gateway_name=paypal_subscribe">Setting</a></td>
+                </tr>
+                <!--
+                <tr bgcolor="">             
+                  <td class="td_data_middle" style="height:30px;">x.</td>
+                  <td class="td_data_middle" style="text-align:left;padding-left:5px;">egold</td>  
+                  <td class="td_data_middle">
+                    {if $egold_status}<font color="green">Enable</font>{else}<font color="red">Disable</font>{/if}
+                    <input type="hidden" name="egold_status" value="{$egold_status}">
+                  </td>
+                  <td class="td_data_middle"><a href="payment.php?pf=gateway_setting&gateway_name=egold">Setting</a></td>
+                </tr>
+                <tr>             
+                  <td class="td_data_middle" style="height:30px;">x.</td>
+                  <td class="td_data_middle" style="text-align:left;padding-left:5px;">Authorize</td>  
+                  <td class="td_data_middle">
+                    {if $authorize_status}<font color="green">Enable</font>{else}<font color="red">Disable</font>{/if}
+                    <input type="hidden" name="authorize_status" value="{$authorize_status}">
+                  </td>
+                  <td class="td_data_middle"><a href="payment.php?pf=gateway_setting&gateway_name=authorize">Setting</a></td>
+                </tr>
+                -->
+                <tr>             
+                  <td class="td_data_middle" style="height:30px;">3.</td>
+                  <td class="td_data_middle" style="text-align:left;padding-left:5px;">2Checkout</td>  
+                  <td class="td_data_middle">
+                    {if $co_status}<font color="green">Enable</font>{else}<font color="red">Disable</font>{/if}
+                    <input type="hidden" name="co_status" value="{$co_status}">
+                  </td>
+                  <td class="td_data_middle"><a href="payment.php?pf=gateway_setting&gateway_name=co">Setting</a></td>
+                </tr>
+                <tr bgcolor="#f7f7f7">             
+                  <td class="td_data_middle" style="height:30px;">4.</td>
+                  <td class="td_data_middle" style="text-align:left;padding-left:5px;">2Checkout Subscribe</td>  
+                  <td class="td_data_middle">
+                    {if $co_subscribe_status}<font color="green">Enable</font>{else}<font color="red">Disable</font>{/if}
+                    <input type="hidden" name="co_subscribe_status" value="{$co_subscribe_status}">
+                  </td>
+                  <td class="td_data_middle"><a href="payment.php?pf=gateway_setting&gateway_name=co_subscribe">Setting</a></td>
+                </tr>
+                <tr>             
+                  <td class="td_data_middle" style="height:30px;">5.</td>
+                  <td class="td_data_middle" style="text-align:left;padding-left:5px;">Alertpay</td>  
+                  <td class="td_data_middle">
+                    {if $alertpay_status}<font color="green">Enable</font>{else}<font color="red">Disable</font>{/if}
+                    <input type="hidden" name="alertpay_status" value="{$alertpay_status}">
+                  </td>
+                  <td class="td_data_middle"><a href="payment.php?pf=gateway_setting&gateway_name=alertpay">Setting</a></td>
+                </tr>
+                <tr bgcolor="#f7f7f7">             
+                  <td class="td_data_middle" style="height:30px;">6.</td>
+                  <td class="td_data_middle" style="text-align:left;padding-left:5px;">Alertpay Subscribe</td>  
+                  <td class="td_data_middle">
+                    {if $alertpay_subscribe_status}<font color="green">Enable</font>{else}<font color="red">Disable</font>{/if}
+                    <input type="hidden" name="alertpay_subscribe_status" value="{$alertpay_subscribe_status}">
+                  </td>
+                  <td class="td_data_middle"><a href="payment.php?pf=gateway_setting&gateway_name=alertpay_subscribe">Setting</a></td>
+                </tr>
+                <tr>             
+                  <td class="td_data_middle" style="height:30px;">7.</td>
+                  <td class="td_data_middle" style="text-align:left;padding-left:5px;">Moneybookers</td>  
+                  <td class="td_data_middle">
+                    {if $moneybookers_status}<font color="green">Enable</font>{else}<font color="red">Disable</font>{/if}
+                  </td>
+                  <td class="td_data_middle"><a href="payment.php?pf=gateway_setting&gateway_name=moneybookers">Setting</a></td>
+                </tr>             
+                <tr bgcolor="#f7f7f7">             
+                  <td class="td_data_middle" style="height:30px;">8.</td>
+                  <td class="td_data_middle" style="text-align:left;padding-left:5px;">Cash/Check</td>  
+                  <td class="td_data_middle">
+                    {if $cash_payments_status}<font color="green">Enable</font>{else}<font color="red">Disable</font>{/if}
+                    <input type="hidden" name="cash_payments_status" value="{$cash_payments_status}">
+                  </td>
+                  <td class="td_data_middle"><a href="payment.php?pf=gateway_setting&gateway_name=cash_payments">Setting</a></td>
+                </tr>
+              </table>      
+            </td>
+          </tr>
+        </table>            
+        {/if}
+        {if $pf == 'gateway_setting'}
+        <table style="margin-left:15px;width:570px;border-collapse:collapse;" align="left">
+          <tr>
+            <td class="td_caption">Payment Gateway</td>
+          </tr>
+          <!-- cash payment -->
+          {if $gateway_name == cash_payments}
+          <form method="post" action="payment.php?pf=gateway_setting&gateway_name={$gateway_name}">
+          <input type="hidden" name="process" value="edit">
+          {if $success}
+          <tr>
+            <td colspan="2" class="success">
+              Confirmation :
+              <ul><li>Settings is success</li></ul>
+            </td>
+          </tr>
+          {/if}
+          {if $error}    
+          <tr>
+            <td colspan="2" class="error">
+                Confirmation :
+                <ul>
+                  {assign var="i_tmp" value="1"}
+                  {section name=i loop=$error}
+                  <li>
+                  {$error[i]}
+                  </li>
+                  {assign var="i_tmp" value=$i_tmp+1}
+                  {/section}
+                </ul>
+            </td>
+          </tr>
+          {/if} 
+          <tr>
+            <td class="td1">Payment Gateway</td>
+            <td class="td2">Cash/Check Payment</td>
+          </tr>
+          <tr>
+            <td class="td1">Status</td>
+            <td class="td2">
+              <select name="cash_payments_status" class="textbox">
+                <option value="0" {if $cash_payments_status == 0} selected {/if}>Disable</option>
+                <option value="1" {if $cash_payments_status == 1} selected {/if}>Enable</option>
+              </select>
+            </td>
+          </tr>
+          <tr bgcolor="#f7f7f7">
+            <td class="td1"> </td>
+            <td class="td2"><input type="submit" value="Setting"> <input type="button" value="Back" onclick="javascript:window.location.href='payment.php?pf=gateway'"></td>
+          </tr>
+          </form>     
+          {/if}
+          <!-- paypal payment -->
+          {if $gateway_name == paypal_payments}
+          <form method="post" action="payment.php?pf=gateway_setting&gateway_name={$gateway_name}">
+          <input type="hidden" name="process" value="edit">
+          {if $success}
+          <tr>
+            <td colspan="2" class="success">
+              Confirmation :
+              <ul><li>Settings is success</li></ul>
+            </td>
+          </tr>
+          {/if}
+          {if $error}    
+          <tr>
+            <td colspan="2" class="error">
+                Confirmation :
+                <ul>
+                  {assign var="i_tmp" value="1"}
+                  {section name=i loop=$error}
+                  <li>
+                  {$error[i]}
+                  </li>
+                  {assign var="i_tmp" value=$i_tmp+1}
+                  {/section}
+                </ul>
+            </td>
+          </tr>
+          {/if} 
+          <tr>
+            <td class="td1">Payment Gateway</td>
+            <td class="td2">Paypal Payment</td>
+          </tr>
+          <tr bgcolor="#f7f7f7">
+            <td class="td1">Paypal email</td>
+            <td class="td2">
+              <input type="text" class="textbox" name="paypal_payments_email" value="{$paypal_payments_email}" style="width:300px;">
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">Status</td>
+            <td class="td2">
+              <select name="paypal_payments_status" class="textbox">
+                <option value="0" {if $paypal_payments_status == 0} selected {/if}>Disable</option>
+                <option value="1" {if $paypal_payments_status == 1} selected {/if}>Enable</option>
+              </select>
+            </td>
+          </tr>
+          <tr bgcolor="#f7f7f7">
+            <td class="td1"> </td>
+            <td class="td2"><input type="submit" value="Setting"> <input type="button" value="Back" onclick="javascript:window.location.href='payment.php?pf=gateway'"></td>
+          </tr>
+          </form>     
+          {/if}
+          <!-- paypal subscribe -->
+          {if $gateway_name == paypal_subscribe}
+          <form method="post" action="payment.php?pf=gateway_setting&gateway_name={$gateway_name}">
+          <input type="hidden" name="process" value="edit">
+          {if $success}
+          <tr>
+            <td colspan="2" class="success">
+              Confirmation :
+              <ul><li>Settings is success</li></ul>
+            </td>
+          </tr>
+          {/if}
+          {if $error}    
+          <tr>
+            <td colspan="2" class="error">
+                Confirmation :
+                <ul>
+                  {assign var="i_tmp" value="1"}
+                  {section name=i loop=$error}
+                  <li>
+                  {$error[i]}
+                  </li>
+                  {assign var="i_tmp" value=$i_tmp+1}
+                  {/section}
+                </ul>
+            </td>
+          </tr>
+          {/if} 
+          <tr>
+            <td class="td1">Payment Gateway</td>
+            <td class="td2">Paypal Subscribe</td>
+          </tr>
+          <tr bgcolor="#f7f7f7">
+            <td class="td1">Paypal email</td>
+            <td class="td2">
+              <input type="text" class="textbox" name="paypal_subscribe_email" value="{$paypal_subscribe_email}" style="width:300px;">
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">Status</td>
+            <td class="td2">
+              <select name="paypal_subscribe_status" class="textbox">
+                <option value="0" {if $paypal_subscribe_status == 0} selected {/if}>Disable</option>
+                <option value="1" {if $paypal_subscribe_status == 1} selected {/if}>Enable</option>
+              </select>
+            </td>
+          </tr>
+          <tr bgcolor="#f7f7f7">
+            <td class="td1"> </td>
+            <td class="td2"><input type="submit" value="Setting"> <input type="button" value="Back" onclick="javascript:window.location.href='payment.php?pf=gateway'"></td>
+          </tr>
+          </form>
+          {/if}
+          <!-- 2co -->
+          {if $gateway_name == co}
+          <form method="post" action="payment.php?pf=gateway_setting&gateway_name={$gateway_name}">
+          <input type="hidden" name="process" value="edit">
+          {if $success}
+          <tr>
+            <td colspan="2" class="success">
+              Confirmation :
+              <ul><li>Settings is success</li></ul>
+            </td>
+          </tr>
+          {/if}
+          {if $error}    
+          <tr>
+            <td colspan="2" class="error">
+                Confirmation :
+                <ul>
+                  {assign var="i_tmp" value="1"}
+                  {section name=i loop=$error}
+                  <li>
+                  {$error[i]}
+                  </li>
+                  {assign var="i_tmp" value=$i_tmp+1}
+                  {/section}
+                </ul>
+            </td>
+          </tr>
+          {/if} 
+          <tr>
+            <td class="td1">Payment Gateway</td>
+            <td class="td2">2CheckOut</td>
+          </tr>
+          <tr bgcolor="#f7f7f7">
+            <td class="td1">Sid</td>
+            <td class="td2">
+              <input type="text" class="textbox" name="co_sid" value="{$co_sid}" style="width:300px;">
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">Secret</td>
+            <td class="td2">
+              <input type="text" class="textbox" name="co_secret" value="{$co_secret}" style="width:300px;">
+            </td>
+          </tr>
+          <tr bgcolor="#f7f7f7">
+            <td class="td1">Status</td>
+            <td class="td2">
+              <select name="co_status" class="textbox">
+                <option value="0" {if $co_status == 0} selected {/if}>Disable</option>
+                <option value="1" {if $co_status == 1} selected {/if}>Enable</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td class="td1"> </td>
+            <td class="td2"><input type="submit" value="Setting"> <input type="button" value="Back" onclick="javascript:window.location.href='payment.php?pf=gateway'"></td>
+          </tr>
+          </form>
+          {/if}
+          
+          
+          {if $gateway_name == co_subscribe}
+          <form method="post" action="payment.php?pf=gateway_setting&gateway_name={$gateway_name}">
+          <input type="hidden" name="process" value="edit">
+          {if $success}
+          <tr>
+            <td colspan="2" class="success">
+              Confirmation :
+              <ul><li>Settings is success</li></ul>
+            </td>
+          </tr>
+          {/if}
+          {if $error}    
+          <tr>
+            <td colspan="2" class="error">
+                Confirmation :
+                <ul>
+                  {assign var="i_tmp" value="1"}
+                  {section name=i loop=$error}
+                  <li>
+                  {$error[i]}
+                  </li>
+                  {assign var="i_tmp" value=$i_tmp+1}
+                  {/section}
+                </ul>
+            </td>
+          </tr>
+          {/if} 
+          <tr>
+            <td class="td1">Payment Gateway</td>
+            <td class="td2">2CheckOut Subscribe</td>
+          </tr>
+          <tr bgcolor="#f7f7f7">
+            <td class="td1">Sid</td>
+            <td class="td2">
+              <input type="text" class="textbox" name="co_subscribe_sid" value="{$co_subscribe_sid}" style="width:300px;">
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">Secret</td>
+            <td class="td2">
+              <input type="text" class="textbox" name="co_subscribe_secret" value="{$co_subscribe_secret}" style="width:300px;">
+            </td>
+          </tr>
+          <tr bgcolor="#f7f7f7">
+            <td class="td1">Status</td>
+            <td class="td2">
+              <select name="co_subscribe_status" class="textbox">
+                <option value="0" {if $co_subscribe_status == 0} selected {/if}>Disable</option>
+                <option value="1" {if $co_subscribe_status == 1} selected {/if}>Enable</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td class="td1"> </td>
+            <td class="td2"><input type="submit" value="Setting"> <input type="button" value="Back" onclick="javascript:window.location.href='payment.php?pf=gateway'"></td>
+          </tr>
+          </form>
+          <tr>
+            <td colspan="2">
+              <table style="width:570px;border-collapse:collapse;" align="left"> 
+                <tr>
+                  <td colspan="6" class="td_caption">
+                    Products
+                  </td>
+                </tr>
+                {if !$products}
+                <tr>
+                  <td colspan="5" style="font-size:11px;text-align:center;color:red;">
+                   ======== Not product data ========
+                  </td>
+                </tr>
+                {else}
+                {if $paging}
+                <tr>
+                  <td colspan="5" style="font-size:11px;color:green;font-weight:bold;text-align:left;"> {$paging} </td>
+                </tr>
+                {/if}
+                <tr>
+                  <td class="td_data_top" style="width:30px;">No.</td>
+                  <td class="td_data_top" style="width:80px;">Product Id</td>
+                  <td class="td_data_top" style="width:150px;">Name</td>
+                  <td class="td_data_top" style="">Description</td>
+                </tr>
+                {assign var="i_tmp" value="1"}
+                {section name=i loop=$products}
+                <tr bgcolor="{$products[i].color}">             
+                  <td class="td_data_middle">{$products[i].no}.</td>
+                  <td class="td_data_middle">{$products[i].product_id}</td>
+                  <td class="td_data_middle" style="text-align:left;padding-left:5px;">
+                    <div class="view_detail" ajaxurl="ajax.php?tooltip=product&id={$products[i].product_id}" style="cursor: pointer;">
+                      {$products[i].name}
+                    </div>
+                  </td>  
+                  <td class="td_data_middle" style="text-align:left;">{$products[i].description}</td>
+                </tr>
+                {assign var="i_tmp" value=$i_tmp+1}
+                {/section}    
+                {/if}
+              </td>
+            </tr>
+          </table>
+          {/if}
+          
+          <!-- moneybookers -->
+          {if $gateway_name == moneybookers}
+          <form method="post" action="payment.php?pf=gateway_setting&gateway_name={$gateway_name}">
+          <input type="hidden" name="process" value="edit">
+          {if $success}
+          <tr>
+            <td colspan="2" class="success">
+              Confirmation :
+              <ul><li>Settings is success</li></ul>
+            </td>
+          </tr>
+          {/if}
+          {if $error}    
+          <tr>
+            <td colspan="2" class="error">
+                Confirmation :
+                <ul>
+                  {assign var="i_tmp" value="1"}
+                  {section name=i loop=$error}
+                  <li>
+                  {$error[i]}
+                  </li>
+                  {assign var="i_tmp" value=$i_tmp+1}
+                  {/section}
+                </ul>
+            </td>
+          </tr>
+          {/if} 
+          <tr>
+            <td class="td1">Payment Gateway</td>
+            <td class="td2">Moneybookers</td>
+          </tr>
+          <tr bgcolor="#f7f7f7">
+            <td class="td1">Moneybookers email</td>
+            <td class="td2">
+              <input type="text" class="textbox" name="moneybookers_email" value="{$moneybookers_email}" style="width:300px;">
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">Status</td>
+            <td class="td2">
+              <select name="moneybookers_status" class="textbox">
+                <option value="0" {if $moneybookers_status == 0} selected {/if}>Disable</option>
+                <option value="1" {if $moneybookers_status == 1} selected {/if}>Enable</option>
+              </select>
+            </td>
+          </tr>
+          <tr bgcolor="#f7f7f7">
+            <td class="td1"> </td>
+            <td class="td2"><input type="submit" value="Setting"> <input type="button" value="Back" onclick="javascript:window.location.href='payment.php?pf=gateway'"></td>
+          </tr>
+          </form>     
+          {/if}
+          <!-- alertpay -->
+          {if $gateway_name == alertpay}
+          <form method="post" action="payment.php?pf=gateway_setting&gateway_name={$gateway_name}">
+          <input type="hidden" name="process" value="edit">
+          {if $success}
+          <tr>
+            <td colspan="2" class="success">
+              Confirmation :
+              <ul><li>Settings is success</li></ul>
+            </td>
+          </tr>
+          {/if}
+          {if $error}    
+          <tr>
+            <td colspan="2" class="error">
+                Confirmation :
+                <ul>
+                  {assign var="i_tmp" value="1"}
+                  {section name=i loop=$error}
+                  <li>
+                  {$error[i]}
+                  </li>
+                  {assign var="i_tmp" value=$i_tmp+1}
+                  {/section}
+                </ul>
+            </td>
+          </tr>
+          {/if} 
+          <tr>
+            <td class="td1">Payment Gateway</td>
+            <td class="td2">Alertpay</td>
+          </tr>
+          <tr bgcolor="#f7f7f7">
+            <td class="td1">Alertpay email</td>
+            <td class="td2">
+              <input type="text" class="textbox" name="alertpay_email" value="{$alertpay_email}" style="width:300px;">
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">Alertpay security code</td>
+            <td class="td2">
+              <input type="text" class="textbox" name="alertpay_security_code" value="{$alertpay_security_code}" style="width:300px;">
+            </td>
+          </tr>
+          <tr bgcolor="#f7f7f7">
+            <td class="td1">Alert URL </td>
+            <td class="td2">
+              {$alertpay_ipn_url}
+              <br><font color="blue" style="font-size:11px;">This url for Manage IPN, set on your alertpay bussines tools</font>
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">Status</td>
+            <td class="td2">
+              <select name="alertpay_status" class="textbox">
+                <option value="0" {if $alertpay_status == 0} selected {/if}>Disable</option>
+                <option value="1" {if $alertpay_status == 1} selected {/if}>Enable</option>
+              </select>
+            </td>
+          </tr>
+          <tr bgcolor="#f7f7f7">
+            <td class="td1"> </td>
+            <td class="td2"><input type="submit" value="Setting"> <input type="button" value="Back" onclick="javascript:window.location.href='payment.php?pf=gateway'"></td>
+          </tr>
+          </form>
+          {/if}
+          
+          
+          {if $gateway_name == alertpay_subscribe}
+          <form method="post" action="payment.php?pf=gateway_setting&gateway_name={$gateway_name}">
+          <input type="hidden" name="process" value="edit">
+          {if $success}
+          <tr>
+            <td colspan="2" class="success">
+              Confirmation :
+              <ul><li>Settings is success</li></ul>
+            </td>
+          </tr>
+          {/if}
+          {if $error}    
+          <tr>
+            <td colspan="2" class="error">
+                Confirmation :
+                <ul>
+                  {assign var="i_tmp" value="1"}
+                  {section name=i loop=$error}
+                  <li>
+                  {$error[i]}
+                  </li>
+                  {assign var="i_tmp" value=$i_tmp+1}
+                  {/section}
+                </ul>
+            </td>
+          </tr>
+          {/if} 
+          <tr>
+            <td class="td1">Payment Gateway</td>
+            <td class="td2">Alertpay Subscribe</td>
+          </tr>
+          <tr bgcolor="#f7f7f7">
+            <td class="td1">Alertpay email</td>
+            <td class="td2">
+              <input type="text" class="textbox" name="alertpay_subscribe_email" value="{$alertpay_subscribe_email}" style="width:300px;">
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">Alertpay security code</td>
+            <td class="td2">
+              <input type="text" class="textbox" name="alertpay_subscribe_security_code" value="{$alertpay_subscribe_security_code}" style="width:300px;">
+            </td>
+          </tr>
+          <tr bgcolor="#f7f7f7">
+            <td class="td1">Alert URL </td>
+            <td class="td2">
+              {$alertpay_ipn_url}
+              <br><font color="blue" style="font-size:11px;">This url for Manage IPN, set on your alertpay bussines tools</font>
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">Status</td>
+            <td class="td2">
+              <select name="alertpay_subscribe_status" class="textbox">
+                <option value="0" {if $alertpay_subscribe_status == 0} selected {/if}>Disable</option>
+                <option value="1" {if $alertpay_subscribe_status == 1} selected {/if}>Enable</option>
+              </select>
+            </td>
+          </tr>
+          <tr bgcolor="#f7f7f7">
+            <td class="td1"> </td>
+            <td class="td2"><input type="submit" value="Setting"> <input type="button" value="Back" onclick="javascript:window.location.href='payment.php?pf=gateway'"></td>
+          </tr>
+          </form>
+          {/if}
+          
+        </table>                    
+       {/if}
+    </div>
+  </td>
+</tr>
+{include file="admin/footer.html"}        

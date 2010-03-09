@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+	<meta name="author" content="MILTON WORLDWIDE MEDIA LLC">
+	<title>invoice</title>
+</head>
+
+<body>
+
+<table align="center" style="border-collapse:collapse;font-family:'courier new';font-size:12px;">
+  <tr>
+    <td style="text-align:left;font-size:20px;font-weight:bold;color:#333333;;font-family:arial;">{$company}</td>
+  </tr>
+  <tr>
+    <td>
+      <table style="border-collapse:collapse;text-align:center;color:#333333;">
+        <tr>
+          <td style="border:1px solid #cccccc;">
+            <div style="width:330px;padding-left:5px;text-align:left;">
+              <strong>Payment to :</strong><br><br>
+              <strong>{$company}</strong><br><br>
+              <table>
+                <tr>
+                  <td>Attn </td><td>:</td><td>{$contact}</td>
+                </tr>
+                <tr>
+                  <td>Address </td><td>:</td><td>{$address}</td>
+                </tr>
+                <tr>
+                  <td>Phone </td><td>:</td><td>{$phone}</td>
+                </tr>
+                <tr>
+                  <td>Email </td><td>:</td><td>{$email}</td>
+                </tr>
+              </table>
+            </div>
+          </td>
+          <td style="border:1px solid #cccccc;width:275px;text-align:right;">
+            <div style="padding-left:5px;text-align:left;">
+              <table>
+                <tr>
+                  <td>To </td><td>:</td><td>{$invoice_to}</td>
+                </tr>
+                <tr>
+                  <td>Date </td><td>:</td><td>{$invoice_date}</td>
+                </tr>
+                <tr>
+                  <td>Number </td><td>:</td><td>{$invoice_id}</td>
+                </tr>
+                <tr>
+                  <td>Due Date </td><td>:</td><td>{$due_date}</td>
+                </tr>
+                <tr>
+                  <td>Terms </td><td>:</td><td>{$terms}</td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+        <!--
+        <td style="border:1px solid #cccccc;width:160px;text-align:left;padding-left:5px;">{$invoice_date}</td>
+        <tr>
+          <td style="border:1px solid #cccccc;width:110px;text-align:right;font-weight:bold;">Number :</td>
+          <td style="border:1px solid #cccccc;width:160px;text-align:left;padding-left:5px;">{$invoice_id}</td>
+        </tr>
+        <tr>
+          <td style="border:1px solid #cccccc;width:110px;text-align:right;font-weight:bold;">Due Date :</td>
+          <td style="border:1px solid #cccccc;width:160px;text-align:left;padding-left:5px;">{$due_date}</td>
+        </tr>
+        <tr>
+          <td style="border:1px solid #cccccc;width:110px;text-align:right;font-weight:bold;">Terms :</td>
+          <td style="border:1px solid #cccccc;width:160px;text-align:left;padding-left:5px;">{$terms}</td>
+        </tr>
+        -->
+      </table>
+    </td>
+  </tr>
+  <tr><td style="height:10px;"></td></tr>
+  <tr>
+    <td>
+      <table style="border-collapse:collapse;text-align:center;color:#333333;">
+        <tr>
+          <td style="border:1px solid #cccccc;width:80px;font-weight:bold;">Date</td>
+          <td style="border:1px solid #cccccc;width:100px;font-weight:bold;">Service</td>
+          <td style="border:1px solid #cccccc;width:130px;font-weight:bold;">Description</td>
+          <td style="border:1px solid #cccccc;width:50px;font-weight:bold;">Currency</td>
+          <td style="border:1px solid #cccccc;width:50px;font-weight:bold;">Qty.</td>
+          <td style="border:1px solid #cccccc;width:80px;font-weight:bold;">Unit Price</td>
+          <td style="border:1px solid #cccccc;width:80px;font-weight:bold;">Line Total</td>
+        </tr>
+        
+        <tr>
+          <td style="border:1px solid #cccccc;width:80px;min-height:25px;">{$paid_date}</td>
+          <td style="border:1px solid #cccccc;width:100px;text-align:left;">{$service}</td>
+          <td style="border:1px solid #cccccc;width:150px;text-align:left;">{$description}</td>
+          <td style="border:1px solid #cccccc;130px;">{$currency}</td>
+          <td style="border:1px solid #cccccc;50px;">{$qty}</td>
+          <td style="border:1px solid #cccccc;80px;">{$unit_price}</td>
+          <td style="border:1px solid #cccccc;80px;">{$line_price}</td>
+        </tr>
+        <tr>
+          <td style="border:1px solid #cccccc;" colspan="3" rowspan="3">
+            <div style="height:100px;width:325px;padding-left:5px;text-align:left;">
+              <u><strong>Comments :</strong></u><br>
+              
+            </div>
+          </td>
+          <td style="border:1px solid #cccccc;text-align:right;font-weight:bold;" colspan="3">Subtotal :</td>
+          <td style="border:1px solid #cccccc;">{$subtotal}</td>
+        </tr>
+        <tr>
+          <td style="border:1px solid #cccccc;text-align:right;font-weight:bold;" colspan="3">Discount :</td>
+          <td style="border:1px solid #cccccc;">{$discount}</td>
+        </tr>
+        <tr>
+          <td style="border:1px solid #cccccc;text-align:right;font-weight:bold;" colspan="3">Total :</td>
+          <td style="border:1px solid #cccccc;">{$total}</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,53 @@
+{include file="admin/header.html"}     
+{literal}
+<script language="javascript">
+  function _cancel()
+  {
+    window.location.href='product.php';
+  }
+</script>
+{/literal}
+  <tr>
+    <td class="middle">
+      <div class="middle_content">  
+      {include file="admin/sidebar.html"}
+        <table style="margin-left:15px;width:570px;border-collapse:collapse;" align="left">
+          <tr>
+            <td colspan="3" class="td_caption">There is an order in this product</td>
+          </tr>
+          <form action="confirm_delete.php" method="post">
+          <input type="hidden" name="process" value="delete">
+          <input type="hidden" name="id_list" value="{$id_list}">
+          <tr>    
+            <td class="td_data_top" style="width:30px;">No</td>
+            <td class="td_data_top" style="">Name</td>
+            <td class="td_data_top" style="width:80px;">Order total</td>
+          </tr>
+          {assign var="i_tmp" value="1"}  
+          {section name=i loop=$products}
+          <tr bgcolor="{$products[i].color}">
+            <td class="td_data_middle">{$products[i].no}.</td>
+            <td class="td_data_middle" style="text-align:left;padding-left:5px;">
+              <div class="view_detail" ajaxurl="ajax.php?tooltip=product&id={$products[i].product_id}" style="cursor: pointer;">
+                {$products[i].name}
+              </div>
+            </td>
+            <td class="td_data_middle">{$products[i].order_total}</td>
+          </tr>
+          {assign var="i_tmp" value=$i_tmp+1}
+          {/section}
+          <tr>
+            <td colspan="3" style="color:#ff0000;font-size:11px;font-weight:bold;">Press Delete to continue delete.</td>
+          </tr>
+          <tr>
+            <td colspan="3">
+              <input type="submit" name="delete" value="Delete">
+              <input type="button" id="cancel" value="Cancel" onclick="_cancel();">
+            </td>
+          </tr>
+          </form>
+        </table>
+      </div>
+    </td>
+  </tr>
+{include file="admin/footer.html"}

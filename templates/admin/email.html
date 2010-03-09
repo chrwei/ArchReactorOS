@@ -1,0 +1,146 @@
+{include file="admin/header.html"}
+{literal}
+<script language=javascript>
+checked = false;
+  function checkedAll (frm1) {
+	var aa= document.getElementById('frm1');
+	    if (checked == false)
+          {
+           checked = true
+          }
+        else
+          {
+          checked = false
+          }
+	for (var i =0; i < aa.elements.length; i++) 
+	{
+	 aa.elements[i].checked = checked;
+	}
+  }
+  
+  function delete_email(frm1) {
+   
+  var aa = document.getElementById('frm1');
+	var check = false;
+	
+  for (var i =0; i < aa.elements.length; i++) 
+	{
+	  
+    if (aa.elements[i].checked == true)
+	  {
+      check = true;
+    }
+    
+	}
+	
+	
+  if (check == true)  
+  {
+    var conf_del = confirm('Are you sure want to delete?');
+    if (conf_del == true) {
+      aa.submit();
+    }
+    
+  }  
+  else {
+    alert("Please check item to delete first");    
+  }
+ 
+  }
+  
+  
+  function paste()
+	{
+    document.getElementById('b').value = document.getElementById('a').value;
+    
+  }
+  
+  
+  
+  </script>
+{/literal}
+ <!-- begin :: midle -->
+  <tr>
+    <td class="middle">
+      <div class="middle_content">  
+      {include file="admin/sidebar.html"}
+      {if $pf == 'browse' || !$pf} 
+      <table style="margin-left:15px;width:570px;border-collapse:collapse;" align="left">
+        <tr>
+          <td colspan="6" class="td_caption">
+            Email Templates
+          </td>
+        </tr>
+        {if $success}    
+        <tr>
+          <td colspan="5" class="success">
+            Confirmation :
+            <ul><li>Edit data success</li></ul>
+          </td>
+        </tr>
+        {/if}                 
+        <tr>
+          <td class="td_data_top" style="width:30px;">No.</td>
+          <td class="td_data_top" style="">Subject</td>
+          <td class="td_data_top" style="width:100px;">Edit Data</td>
+        </tr>
+        {assign var="i_tmp" value="1"}
+        {section name=i loop=$emails}
+        <tr bgcolor="{$emails[i].color}">
+          <td class="td_data_middle">{$emails[i].no}.</td>
+          <td class="td_data_middle" style="text-align:left;">{$emails[i].subject}</td>
+          <td class="td_data_middle">
+            <a href="email.php?pf=detail&name={$emails[i].name}">
+              edit
+            </a>
+          </td>
+        </tr>
+        {assign var="i_tmp" value=$i_tmp+1}
+        {/section}
+      </table>       
+      {/if}
+      {if $pf == 'detail'} 
+      <table style="margin-left:15px;width:570px;border-collapse:collapse;" align="left">
+        <tr>
+          <td colspan="2" class="td_caption">Edit Email Templates</td>
+        </tr>              
+        <form method="post" action="email.php?pf=detail&name={$name}">
+        <input type="hidden" name="process" value="edit">
+        {if $error}    
+        <tr>
+          <td colspan="2" class="error">
+              Confirmation :
+              <ul>
+                {assign var="i_tmp" value="1"}
+                {section name=i loop=$error}
+                <li>
+                {$error[i]}
+                </li>
+                {assign var="i_tmp" value=$i_tmp+1}
+                {/section}
+              </ul>
+          </td>
+        </tr>
+        {/if}
+        {if $success}    
+        <tr>
+          <td colspan="2" class="success">
+            Confirmation :
+            <ul><li>Update data success</li></ul>
+          </td>
+        </tr>
+        {/if}                 
+        <tr>
+          <td class="td1">Subject </td>
+          <td class="td2"><input type="text" name="subject" class="textbox" value="{$subject}" style="width:400px;"></td>
+        </tr>              
+        <tr bgcolor="#f7f7f7">
+          <td class="td1">Body</td>
+          <td class="td2">
+            <textarea  class="textbox" name="body"  style="width:400px;height:300px">{$body}</textarea>
+        </tr>
+       <tr><td class="td1"></td><td class="td2"><input type="submit" value="Save"></td></tr>
+        </form>
+      </table>
+      {/if}
+{include file="admin/footer.html"}

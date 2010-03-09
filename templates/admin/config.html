@@ -1,0 +1,97 @@
+{include file="admin/header.html"}
+  <tr>
+    <td class="middle">
+    <div class="middle_content">  
+      {include file='admin/sidebar.html'}
+
+        <table style="margin-left:15px;width:570px;border-collapse:collapse;" align="left">
+          <tr>
+            <td colspan="2" class="td_caption">System Configuration</td>
+          </tr>              
+          <form method="post" action="config.php">
+          <input type="hidden" name="pf" value="edit">
+          <input type="hidden" name="process" value="edit">
+          {if $error}    
+          <tr>
+            <td colspan="2" class="error">
+                Confirmation :
+                <ul>
+                  {assign var="i_tmp" value="1"}
+                  {section name=i loop=$error}
+                  <li>
+                  {$error[i]}
+                  </li>
+                  {assign var="i_tmp" value=$i_tmp+1}
+                  {/section}
+                </ul>
+            </td>
+          </tr>
+          {/if}
+          {if $success}    
+          <tr>
+            <td colspan="2" class="success">
+              Confirmation :
+              <ul><li>Update data is success</li></ul>
+            </td>
+          </tr>
+          {/if}                 
+          <tr>
+            <td class="td1">Site Name </td>
+            <td class="td2">
+            <input type="text" name="site_name" class="textbox" value="{$site_name}" style="width:400px;">
+            {$value.site_name}
+            </td>
+          </tr>
+          <tr bgcolor="#f7f7f7">
+            <td class="td1">Site Email</td>
+            <td class="td2">
+            <input type="text" name="site_mail" class="textbox" value="{$site_mail}" style="width:400px;">
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">Protected Path<br> 
+              <font style="font-size:11px;color:blue;">(ends with /)</font>
+            </td>
+            <td class="td2">
+            <input type="text" name="protect_path" class="textbox" value="{$protect_path}" style="width:400px;">
+            </td>
+          </tr>                              
+          <tr bgcolor="#f7f7f7">
+            <td class="td1">Protected Url <br>
+              <font style="font-size:11px;color:blue;">(ends without /)</font>
+            </td>
+            <td class="td2">
+              <input type="text" name="protect_url" class="textbox" value="{$protect_url}" style="width:400px;">
+            </td>
+          </tr> 
+          <tr>
+            <td class="td1">Notifier Email </td>
+            <td class="td2">
+            <input type="text" name="notify_email" class="textbox" value="{$notify_email}" style="width:400px;">
+            </td>
+          </tr>    
+          <tr bgcolor="#f7f7f7">
+            <td class="td1">Notifier From </td>
+            <td class="td2">
+            <input type="text" name="notify_from" class="textbox" value="{$notify_from}" style="width:400px;">
+            </td>
+          </tr>                        
+          <tr>
+            <td class="td1">Expire Notification</td>
+            <td class="td2">
+            <input type="text" name="notify_expire" class="textbox" value="{$notify_expire}" style="width:30px;"><font style="font-size:11px;color:blue;"> Days</font>  --not yet used, see config.php
+            </td>
+          </tr>  
+          <tr bgcolor="#f7f7f7">
+              <td class="td1"></td><td class="td2"><input type="submit" value="Save">
+            </td>
+          </tr>
+          </form>
+        </table>
+
+      </div>
+    </td>
+  </tr>
+  
+<!-- end :: midle -->
+{include file="admin/footer.html"}        

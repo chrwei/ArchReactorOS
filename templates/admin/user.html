@@ -1,0 +1,536 @@
+{include file="admin/header.html"}
+{literal}
+<script language="javascript">
+checked = false;
+  function checkedAll (frm1) {
+	var aa= document.getElementById('frm1');
+	    if (checked == false)
+          {
+           checked = true
+          }
+        else
+          {
+          checked = false
+          }
+	for (var i =0; i < aa.elements.length; i++) 
+	{
+	 aa.elements[i].checked = checked;
+	}
+  }
+  
+  function delete_user(frm1) {
+   
+  var aa = document.getElementById('frm1');
+	var check = false;
+	
+  for (var i =0; i < aa.elements.length; i++) 
+	{
+    if (aa.elements[i].checked == true)
+	  {
+      check = true;
+    }
+	}
+	
+  if (check == true)  
+  {
+    var conf_del = confirm('Are you sure want to delete?');
+    if (conf_del == true) {
+      aa.submit();
+    }
+    
+  }  
+  else {
+    alert("Not user selected");    
+  }
+ 
+  }
+  </script>
+{/literal}
+  <tr>
+    <td class="middle">
+      <div class="middle_content">  
+        {include file="admin/sidebar.html"}
+        {if $pf == 'browse' || !$pf} 
+        <table style="margin-left:15px;width:570px;border-collapse:collapse;" align="left">
+          <tr>
+            <td>
+              <table style="border-collapse:collapse;" align="left">
+                <form action="user.php?pf=search" method="post">
+                <tr>
+                  <td colspan="2" class="td_caption">Search User</td>
+                </tr>
+                <tr>
+                  <td class="td_search_1">Search For :</td>
+                  <td class="td_search_2"><input type="text" name="search_for" class="textbox" value="{$search_for}" style="width:200px;"></td>
+                </tr>
+                <tr bgcolor="#f7f7f7">
+                  <td class="td_search_1">Search In :</td>
+                  <td class="td_search_2">
+                    <select name="search_in" class="textbox" style="width:200px;">
+                      <option value="username">Username</option>
+                      <option value="firstname">Firstname</option>
+                      <option value="lastname">Lastname</option>
+                      <option value="email">Email</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="td_search_1"></td>
+                  <td class="td_search_2"><input type="submit" value="Search"></td>
+                </tr>
+                </form>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <table style="width:570px;border-collapse:collapse;" align="left">
+                <tr>
+                  <td colspan="6" class="td_caption">
+                    Users
+                  </td>
+                </tr>
+                {if $delete_admin}    
+                <tr>
+                  <td colspan="5" class="error">
+                    Confirmation :
+                    <ul><li>Can not delete user admin</li></ul>
+                  </td>
+                </tr>
+                {/if}
+                {if $success}    
+                <tr>
+                  <td colspan="5" class="success">
+                    Confirmation :
+                    <ul><li>Delete data is success</li></ul>
+                  </td>
+                </tr>
+                {/if}                 
+                {if !$users}
+                <tr>
+                  <td colspan="5" style="font-size:11px;text-align:center;color:red;">
+                    ======== Not user data ========
+                  </td>
+                </tr>
+                {else}
+                {if $paging}
+                <tr>
+                  <td colspan="5" style="font-size:11px;color:green;font-weight:bold;text-align:left;"> {$paging} </td>
+                </tr>
+                {/if}
+                <tr>
+                  <td class="td_data_top" style="width:20px;"><input type='checkbox' name='checkall' onclick='checkedAll();'></td>
+                  <td class="td_data_top" style="">Username</td>
+                  <td class="td_data_top" style="">Paid</td>
+                  <td class="td_data_top" style="width:100px;">Edit Data</td>
+                  <td class="td_data_top" style="width:100px;">Add Order</td>
+                </tr>
+                <form id="frm1" action="user.php?pf=delete" method="post">
+                {assign var="i_tmp" value="1"}
+                {section name=i loop=$users}
+                <tr bgcolor="{$users[i].color}">             
+                  <td class="td_data_middle"><input type="checkbox" value="{$users[i].user_id}" name="delete[]"></td>
+                  <td class="td_data_middle" style="text-align:left;padding-left:5px;">
+                    <div class="view_detail" ajaxurl="ajax.php?tooltip=user&id={$users[i].user_id}" style="cursor: pointer;">
+                      {$users[i].firstname} {$users[i].lastname}
+                    </div> 
+                  </td>  
+                  <td class="td_data_middle" style="text-align:left;padding-left:5px;">{$users[i].paid} </td>  
+                  <td class="td_data_middle"><a href="user.php?pf=detail&user_id={$users[i].user_id}">edit</a></td>
+                  <td class="td_data_middle"><a href="user.php?pf=add_order&user_id={$users[i].user_id}">add</a></td>
+                </tr>
+                {assign var="i_tmp" value=$i_tmp+1}
+                {/section}
+                <tr>
+                  <td colspan="5" style="height:50px;text-align:left;">
+                    <input type="button" name="del" value="Delete" onclick="delete_user();">
+                  </td>
+                </tr>     
+                {/if}
+                </form>  
+              </table>        
+            </td>
+          </tr>        
+        </table>
+    {/if}
+    {if $pf == 'search'} 
+        <table style="margin-left:15px;width:570px;border-collapse:collapse;" align="left">
+          <tr>
+            <td>
+              <table style="border-collapse:collapse;">
+                <form action="user.php?pf=search" method="post">
+                <tr>
+                  <td colspan="2" class="td_caption">Search User</td>
+                </tr>
+                {if $error}    
+                <tr>
+                  <td colspan="2" class="error">
+                      Confirmation :
+                      <ul>
+                        {assign var="i_tmp" value="1"}
+                        {section name=i loop=$error}
+                        <li>
+                        {$error[i]}
+                        </li>
+                        {assign var="i_tmp" value=$i_tmp+1}
+                        {/section}
+                      </ul>
+                  </td>
+                </tr>
+                {/if}                
+                <tr>
+                  <td class="td_search_1">Search For :</td>
+                  <td class="td_search_2"><input type="text" name="search_for" class="textbox" value="{$search_for}" style="width:200px;"></td>
+                </tr>
+                <tr bgcolor="#f7f7f7">
+                  <td class="td_search_1">Search In :</td>
+                  <td class="td_search_2">
+                    <select name="search_in" class="textbox" style="width:200px;">
+                      <option value="username" {if $search_in == username}selected{/if}>Username</option>
+                      <option value="firstname" {if $search_in == firstname}selected{/if}>Firstname</option>
+                      <option value="lastname" {if $search_in == lastname}selected{/if}>Lastname</option>
+                      <option value="email" {if $search_in == email}selected{/if}>Email</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="td_search_1"></td>
+                  <td class="td_search_2"><input type="submit" value="Search"></td>
+                </tr>
+                </form>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <table style="width:570px;border-collapse:collapse;">
+              <tr>
+                  <td colspan="6" class="td_caption">
+                    Search result
+                  </td>
+              </tr>
+              {if $success}    
+              <tr>
+                <td colspan="5" class="success">
+                  Confirmation :
+                  <ul><li>Delete data success</li></ul>
+                </td>
+              </tr>
+              {/if}
+              {if !$users}
+                <tr>
+                  <td colspan="5" style="font-size:11px;text-align:center;color:red;">
+                     ======== Not search result ========
+                  </td>
+                </tr>
+              {else}
+                <tr>
+                  <td class="td_data_top" style="width:20px;"><input type='checkbox' name='checkall' onclick='checkedAll();'></td>
+                  <td class="td_data_top" style="width:30px;">No.</td>
+                  <td class="td_data_top" style="">Username</td>
+                  <td class="td_data_top" style="width:100px;">Edit Data</td>
+                  <td class="td_data_top" style="width:100px;">Add Order</td>
+                </tr>
+                <form id="frm1" action="user.php?pf=delete" method="post">
+                {assign var="i_tmp" value="1"}
+                {section name=i loop=$users}
+                <tr bgcolor="{$users[i].color}">             
+                  <td class="td_data_middle"><input type="checkbox" value="{$users[i].user_id}" name="delete[]"></td>
+                  <td class="td_data_middle">{$users[i].no}.</td>
+                  <td class="td_data_middle" style="text-align:left;padding-left:5px;">
+                    <div class="view_detail" ajaxurl="ajax.php?tooltip=user&id={$users[i].user_id}" style="cursor: pointer;">
+                      {$users[i].username}
+                    </div>
+                  </td>  
+                  <td class="td_data_middle"><a href="user.php?pf=detail&user_id={$users[i].user_id}">edit</a></td>
+                  <td class="td_data_middle"><a href="user.php?pf=add_order&user_id={$users[i].user_id}">add</a></td>
+                </tr>
+                {assign var="i_tmp" value=$i_tmp+1}
+                {/section}
+                <tr>
+                  <td colspan="5" style="height:50px;text-align:left;">
+                    <input type="button" name="del" value="Delete" onclick="delete_user();">
+                  </td>
+                </tr>     
+              {/if}  
+            </table>
+            </td>
+          </tr>
+        </table>
+        {/if}
+        {if $pf == 'detail'}
+        <table style="margin-left:15px;width:570px;border-collapse:collapse;" align="left">
+          <tr>
+            <td colspan="2" class="td_caption">Edit User</td>
+          </tr>              
+          <form method="post" action="user.php?pf=detail&user_id={$user_id}">
+          <input type="hidden" name="process" value="edit">
+          {if $error}    
+          <tr>
+            <td colspan="2" class="error">
+                Confirmation :
+                <ul>
+                  {assign var="i_tmp" value="1"}
+                  {section name=i loop=$error}
+                  <li>
+                  {$error[i]}
+                  </li>
+                  {assign var="i_tmp" value=$i_tmp+1}
+                  {/section}
+                </ul>
+            </td>
+          </tr>
+          {/if}
+          {if $success}    
+          <tr>
+            <td colspan="2" class="success">
+              Confirmation :
+              <ul><li>Update data is success</li></ul>
+            </td>
+          </tr>
+          {/if}                 
+          <tr>
+            <td class="td1">Username </td>
+            <td class="td2">
+            <input type="text" name="username" class="textbox" value="{$username}" style="width:200px;">
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">
+              Name <br>
+              <font style="font-size:10px;color:blue;">First & Last name&nbsp;</font>
+            </td>
+            <td class="td2">
+              <input type="text" name="firstname" class="textbox" value="{$firstname}" style="width:200px;">
+              <input type="text" name="lastname" class="textbox" value="{$lastname}" style="width:200px;">
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">
+              Address 1
+            </td>
+            <td class="td2">
+              <input type="text" name="address1" value="{$address1}" style="width:200px;" class="textbox">
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">
+              Address 2
+            </td>
+            <td class="td2">
+              <input type="text" name="address2" value="{$address2}" style="width:200px;" class="textbox">
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">
+              City, State ZIP
+            </td>
+            <td class="td2">
+              <input type="text" name="city" value="{$city}" style="width:200px;" class="textbox">
+              <input type="text" name="state" value="{$state}" style="width:30px;" class="textbox">
+              <input type="text" name="zip" value="{$zip}" style="width:50px;" class="textbox">
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">
+              Phone
+            </td>
+            <td class="td2">
+              <input type="text" name="phone" value="{$phone}" style="width:200px;" class="textbox">
+            </td>
+          </tr>
+          <tr bgcolor="#f7f7f7">
+            <td class="td1">
+              E-Mail Address 
+            </td>
+            <td class="td2">
+              <input type="text" name="email" value="{$email}" style="width:200px;" class="textbox">
+            </td>
+          </tr>
+          <tr>
+              <td class="td1"></td><td class="td2">
+              	<input type="submit" name="subsave" value="Save">
+              	<input align=right type="submit" name="subconfirm" value="Send Confirmation">
+            </td>
+          </tr>
+          </form>
+        </table>
+        {/if}
+        {if $pf == 'add'} 
+        <table style="margin-left:15px;width:570px;border-collapse:collapse;" align="left">
+          <tr>
+            <td colspan="2" class="td_caption">
+              Add User
+            </td>
+          </tr>
+          <form method="post" action="user.php">
+          <input type="hidden" name="pf" value="add">
+          <input type="hidden" name="process" value="add">
+          {if $error}    
+          <tr>
+            <td colspan="2" class="error">
+              Confirmation :
+              <ul>
+                {assign var="i_tmp" value="1"}
+                {section name=i loop=$error}
+                <li>
+                {$error[i]}
+                </li>
+                {assign var="i_tmp" value=$i_tmp+1}
+                {/section}
+              </ul>
+            </td>
+          </tr>
+          {/if}
+          <tr>
+            <td class="td1">Username </td>
+            <td class="td2"><input type="text" name="username" class="textbox" value="{$username}" style="width:200px;"></td>
+          </tr>
+          <tr bgcolor="#f7f7f7">
+            <td class="td1">
+              Name <br>
+              <font style="font-size:10px;color:blue;">First & Last name&nbsp;</font>
+            </td>
+            <td class="td2">
+              <input type="text" name="firstname" class="textbox" value="{$firstname}" style="width:200px;">
+              <input type="text" name="lastname" class="textbox" value="{$lastname}" style="width:200px;">
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">
+              Address 1
+            </td>
+            <td class="td2">
+              <input type="text" name="address1" value="{$address1}" style="width:200px;" class="textbox">
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">
+              Address 2
+            </td>
+            <td class="td2">
+              <input type="text" name="address2" value="{$address2}" style="width:200px;" class="textbox">
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">
+              City, State ZIP
+            </td>
+            <td class="td2">
+              <input type="text" name="city" value="{$city}" style="width:200px;" class="textbox">
+              <input type="text" name="state" value="{$state}" style="width:30px;" class="textbox">
+              <input type="text" name="zip" value="{$zip}" style="width:50px;" class="textbox">
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">
+              Phone
+            </td>
+            <td class="td2">
+              <input type="text" name="phone" value="{$phone}" style="width:200px;" class="textbox">
+            </td>
+          </tr>
+          <tr>
+            <td class="td1">
+              E-Mail Address 
+            </td>
+            <td class="td2"><input type="text" name="email" class="textbox" value="{$email}" style="width:200px;"></td>
+          </tr>
+          <tr bgcolor="#f7f7f7">
+            <td class="td1"></td>
+            <td class="td2"><input type="submit"  value="Add" size="40"></td>
+          </tr>  
+          </form>
+          </table>
+          {/if}         
+          {if $pf == 'add_order'} 
+          <table style="margin-left:15px;width:570px;border-collapse:collapse;" align="left">
+          <tr>
+            <td colspan="2" class="td_caption">
+              Add Order
+            </td>
+          </tr>
+          <form method="post" action="user.php">
+          <input type="hidden" name="pf" value="add_order">
+          <input type="hidden" name="process" value="add_order">
+          <input type="hidden" name="user_id" value="{$user_id}">          
+          <input type="hidden" name="email" value="{$email}">      
+          {if $error}    
+          <tr>
+              <td colspan="2" class="error">
+                  <ul>
+                    {assign var="i_tmp" value="1"}
+                    {section name=i loop=$error}
+                    <li>
+                    {$error[i]}
+                    </li>
+                    {assign var="i_tmp" value=$i_tmp+1}
+                    {/section}
+                  </ul>
+              </td>
+            </tr>
+            {/if}
+            <tr>
+              <td class="td1">Username</td>
+              <td class="td2">{$username}</td>
+            </tr>
+            <tr bgcolor="#f7f7f7">
+              <td class="td1">Firstname</td>
+              <td class="td2">{$firstname}</td>
+            </tr>
+            <tr>
+              <td class="td1">Lastname</td>
+              <td class="td2">{$lastname}</td>
+            </tr>  
+            <tr bgcolor="#f7f7f7">
+              <td class="td1">Email</td>
+              <td class="td2">{$email}</td>
+            </tr>  
+            <tr>
+              <td class="td1">Membership type </td>
+              <td class="td2">
+                {assign var="i_tmp" value="1"}
+                {section name=i loop=$product_data}
+                <input type="radio" name="product_id" value="{$product_data[i].product_id}" style="margin-left:0px;">
+                <b>{$product_data[i].name}</b> <font color="green">( {$currency_code}. {$product_data[i].price} per {$product_data[i].duration} {$product_data[i].unit} )</font><br>
+                {$product_data[i].description}<br><br>
+                {assign var="i_tmp" value=$i_tmp+1}
+                {/section}  
+              </td>
+            </tr>
+            <tr bgcolor="#f7f7f7">
+              <td class="td1">Apply Date</td>
+              <td class="td2">
+              		Select the month to apply this order to. <br />
+              		<select name="date_order">
+              			<option value=1 {if $date_order == 1}SELECTED{/if}>January</option>
+						<option value=2 {if $date_order == 2}SELECTED{/if}>February</option>
+						<option value=3 {if $date_order == 3}SELECTED{/if}>March</option>
+						<option value=4 {if $date_order == 4}SELECTED{/if}>April</option>
+						<option value=5 {if $date_order == 5}SELECTED{/if}>May</option>
+						<option value=6 {if $date_order == 6}SELECTED{/if}>June</option>
+						<option value=7 {if $date_order == 7}SELECTED{/if}>July</option>
+						<option value=8 {if $date_order == 8}SELECTED{/if}>August</option>
+						<option value=9 {if $date_order == 9}SELECTED{/if}>September</option>
+						<option value=10 {if $date_order == 10}SELECTED{/if}>October</option>
+						<option value=11 {if $date_order == 11}SELECTED{/if}>November</option>
+						<option value=12 {if $date_order == 12}SELECTED{/if}>December</option>
+              		</select>
+              </td>
+             </tr>  
+            <tr>
+              <td class="td1">Confirm user</td>
+              <td class="td2"><input type="checkbox" name="confirm_user"></td>
+             </tr>  
+             <tr bgcolor="#f7f7f7">
+              <td class="td1"></td>
+              <td class="td2"><input type="submit"  value="submit" size="40"></td>
+            </tr>
+            </form>  
+          </table>
+        {/if}
+      </div>
+    </td>
+  </tr>
+<!-- end :: midle -->
+{include file="admin/footer.html"}

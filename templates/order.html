@@ -1,0 +1,413 @@
+{include file="header.html"}
+  <tr>
+    <td class="middle">
+    <div class="middle_content">  
+      {include file='sidebar.html'}
+      {if $pf == 'add_order'} 
+        <table style="margin-left:15px;width:570px;border-collapse:collapse;" align="left">
+          <tr>
+            <td colspan="2" class="td_caption">
+              Add Order
+            </td>
+          </tr>
+          <form method="post" action="order.php?pf=add_order" name="add_order_form">
+          <input type="hidden" name="process" value="add_order">
+          <input type="hidden" name="user_id" value="{$user_id}">          
+          <input type="hidden" name="email" value="{$email}"> 
+          <input type="hidden" name="username" value="{$username}">          
+          <input type="hidden" name="firstname" value="{$firstname}"> 
+          <input type="hidden" name="lastname" value="{$lastname}">     
+          
+          {if $error}    
+          <tr>
+              <td colspan="2" class="error">
+                  Confirmation :
+                  <ul>
+                    {assign var="i_tmp" value="1"}
+                    {section name=i loop=$error}
+                    <li>
+                    {$error[i]}
+                    </li>
+                    {assign var="i_tmp" value=$i_tmp+1}
+                    {/section}
+                  </ul>
+              </td>
+            </tr>
+            {/if}
+            <tr >
+              <td class="td1">Username</td>
+              <td class="td2" style="font-weight:bold;">{$username}</td>
+            </tr>
+            <tr >
+              <td class="td1">Firstname</td>
+              <td class="td2" style="font-weight:bold;">{$firstname}</td>
+            </tr>
+            <tr >
+              <td class="td1">Lastname</td>
+              <td class="td2" style="font-weight:bold;">{$lastname}</td>
+            </tr>  
+            <tr>
+              <td class="td1">Email</td>
+              <td class="td2" style="font-weight:bold;">{$email}</td>
+            </tr>  
+            <tr>
+              <td class="td1">Membership type </td>
+              <td class="td2">
+                {assign var="i_tmp" value="1"}
+                {section name=i loop=$product_data}
+                <input type="radio" name="product_id" value="{$product_data[i].product_id}"  {if $product_id == $product_data[i].product_id}checked {/if} style="margin-left:0px;">
+                <b>{$product_data[i].name}</b> <font color="green">( {$currency_code}. {$product_data[i].price} per {$product_data[i].duration} {$product_data[i].unit} )</font><br>
+                {$product_data[i].description}<br><br>
+                {assign var="i_tmp" value=$i_tmp+1}
+                {/section}  
+              </td>
+            </tr>
+            <tr>
+              <td class="td1">Apply Date</td>
+              <td class="td2">
+              		Select the month to apply this order to. <br />
+              		<select name="date_order">
+              			<option value=1 {if $date_order == 1}SELECTED{/if}>January</option>
+						<option value=2 {if $date_order == 2}SELECTED{/if}>February</option>
+						<option value=3 {if $date_order == 3}SELECTED{/if}>March</option>
+						<option value=4 {if $date_order == 4}SELECTED{/if}>April</option>
+						<option value=5 {if $date_order == 5}SELECTED{/if}>May</option>
+						<option value=6 {if $date_order == 6}SELECTED{/if}>June</option>
+						<option value=7 {if $date_order == 7}SELECTED{/if}>July</option>
+						<option value=8 {if $date_order == 8}SELECTED{/if}>August</option>
+						<option value=9 {if $date_order == 9}SELECTED{/if}>September</option>
+						<option value=10 {if $date_order == 10}SELECTED{/if}>October</option>
+						<option value=11 {if $date_order == 11}SELECTED{/if}>November</option>
+						<option value=12 {if $date_order == 12}SELECTED{/if}>December</option>
+              		</select>
+              </td>
+             </tr>  
+            <tr>
+              <td class="td1">
+                Payment Gateway 
+              </td>
+              <td class="td2">
+                <table align="left">
+                  <tr>
+<!--                    {if $cash_payments_status}
+                    <td><input type="radio" name="payment_gateway" value="cash_payments" {if $payment_gateway == cash_payments}checked{/if}></td>
+                    <td>Cash or Check</td>
+                    {/if} -->
+                    {if $paypal_payments_status}
+                    <td><input type="radio" name="payment_gateway" value="paypal_payments" {if $payment_gateway == paypal_payments}checked{/if}></td>
+                    <td><img src="images/paypal_payments.gif"></td>
+                    {/if}
+                    {if $co_status}
+                    <td><input type="radio" name="payment_gateway" value="co" {if $payment_gateway == co}checked{/if}></td>
+                    <td><img src="images/2co.gif"></td>
+                    {/if}
+                    {if $alertpay_status}
+                    <td><input type="radio" name="payment_gateway" value="alertpay" {if $payment_gateway == alertpay}checked{/if}></td>
+                    <td><img src="images/alertpay.gif"></td>
+                    {/if}
+                    {if $moneybookers_status}
+                    <td><input type="radio" name="payment_gateway" value="moneybookers" {if $payment_gateway == moneybookers}checked{/if}></td>
+                    <td><img src="images/moneybookers.gif"></td>
+                    {/if}
+                  </tr>
+                  <tr>
+                    {if $paypal_subscribe_status}
+                    <td><input type="radio" name="payment_gateway" value="paypal_subscribe" {if $payment_gateway == paypal_subscribe}checked{/if}></td>
+                    <td><img src="images/paypal_subscribe.gif"></td>
+                    {/if}
+                    {if $co_subscribe_status}
+                    <td><input type="radio" name="payment_gateway" value="co_subscribe" {if $payment_gateway == co_subscribe}checked{/if}></td>
+                    <td><img src="images/2co_subscribe.gif"></td>
+                    {/if}
+                    {if $alertpay_subscribe_status}
+                    <td><input type="radio" name="payment_gateway" value="alertpay_subscribe" {if $payment_gateway == alertpay_subscribe}checked{/if}></td>
+                    <td><img src="images/alertpay_subscribe.gif"></td>
+                    {/if}
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td class="td1">
+                Coupon Code 
+              </td>
+              <td class="td2">
+                <div id="coupon_confirmation" style="font-weight:bold;"></div>
+                <input type="text" name="coupon_code" id="coupon_code" class="textbox" value="{$coupon_code}" style="width:100px;">
+                <input type="button" name="add_coupon" value="Add Coupon" onclick="check_coupon();"> 
+              </td>
+            </tr>
+            <tr>
+              <td class="td1"></td>
+              <td class="td2">
+                <input type="submit" value="Add Now">&nbsp;
+                <input type="button" value="Cancel" onclick="javascript:window.location.href='index.php'">
+              </td>
+            </tr>
+            </form>  
+          </table>
+          {/if}
+          
+          
+        {if $pf == 'renewal'} 
+        <table style="margin-left:15px;width:570px;border-collapse:collapse;" align="left">
+          <tr>
+            <td colspan="2" class="td_caption">
+              Renewal Order
+            </td>
+          </tr>
+          <form method="post" action="order.php?pf=renewal" name="add_order_form">
+          <input type="hidden" name="process" value="renew_order">
+          {if $error}    
+          <tr>
+              <td colspan="2" class="error">
+                  <ul>
+                    {assign var="i_tmp" value="1"}
+                    {section name=i loop=$error}
+                    <li>
+                    {$error[i]}
+                    </li>
+                    {assign var="i_tmp" value=$i_tmp+1}
+                    {/section}
+                  </ul>
+              </td>
+            </tr>
+            {/if}
+            <tr >
+              <td class="td1">Username</td>
+              <td class="td2" style="font-weight:bold;">{$username}</td>
+            </tr>
+            <tr >
+              <td class="td1">Firstname</td>
+              <td class="td2" style="font-weight:bold;">{$firstname}</td>
+            </tr>
+            <tr >
+              <td class="td1">Lastname</td>
+              <td class="td2" style="font-weight:bold;">{$lastname}</td>
+            </tr>  
+            <tr>
+              <td class="td1">Email</td>
+              <td class="td2" style="font-weight:bold;">{$email}</td>
+            </tr>  
+            <tr>
+              <td class="td1">Membership type </td>
+              <td class="td2">
+                <input type="radio" name="product_id" value="{$product_id}" style="margin-left:0px;" checked><b>{$name}</b> <font color="green">( {$currency_code}. {$price} per {$duration} {$duration_unit} )</font><br>
+                {$description}
+              </td>
+            </tr>
+            <tr>
+              <td class="td1">Apply Date</td>
+              <td class="td2">
+              		Select the month to apply this order to. <br />
+              		<select name="date_order">
+              			<option value=1 {if $date_order == 1}SELECTED{/if}>January</option>
+						<option value=2 {if $date_order == 2}SELECTED{/if}>February</option>
+						<option value=3 {if $date_order == 3}SELECTED{/if}>March</option>
+						<option value=4 {if $date_order == 4}SELECTED{/if}>April</option>
+						<option value=5 {if $date_order == 5}SELECTED{/if}>May</option>
+						<option value=6 {if $date_order == 6}SELECTED{/if}>June</option>
+						<option value=7 {if $date_order == 7}SELECTED{/if}>July</option>
+						<option value=8 {if $date_order == 8}SELECTED{/if}>August</option>
+						<option value=9 {if $date_order == 9}SELECTED{/if}>September</option>
+						<option value=10 {if $date_order == 10}SELECTED{/if}>October</option>
+						<option value=11 {if $date_order == 11}SELECTED{/if}>November</option>
+						<option value=12 {if $date_order == 12}SELECTED{/if}>December</option>
+              		</select>
+              </td>
+             </tr>  
+            <tr>
+              <td class="td1">
+                Payment Gateway 
+              </td>
+              <td class="td2">
+                <table align="left">
+                  <tr>
+                    {if $paypal_payments_status}
+                    <td><input type="radio" name="payment_gateway" value="paypal_payments" {if $payment_gateway == paypal_payments}checked{/if}></td>
+                    <td><img src="images/paypal_payments.gif"></td>
+                    {/if}
+                    {if $co_status}
+                    <td><input type="radio" name="payment_gateway" value="co" {if $payment_gateway == co}checked{/if}></td>
+                    <td><img src="images/2co.gif"></td>
+                    {/if}
+                    {if $alertpay_status}
+                    <td><input type="radio" name="payment_gateway" value="alertpay" {if $payment_gateway == alertpay}checked{/if}></td>
+                    <td><img src="images/alertpay.gif"></td>
+                    {/if}
+                    {if $moneybookers_status}
+                    <td><input type="radio" name="payment_gateway" value="moneybookers" {if $payment_gateway == moneybookers}checked{/if}></td>
+                    <td><img src="images/moneybookers.gif"></td>
+                    {/if}
+                  </tr>
+                  <tr>
+                    {if $paypal_subscribe_status}
+                    <td><input type="radio" name="payment_gateway" value="paypal_subscribe" {if $payment_gateway == paypal_subscribe}checked{/if}></td>
+                    <td><img src="images/paypal_subscribe.gif"></td>
+                    {/if}
+                    {if $co_subscribe_status}
+                    <td><input type="radio" name="payment_gateway" value="co_subscribe" {if $payment_gateway == co_subscribe}checked{/if}></td>
+                    <td><img src="images/2co_subscribe.gif"></td>
+                    {/if}
+                    {if $alertpay_subscribe_status}
+                    <td><input type="radio" name="payment_gateway" value="alertpay_subscribe" {if $payment_gateway == alertpay_subscribe}checked{/if}></td>
+                    <td><img src="images/alertpay_subscribe.gif"></td>
+                    {/if}
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td class="td1">
+                Coupon Code 
+              </td>
+              <td class="td2">
+                <div id="coupon_confirmation" style="font-weight:bold;"></div>
+                <input type="text" name="coupon_code" id="coupon_code" class="textbox" value="{$coupon_code}" style="width:100px;">
+                <input type="button" name="add_coupon" value="Add Coupon" onclick="check_coupon();"> 
+              </td>
+            </tr>
+            <tr>
+              <td class="td1"></td>
+              <td class="td2">
+                <input type="submit" value="Renew Now">&nbsp;
+                <input type="button" value="Cancel" onclick="javascript:window.location.href='index.php'">
+              </td>
+            </tr>
+            </form>  
+          </table>
+          {/if}
+          
+          
+          {if $pf== order_history}
+          <table style="margin-left:15px;width:570px;border-collapse:collapse;" align="left">
+            <tr>
+              <td colspan="6" class="td_caption">
+                Order History
+              </td>
+            </tr>
+            {if !$orders}
+            <tr>
+              <td colspan="6" style="font-size:11px;text-align:center;color:red;">
+                ======== There's no order data ========
+              </td>
+            </tr>
+            {else}
+            <tr>
+              <td class="td_data_top" style="width:30px;">No.</td>
+              <td class="td_data_top" style="">Name</td>
+              <td class="td_data_top" style="width:80px;">Date order</td>
+              <td class="td_data_top" style="width:80px;">Date Expire</td>
+              <td class="td_data_top" style="width:80px;">Invoice</td>
+              <td class="td_data_top" style="width:80px;">Status</td>
+            </tr>
+            {assign var="i_tmp" value="1"}
+            {section name=i loop=$orders}
+            <tr bgcolor="{$orders[i].color}">             
+              <td class="td_data_middle">{$orders[i].no}.</td>
+              <td class="td_data_middle" style="text-align:left;padding-left:5px;">
+                <div class="view_detail" ajaxurl="ajax.php?tooltip=product&id={$orders[i].product_id}" style="cursor: pointer;">
+                  {$orders[i].name}
+                </div>
+              </td>  
+              <td class="td_data_middle">{$orders[i].date_order}</td>
+              <td class="td_data_middle">{$orders[i].date_expire}</td>
+              <td class="td_data_middle">{$orders[i].invoice}</td>
+              <td class="td_data_middle">{$orders[i].expire_in}</td>
+            </tr>
+            {assign var="i_tmp" value=$i_tmp+1}
+            {/section}    
+            {/if}  
+          </table>
+          {/if}  
+      </div>
+    </td>
+  </tr>
+<!-- end :: midle -->
+{include file="footer.html"}
+{literal}
+<script language="javascript">
+
+function GetProductCheckedValue(radioObj) {
+	if(!radioObj)
+		return "";
+	var radioLength = radioObj.length;
+	if(radioLength == undefined)
+		if(radioObj.checked)
+			return radioObj.value;
+		else
+			return "";
+	for(var i = 0; i < radioLength; i++) {
+		if(radioObj[i].checked) {
+			return radioObj[i].value;
+		}
+	}
+	return "";
+}
+
+function check_coupon()
+{
+  var coupon_code     = document.getElementById("coupon_code").value;
+  var product_id      = GetProductCheckedValue(document.forms['add_order_form'].elements['product_id']);
+  var url             = "coupon.php?pf=check&product_id="+product_id+"&coupon_code="+coupon_code+"";
+  var XMLHttpRequest  = createXMLHttpRequest();
+  
+  if(!product_id)
+  {
+    alert("Please select your membership type");    
+  }
+  else if(!coupon_code)
+  {
+    alert("Please set your coupon code");    
+  }
+  else
+  {
+    XMLHttpRequest.onreadystatechange = function() 
+  	{
+        document.getElementById("coupon_confirmation").innerHTML = "Please wait...";
+        if (XMLHttpRequest.readyState==4) 
+      	{
+      	  document.getElementById("coupon_confirmation").innerHTML = XMLHttpRequest.responseText;
+      	}
+    }
+  	XMLHttpRequest.open('GET',url,true);
+  	XMLHttpRequest.send(null);
+	}
+}
+
+
+function createXMLHttpRequest()
+{
+  var xmlhttpReq;
+  if(window.XMLHttpRequest)
+  {
+    xmlhttpReq=new XMLHttpRequest();
+	  if(xmlhttpReq.overrideMimeType)
+    {
+      xmlhttpReq.overrideMimeType('text/xml');
+		}
+	}
+  else if(window.ActiveXObject)
+  {
+    try
+    {
+      xmlhttpReq=new ActiveXObject("Msxml2.XMLHTTP");
+		}
+    catch(e)
+    {
+      try
+      {
+        xmlhttpReq=new ActiveXObject("Microsoft.XMLHTTP");
+		  }
+      catch(e){}
+  	}
+  }
+  if(!xmlhttpReq)
+  {
+    alert('Giving up :( Cannot create an XMLHTTP instance');
+		return false;
+  }
+	return xmlhttpReq;
+}
+</script>
+{/literal}

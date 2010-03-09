@@ -1,0 +1,72 @@
+{include file="admin/header.html"}
+{literal}
+
+{/literal}
+  <tr>
+    <td class="middle">
+      <div class="middle_content">  
+      {include file="admin/sidebar.html"}
+        {if $pf == 'config' || !$pf} 
+        <table style="margin-left:15px;width:570px;border-collapse:collapse;" align="left">
+          <tr>
+            <td class="td_caption">
+              Invoice Settings
+            </td>
+          </tr>
+          <form method="post" action="invoice.php?pf=config">
+          <input type="hidden" name="process" value="edit">
+          {if $success}    
+          <tr>
+            <td colspan="2" class="success">
+              Confirmation :
+              <ul><li>Update data is success</li></ul>
+            </td>
+          </tr>
+          {/if}
+          {if $error}    
+          <tr>
+            <td colspan="2" class="error">
+              Confirmation :
+              <ul>
+                {assign var="i_tmp" value="1"}
+                {section name=i loop=$error}
+                <li>
+                {$error[i]}
+                </li>
+                {assign var="i_tmp" value=$i_tmp+1}
+                {/section}
+              </ul>
+            </td>
+          </tr>
+          {/if}
+          <tr>
+            <td class="td1">Company </td>
+            <td class="td2"><input type="text" name="company" class="textbox" value="{$company}" style="width:300px;"></td>
+          </tr>
+          <tr bgcolor="#f7f7f7">
+            <td class="td1">Contact</td>
+            <td class="td2"><input type="text" name="contact" class="textbox" value="{$contact}" style="width:300px;"></td>
+          </tr>
+          <tr>
+            <td class="td1">Address</td>
+            <td class="td2"><textarea name="address" class="textbox"  style="width:300px;height:120px">{$address}</textarea></td>
+          </tr>
+          <tr bgcolor="#f7f7f7">
+            <td class="td1">Phone</td>
+            <td class="td2"><input type="text" name="phone" class="textbox" value="{$phone}" style="width:300px;"></td>
+          </tr>
+          <tr>
+            <td class="td1">Email</td>
+            <td class="td2"><input type="text" name="email" class="textbox" value="{$email}" style="width:300px;"></td>
+          </tr>
+          <tr bgcolor="#f7f7f7">
+            <td class="td1"></td>
+            <td class="td2"><input type="submit"  value="Save" size="40"></td>
+          </tr>  
+          </form>
+        </table>
+        {/if}
+      </div>
+    </td>
+  </tr>
+{include file="admin/footer.html"}
