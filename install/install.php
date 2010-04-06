@@ -7,9 +7,6 @@
 
 session_start();
 
-if(!empty($_GET)) extract($_GET);
-if(!empty($_POST)) extract($_POST);
-
 define('INSTALLATION', 1);
 
 include "_init.php";
@@ -19,7 +16,7 @@ include "_init.php";
  step 1
 *************************************/
 
-if (empty($s)) {
+if (empty($_POST['s'])) {
 	$next_step = 2;
 	$process_title = "$script_name Installation";
 	$message = $message_step1;
@@ -29,7 +26,7 @@ if (empty($s)) {
 /*************************************
  step 2
 *************************************/
-elseif ($s==2) {
+elseif ($_POST['s']==2) {
 	$next_step = 3;
 	$process_title = "Checking Server";
 	$message = CheckServerReq();
@@ -39,7 +36,7 @@ elseif ($s==2) {
 /*************************************
  step 3
 *************************************/
-elseif ($s==3) {
+elseif ($_POST['s']==3) {
 	if (InitExixst()) {
 		$next_step = 5;
 	}
@@ -54,7 +51,7 @@ elseif ($s==3) {
 /*************************************
  step 4
 *************************************/
-elseif ($s==4) {
+elseif ($_POST['s']==4) {
 	$next_step = 5;
 	$process_title = "Application Setting";
 	$message = ShowForm();
@@ -64,12 +61,12 @@ elseif ($s==4) {
 /*************************************
  step 5
 *************************************/
-elseif ($s==5) {
+elseif ($_POST['s']==5) {
 	if (!InitExixst()) {
 		$error_message = CheckForm();
 	}
 	else {
-		unset($sql_option['Fresh Installation']);
+		unset($_POST['sql_option']['Fresh Installation']);
 	}
 	if (empty($error_message)) {
 		$next_step = 6;
@@ -88,7 +85,7 @@ elseif ($s==5) {
 /*************************************
  step 6
 *************************************/
-elseif ($s==6) {
+elseif ($_POST['s']==6) {
 	if (!empty($sql_select)) {
 		$next_step = 7;
 		$process_title = "Prepare Database";
@@ -106,15 +103,13 @@ elseif ($s==6) {
 /*************************************
  step 7
 *************************************/
-elseif ($s==7) {
+elseif ($_POST['s']==7) {
 	$next_bt = "";
 	$process_title = "Installation Complete";
 	$message = Finish();
 }
 
-
-include "_install.html";
-
+include "_install.html.php";
 
 /*************************************
  function
@@ -149,7 +144,7 @@ function CheckServerReq() {
 function CheckFilePermission() {
 	global $req_chmod_777, $writeable_ok, $writeable_failed;
 
-	foreach($req_chmod_777 as $key=>$val) {
+	foreach($req_chmod_777 as $val) {
 
 		$out .= "<p><span>../".$val['name']." .... ";
 		
@@ -239,9 +234,12 @@ function CheckForm() {
 	// check database
 	$found_db = true;
 	@mysql_connect($dbHostname,$dbUsername,$dbPassword)
-		OR $err = "<li>Unable to connect to database</li>";
+		OR $err = "<li>Unable to connect to database, correct user/password or create a mysql user with: 
+					CREATE USER '$dbUsername'@'localhost' IDENTIFIED BY  '{yourpassword}'; 
+					GRANT USAGE ON *.* TO  '$dbUsername'@'localhost';</li>";
 	@mysql_select_db("$dbName")
-		or $err = "<li>Unable to select database</li>";
+		or $err .= "<li>Unable to select database, correct db name or create database with :
+					CREATE DATABASE IF NOT EXISTS  `$dbName` ;  GRANT ALL PRIVILEGES ON  `$dbName`.* TO  '$dbUsername'@'localhost';</li>";
 	if(!empty($err)) $found_db = false;
 
 	if(!IsValidEmailAddress($email)) {
@@ -376,10 +374,6 @@ function ExecuteSQL($file) {
 	(2, 'site_path', '$site_path'),
 	(3, 'site_url', '$site_url'),
 	(4, 'site_mail', '$site_mail'),
-	(5, 'protect_path', '$protect_path'),
-	(6, 'protect_url', '$protect_url'),
-	(7, 'data_path', '$data_path'),
-	(8, 'data_url', '$data_url'),		
 	(9, 'notify_email', '$notify_email'),
 	(10, 'notify_from', '$notify_from'),
 	(11, 'notify_expire', '$notify_expire');
@@ -393,7 +387,7 @@ function ExecuteSQL($file) {
 	`street`, `city`, `state`, `country`, 
 	`phone`, `date`, `admin`) 
 	VALUES 
-	(1, 'admin', md5('admin'), 'Administrator', 
+	(1, 'admin', md5('adminpw'), 'Administrator', 
 	'Administrator', '$site_mail', 
 	'', '', '', '', '', ".time().", 1);
 	";
