@@ -9,7 +9,6 @@
     }
     .header
     {
-      background: url('../images/install_header_bg.png');
       height: 72px;
       width: 700px;
     }
