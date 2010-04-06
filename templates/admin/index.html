@@ -14,27 +14,17 @@
                     <td class="td_search_1" style="width:100px;">Users total :</td>
                     <td class="td_search_2">{$total_users}</td>
                   </tr>
-                  <tr>
-                  <tr bgcolor="#f7f7f7">
-                    <td class="td_search_1">Products total :</td>
-                    <td class="td_search_2">{$total_products}</td>
-                  </tr> 
-                  <tr>
-                    <td class="td_search_1">Products is Active :</td>
-                    <td class="td_search_2">{$product_active}</td>
+				{section name=i loop=$order_totals}
+                  <tr bgcolor="{$order_totals[i].color}">
+                    <td colspan=2>{$order_totals[i].name}</td>
                   </tr>
-                  <tr bgcolor="#f7f7f7">
-                    <td class="td_search_1">Orders total :</td>
-                    <td class="td_search_2">{$total_orders}</td>
-                  </tr>
-                  <tr>
-                    <td class="td_search_1">Orders is active :</td>
-                    <td class="td_search_2">{$order_active}</td>
-                  </tr>
-                  <tr bgcolor="#f7f7f7">
-                    <td class="td_search_1">Orders is expired :</td>
-                    <td class="td_search_2">{$order_expire}</td>
-                  </tr>                  
+                    {section name=j loop=$order_totals[i].date_arr}
+					  <tr bgcolor="{$order_totals[i].color}">
+						<td class="td_search_1">{$order_totals[i].date_arr[j].date} :</td>
+						<td class="td_search_2">{$order_totals[i].date_arr[j].total}</td>
+					  </tr>
+					{/section}
+				{/section}
                 </table>               
               </td>
             </tr>

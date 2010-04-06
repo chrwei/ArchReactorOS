@@ -1,6 +1,6 @@
 <?
 
-$script_name = "NiceMember 1.1";
+$script_name = "ArchReactorOS 1.0";
 
 $req_php_version = '5.1.0';
 
@@ -10,16 +10,11 @@ $req_php_module = array(
 
 $req_chmod_777 = array(
   'init.php',
-  'templates_c',
-  'protected',
-  'data',
-  'data/.htgroup',
-  'data/.htpasswd'
+  'templates_c'
 );
 
 $sql_option = array(
-  'Fresh Installation' => '_nicemember.sql',
-  'Upgrade from Nicemember 1.0' => '_nicemember_upgrade_from_1.0.sql',
+  'Fresh Installation' => '_membership.sql',
   'Reinstall (no need to create/upgrade database)' => ''
 );
 
@@ -107,7 +102,7 @@ $message_step6 = "
 ";
 
 $message_step7 = "
-<p>You have successfully installed Indexu!
+<p>You have successfully installed AROS!
 Please delete this <b>/install</b> folder to secure
 to your web site. Thank you and enjoy our product.</p>
 <p><a href=../admin>Go to admin panel</a></p>

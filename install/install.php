@@ -4,9 +4,11 @@
  * Copyright(C), Nicecoder, 2000-2005, All Rights Reserved.
  *
  */
+
+session_start();
+
 if(!empty($_GET)) extract($_GET);
 if(!empty($_POST)) extract($_POST);
-if(!empty($_COOKIE)) extract($_COOKIE);
 
 define('INSTALLATION', 1);
 
@@ -233,10 +235,10 @@ function CheckForm() {
 function WriteConfigurationFile() {
   global $base_path, $site_url, $dbUsername, $dbPassword, $dbHostname, $dbName, $site_name, $email;
 
-  setcookie("site_name",$site_name);
-  setcookie("site_url",$site_url);
-  setcookie("site_path",$base_path);
-  setcookie("site_email",$email);
+  $_SESSION["site_name"] = $site_name;
+  $_SESSION["site_url"] = $site_url;
+  $_SESSION["site_path"] = $base_path;
+  $_SESSION["site_email"] = $email;
 
   if (!InitExixst()) {
     $content = file_get_contents('init.tpl.php');
@@ -313,16 +315,12 @@ function ShowFormSQL() {
 function ExecuteSQL($file) {
   global $dbConn, $db, $message_step6, $insert_to_database;
   
-  $site_name      = $_COOKIE['site_name'];
-  $site_path      = $_COOKIE['site_path'];
-  $site_url       = $_COOKIE['site_url'];
-  $site_mail      = $_COOKIE['site_email'];
-  $protect_path   = $_COOKIE['site_path']."protected/";
-  $protect_url    = $_COOKIE['site_url']."/protected";
-  $data_path      = $_COOKIE['site_path']."data/";
-  $data_url       = $_COOKIE['site_url']."/data";
-  $notify_email   = $_COOKIE['site_email'];
-  $notify_from    = $_COOKIE['site_name']." Team";
+  $site_name      = $_SESSION['site_name'];
+  $site_path      = $_SESSION['site_path'];
+  $site_url       = $_SESSION['site_url'];
+  $site_mail      = $_SESSION['site_email'];
+  $notify_email   = $_SESSION['site_email'];
+  $notify_from    = $_SESSION['site_name']." Team";
   $notify_expire  = 3;
 
 
@@ -371,16 +369,16 @@ function ExecuteSQL($file) {
   `street`, `city`, `state`, `country`, 
   `phone`, `date`, `admin`) 
   VALUES 
-  (1, 'admin', 'admin', 'Administrator', 
+  (1, 'admin', md5('admin'), 'Administrator', 
   'Administrator', '$site_mail', 
   '', '', '', '', '', ".time().", 1);
   ";
   $dbConn->Execute($query);
   
-  setcookie("site_name","",0);
-  setcookie("site_url","",0);
-  setcookie("site_path","",0);
-  setcookie("site_email","",0);
+  $_SESSION["site_name"] = "";
+  $_SESSION["site_url"] = "";
+  $_SESSION["site_path"] = "";
+  $_SESSION["site_email"] = "";
   
   // do finalization here
   $file = str_replace('.sql', '.php', $file);
