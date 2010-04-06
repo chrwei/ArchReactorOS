@@ -86,10 +86,10 @@ elseif ($_POST['s']==5) {
  step 6
 *************************************/
 elseif ($_POST['s']==6) {
-	if (!empty($sql_select)) {
+	if (!empty($_POST['sql_select'])) {
 		$next_step = 7;
 		$process_title = "Prepare Database";
-		$message = ExecuteSQL($sql_select);
+		$message = ExecuteSQL($_POST['sql_select']);
 		
 	}
 	else {
@@ -188,13 +188,17 @@ function CheckFilePermission() {
 }
 
 function ShowForm() {
-	global $message_step5, $pf, $error_message,
-				 $base_path, $site_url, $dbUsername, $dbPassword, $dbHostname, $dbName, $site_name, $email;
+	global $message_step5, $error_message;
 
-	if(empty($pf)) {
-		$path = dirname(__FILE__);
-		$path = str_replace("\\", "/", $path);
-		$base_path = str_replace('/install', '/', $path);
+	if(empty($_POST['pf'])) {
+		if(!isset($_POST['base_path']))
+		{
+			$path = dirname(__FILE__);
+			$path = str_replace("\\", "/", $path);
+			$base_path = str_replace('/install', '/', $path);
+		}
+		else
+			$base_path = $_POST['base_path'];
 
 		$host = $_SERVER["HTTP_HOST"];
 		if (empty($host)) {
@@ -208,20 +212,28 @@ function ShowForm() {
 				$_SERVER["REQUEST_URI"] .= "?" . $_SERVER[ "QUERY_STRING" ];
 			}
 		}
-		$ref = str_replace('/install/install.php', '', "http://" . $host. $_SERVER["REQUEST_URI"]);
-		$site_url = $ref;
+		if (!isset($_POST['site_url']))
+		{
+			$ref = str_replace('/install/install.php', '', "http://" . $host. $_SERVER["REQUEST_URI"]);
+			$site_url = $ref;
+		}
+		else
+			$site_url = $_POST['site_url'];
 
-		$dbHostname = 'localhost';
+		if (!isset($_POST['dbHostname']))
+			$dbHostname = 'localhost';
+		else
+			$dbHostname = $_POST['site_url'];
 	}
 
 	$out = str_replace('<%$base_path%>', $base_path, $message_step5);
 	$out = str_replace('<%$site_url%>', $site_url, $out);
-	$out = str_replace('<%$dbUsername%>', $dbUsername, $out);
-	$out = str_replace('<%$dbPassword%>', $dbPassword, $out);
+	$out = str_replace('<%$dbUsername%>', $_POST['dbUsername'], $out);
+	$out = str_replace('<%$dbPassword%>', $_POST['dbPassword'], $out);
 	$out = str_replace('<%$dbHostname%>', $dbHostname, $out);
-	$out = str_replace('<%$dbName%>', $dbName, $out);
-	$out = str_replace('<%$site_name%>', stripslashes($site_name), $out);
-	$out = str_replace('<%$email%>', $email, $out);
+	$out = str_replace('<%$dbName%>', $_POST['dbName'], $out);
+	$out = str_replace('<%$site_name%>', stripslashes($_POST['site_name']), $out);
+	$out = str_replace('<%$email%>', $_POST['email'], $out);
 	$out = str_replace('<%$error_message%>', $error_message, $out);
 
 	return $out;
@@ -229,20 +241,18 @@ function ShowForm() {
 
 
 function CheckForm() {
-	global $base_path, $site_url, $dbUsername, $dbPassword, $dbHostname, $dbName, $email;
-
 	// check database
 	$found_db = true;
-	@mysql_connect($dbHostname,$dbUsername,$dbPassword)
+	@mysql_connect($_POST['dbHostname'],$_POST['dbUsername'],$_POST['dbPassword'])
 		OR $err = "<li>Unable to connect to database, correct user/password or create a mysql user with: 
-					CREATE USER '$dbUsername'@'localhost' IDENTIFIED BY  '{yourpassword}'; 
-					GRANT USAGE ON *.* TO  '$dbUsername'@'localhost';</li>";
-	@mysql_select_db("$dbName")
+					CREATE USER '$_POST[dbUsername]'@'localhost' IDENTIFIED BY  '{yourpassword}'; 
+					GRANT USAGE ON *.* TO  '$_POST[dbUsername]'@'localhost';</li>";
+	@mysql_select_db($_POST['dbName'])
 		or $err .= "<li>Unable to select database, correct db name or create database with :
-					CREATE DATABASE IF NOT EXISTS  `$dbName` ;  GRANT ALL PRIVILEGES ON  `$dbName`.* TO  '$dbUsername'@'localhost';</li>";
+					CREATE DATABASE IF NOT EXISTS  `$_POST[dbName]` ;  GRANT ALL PRIVILEGES ON  `$_POST[dbName]`.* TO  '$_POST[dbUsername]'@'localhost';</li>";
 	if(!empty($err)) $found_db = false;
 
-	if(!IsValidEmailAddress($email)) {
+	if(!IsValidEmailAddress($_POST['email'])) {
 		$err .= "<li>Invalid Email Pattern</li>";
 	}
 	
@@ -255,24 +265,23 @@ function CheckForm() {
 
 
 function WriteConfigurationFile() {
-	global $base_path, $site_url, $dbUsername, $dbPassword, $dbHostname, $dbName, $site_name, $email;
 
-	$_SESSION["site_name"] = $site_name;
-	$_SESSION["site_url"] = $site_url;
-	$_SESSION["site_path"] = $base_path;
-	$_SESSION["site_email"] = $email;
-
+	$_SESSION['site_path'] = $_POST['base_path'];
+	$_SESSION['site_url'] = $_POST['site_url'];
+	$_SESSION['site_name'] = $_POST['site_name'];
+	$_SESSION['site_email'] = $_POST['email'];
+	
 	if (!InitExixst()) {
 		$content = file_get_contents('init.tpl.php');
-		$content = str_replace('<%$base_path%>', $base_path, $content);
-		$content = str_replace('<%$site_url%>', $site_url, $content);
-		$content = str_replace('<%$dbUsername%>', $dbUsername, $content);
-		$content = str_replace('<%$dbPassword%>', $dbPassword, $content);
-		$content = str_replace('<%$dbHostname%>', $dbHostname, $content);
-		$content = str_replace('<%$dbName%>', $dbName, $content);
-		$content = str_replace('<%$site_name%>', $site_name, $content);
-		$content = str_replace('<%$email%>', $email, $content);
-		$content = str_replace('<%$dbName%>', $dbName, $content);
+		$content = str_replace('<%$base_path%>', $_POST['base_path'], $content);
+		$content = str_replace('<%$site_url%>', $_POST['site_url'], $content);
+		$content = str_replace('<%$dbUsername%>', $_POST['dbUsername'], $content);
+		$content = str_replace('<%$dbPassword%>', $_POST['dbPassword'], $content);
+		$content = str_replace('<%$dbHostname%>', $_POST['dbHostname'], $content);
+		$content = str_replace('<%$dbName%>', $_POST['dbName'], $content);
+		$content = str_replace('<%$site_name%>', $_POST['site_name'], $content);
+		$content = str_replace('<%$email%>', $_POST['email'], $content);
+		$content = str_replace('<%$dbName%>', $_POST['dbName'], $content);
 	}
 	else {
 		
@@ -335,7 +344,7 @@ function ShowFormSQL() {
 }
 
 function ExecuteSQL($file) {
-	global $dbConn, $db, $message_step6, $insert_to_database;
+	global $message_step6, $insert_to_database;
 	
 	$site_name			= $_SESSION['site_name'];
 	$site_path			= $_SESSION['site_path'];
@@ -384,19 +393,14 @@ function ExecuteSQL($file) {
 	INSERT INTO `user` 
 	(`user_id`, `username`, `password`, 
 	`firstname`, `lastname`, `email`, 
-	`street`, `city`, `state`, `country`, 
-	`phone`, `date`, `admin`) 
+	`address1`, `address2`, `city`, `state`, `zip`, 
+	`phone`, `date`, `admin`, `active`) 
 	VALUES 
 	(1, 'admin', md5('adminpw'), 'Administrator', 
 	'Administrator', '$site_mail', 
-	'', '', '', '', '', ".time().", 1);
+	'', '', '', '', '', '', ".time().", 1, 1);
 	";
 	$dbConn->Execute($query);
-	
-	$_SESSION["site_name"] = "";
-	$_SESSION["site_url"] = "";
-	$_SESSION["site_path"] = "";
-	$_SESSION["site_email"] = "";
 	
 	// do finalization here
 	$file = str_replace('.sql', '.php', $file);

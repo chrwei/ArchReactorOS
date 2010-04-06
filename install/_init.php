@@ -101,6 +101,10 @@ $message_step6 = "
   SQL query executed successfully.
 ";
 
+$message_step6_err = "
+  SQL query errored, fix and refresh or go back a page or 2.
+";
+
 $message_step7 = "
 <p>You have successfully installed AROS!
 Please delete this <b>/install</b> folder to secure

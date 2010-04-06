@@ -178,4 +178,3 @@ INSERT INTO `currency` (`currency_id`, `currency_code`, `currency_name`, `curren
 (6, 'AUD', 'Australian Dollars', 61, 0),
 (7, 'CHF', 'Swiss Francs', 41, 0);
 
-INSERT INTO `user`(`user_id`,`username`,`password`,`firstname`,`lastname`,`email`,`street`,`city`,`state`,`country`,`phone`,`date`,`admin`) values (1,'admin',md5('admin'),'Administrator','Administrator','','','','','','',0,1)
