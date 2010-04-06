@@ -139,7 +139,7 @@ class User
 	{
 		global $db;
 		
-		$query = "select * from user where [$search_in] like('%".mysql_real_escape_string($search_for)."%')";
+		$query = "select * from user where `$search_in` like('%".mysql_real_escape_string($search_for)."%')";
 		$result = $db->Execute($query);
 		return $result->GetRows();
 		

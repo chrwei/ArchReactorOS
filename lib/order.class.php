@@ -52,6 +52,29 @@ class Order {
     return $result->GetRows();
   }
   
+  function GetOrdersTotals() {
+    global $db;
+    
+    $query = "
+SELECT
+	date_order,
+	product.name,
+	count(*) as total
+FROM
+	orders JOIN product ON orders.product_id = product.product_id
+WHERE
+	date_expire >='".date('Y-m-d', strtotime(date("Y-m")."-01 -1 month"))."'
+GROUP BY
+	date_order,
+	product.name
+ORDER BY
+	product.product_id,
+	date_order
+";
+    $result    = $db->Execute($query);
+    return $result->GetRows();
+  }
+  
   function GetExpireOrders() {
     global $db;
     //get all orders that may be expring, but exclude any users who have orders in for future months.

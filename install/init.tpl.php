@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 define ('DB_USER','<%$dbUsername%>');
 define ('DB_PWD','<%$dbPassword%>');
 define ('DB_HOST','<%$dbHostname%>');
@@ -41,15 +43,13 @@ if (strpos($_SERVER['PHP_SELF'], '/install/') != TRUE) {
 }
 
 $tpl->assign('site_name',CFG_SITE_NAME);
-$tpl->assign('admin_autenticated',$_COOKIE['COOKIE_ADMIN_AUTHENTICATED']);
-$tpl->assign('sessions_username',$_COOKIE['COOKIE_USERNAME']);
+$tpl->assign('admin_autenticated',$_SESSION['SESSION_ADMIN_AUTHENTICATED']);
+$tpl->assign('sessions_username',$_SESSION['SESSION_USERNAME']);
 
 /*===================================================
   php configuration
 ===================================================*/
 ini_set("max_execution_time", "60");
-ini_set('session.use_trans_sid', false);
-ini_set('session.use_only_cookies', true);
 ini_set('url_rewriter.tags', '');
 
 /*===================================================

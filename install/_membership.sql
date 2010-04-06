@@ -1,11 +1,11 @@
-CREATE TABLE `banned_country` (
+CREATE TABLE IF NOT EXISTS `banned_country` (
   `banned_country_id` int(11) NOT NULL auto_increment,
   `country_name` varchar(255) NOT NULL,
   `country_code` varchar(255) NOT NULL,
   PRIMARY KEY  (`banned_country_id`)
 );
 
-CREATE TABLE `banned_ip` (
+CREATE TABLE IF NOT EXISTS `banned_ip` (
   `banned_ip_id` int(11) NOT NULL auto_increment,
   `ip_address_start` varchar(255) NOT NULL,
   `ip_address_end` varchar(255) NOT NULL,
@@ -14,14 +14,41 @@ CREATE TABLE `banned_ip` (
   PRIMARY KEY  (`banned_ip_id`)
 );
 
-CREATE TABLE `config` (
+CREATE TABLE IF NOT EXISTS `config` (
   `config_id` int(10) unsigned NOT NULL auto_increment,
   `name` varchar(255) default NULL,
   `value` varchar(255) default NULL,
   PRIMARY KEY  (`config_id`)
 );
 
-CREATE TABLE `email_templates` (
+CREATE TABLE IF NOT EXISTS `currency` (
+  `currency_id` int(11) NOT NULL auto_increment,
+  `currency_code` char(5) NOT NULL,
+  `currency_name` varchar(255) NOT NULL,
+  `currency_pay_unit` int(11) default NULL,
+  `currency_usage` tinyint(1) NOT NULL,
+  PRIMARY KEY  (`currency_id`,`currency_code`)
+);
+
+CREATE TABLE IF NOT EXISTS `discount` (
+  `discount_id` int(11) NOT NULL auto_increment,
+  `product_id` int(11) NOT NULL,
+  `coupon_id` int(11) NOT NULL,
+  PRIMARY KEY  (`discount_id`,`product_id`,`coupon_id`)
+);
+
+CREATE TABLE IF NOT EXISTS `discount_coupon` (
+  `coupon_id` int(11) NOT NULL auto_increment,
+  `coupon_code` varchar(255) default NULL,
+  `coupon_value` varchar(50) default NULL,
+  `start_date` int(11) default NULL,
+  `expire_date` int(11) default NULL,
+  `expire_usage` int(11) default NULL,
+  `usage_count` int(11) default NULL,
+  PRIMARY KEY  (`coupon_id`)
+);
+
+CREATE TABLE IF NOT EXISTS `email_templates` (
   `email_id` int(10) NOT NULL auto_increment,
   `name` varchar(30) NOT NULL default '',
   `subject` varchar(255) NOT NULL default '',
@@ -29,17 +56,45 @@ CREATE TABLE `email_templates` (
   PRIMARY KEY  (`email_id`)
 );
 
-CREATE TABLE `orders` (
+CREATE TABLE IF NOT EXISTS `invoice` (
+  `invoice_id` varchar(10) NOT NULL default '',
+  `invoice_date` int(11) default NULL,
+  `due_date` int(11) default NULL,
+  `invoiced_to` varchar(255) default NULL,
+  `service` varchar(255) default NULL,
+  `description` text,
+  `price` float default NULL,
+  `discount_price` float default NULL,
+  `total_price` float default NULL,
+  `currency_code` char(5) default NULL,
+  `comment` text,
+  `paid` char(1) default NULL,
+  `paid_date` int(11) default NULL,
+  `paid_gateway` varchar(255) default NULL,
+  `email` varchar(255) default NULL,
+  PRIMARY KEY  (`invoice_id`)
+);
+
+CREATE TABLE IF NOT EXISTS `invoice_config` (
+  `company` varchar(255) default NULL,
+  `contact` varchar(255) default NULL,
+  `address` text,
+  `phone` varchar(255) default NULL,
+  `email` varchar(255) default NULL
+);
+
+CREATE TABLE IF NOT EXISTS `orders` (
   `order_id` int(11) NOT NULL auto_increment,
   `user_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `date_order` int(11) NOT NULL,
   `date_expire` int(11) NOT NULL,
   `last_email_sent` int(11) NOT NULL,
+  `date_added` int(11) NOT NULL,
   PRIMARY KEY  (`order_id`)
 );
 
-CREATE TABLE `payment` (
+CREATE TABLE IF NOT EXISTS `payment` (
   `payment_id` int(11) NOT NULL auto_increment,
   `order_id` int(11) NOT NULL,
   `date_payment` int(11) NOT NULL,
@@ -51,7 +106,15 @@ CREATE TABLE `payment` (
   PRIMARY KEY  (`payment_id`)
 );
 
-CREATE TABLE `product` (
+CREATE TABLE IF NOT EXISTS `payment_gateway` (
+  `payment_gateway_id` int(11) NOT NULL,
+  `payment_gateway_name` varchar(255) NOT NULL,
+  `payment_gateway_account` varchar(255) default NULL,
+  `payment_gateway_status` tinyint(1) NOT NULL,
+  PRIMARY KEY  (`payment_gateway_name`)
+);
+
+CREATE TABLE IF NOT EXISTS `product` (
   `product_id` int(11) NOT NULL auto_increment,
   `name` varchar(255) NOT NULL,
   `description` varchar(255) NOT NULL,
@@ -63,83 +126,23 @@ CREATE TABLE `product` (
   PRIMARY KEY  (`product_id`)
 );
 
-CREATE TABLE `user` (
+CREATE TABLE IF NOT EXISTS `user` (
   `user_id` int(11) unsigned NOT NULL auto_increment,
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `firstname` varchar(255) NOT NULL,
   `lastname` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `street` varchar(255) NOT NULL,
-  `city` varchar(255) NOT NULL,
-  `state` varchar(255) NOT NULL,
-  `country` varchar(255) NOT NULL,
-  `phone` varchar(255) NOT NULL,
+  `address1` varchar(255) default NULL,
+  `address2` varchar(255) default NULL,
+  `city` varchar(255) default NULL,
+  `state` varchar(255) default NULL,
+  `zip` varchar(255) default NULL,
+  `phone` varchar(255) default NULL,
   `date` int(11) NOT NULL,
   `admin` int(11) NOT NULL,
+  `active` tinyint(4) NOT NULL default '1',
   PRIMARY KEY  (`user_id`)
-);
-
-CREATE TABLE `currency` (
-  `currency_id` int(11) NOT NULL auto_increment,
-  `currency_code` char(5) NOT NULL,
-  `currency_name` varchar(255) NOT NULL,
-  `currency_pay_unit` int(11) default NULL,
-  `currency_usage` tinyint(1) NOT NULL,
-  PRIMARY KEY  (`currency_id`,`currency_code`)
-);
-
-CREATE TABLE `discount` (
-  `discount_id` int(11) NOT NULL auto_increment,
-  `product_id` int(11) NOT NULL,
-  `coupon_id` int(11) NOT NULL,
-  PRIMARY KEY  (`discount_id`,`product_id`,`coupon_id`)
-);
-
-CREATE TABLE `discount_coupon` (
-  `coupon_id` int(11) NOT NULL auto_increment,
-  `coupon_code` varchar(255) default NULL,
-  `coupon_value` varchar(50) default NULL,
-  `start_date` int(11) default NULL,
-  `expire_date` int(11) default NULL,
-  `expire_usage` int(11) default NULL,
-  `usage_count` int(11) default NULL,
-  PRIMARY KEY  (`coupon_id`)
-);
-
-CREATE TABLE `payment_gateway` (
-  `payment_gateway_id` int(11) NOT NULL,
-  `payment_gateway_name` varchar(255) NOT NULL,
-  `payment_gateway_account` varchar(255) default NULL,
-  `payment_gateway_status` tinyint(1) NOT NULL,
-  PRIMARY KEY  (`payment_gateway_name`)
-);
-
-CREATE TABLE `invoice` (
-  `invoice_id` varchar(10) NOT NULL default '',
-  `invoice_date` int(11) default NULL,
-  `due_date` int(11) default NULL,
-  `invoiced_to` varchar(255) default NULL,
-  `service` varchar(255) default NULL,
-  `description` text ,
-  `price` float default NULL,
-  `discount_price` float default NULL,
-  `total_price` float default NULL,
-  `currency_code` char(5) default NULL,
-  `comment` text ,
-  `paid` char(1) default NULL,
-  `paid_date` int(11) default NULL,
-  `paid_gateway` varchar(255) default NULL,
-  `email` varchar(255) default NULL,
-  PRIMARY KEY  (`invoice_id`)
-);
-
-CREATE TABLE `invoice_config` (
-  `company` varchar(255) default NULL,
-  `contact` varchar(255) default NULL,
-  `address` text,
-  `phone` varchar(255) default NULL,
-  `email` varchar(255) default NULL
 );
 
 TRUNCATE TABLE `config`;
@@ -175,4 +178,4 @@ INSERT INTO `currency` (`currency_id`, `currency_code`, `currency_name`, `curren
 (6, 'AUD', 'Australian Dollars', 61, 0),
 (7, 'CHF', 'Swiss Francs', 41, 0);
 
-INSERT INTO `user`(`user_id`,`username`,`password`,`firstname`,`lastname`,`email`,`street`,`city`,`state`,`country`,`phone`,`date`,`admin`) values (1,'admin','admin','Administrator','Administrator','','','','','','',0,1)
+INSERT INTO `user`(`user_id`,`username`,`password`,`firstname`,`lastname`,`email`,`street`,`city`,`state`,`country`,`phone`,`date`,`admin`) values (1,'admin',md5('admin'),'Administrator','Administrator','','','','','','',0,1)
