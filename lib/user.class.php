@@ -1,6 +1,9 @@
 <?php
-class User
-{
+class User {
+	
+	public function __construct(){
+	}
+	
 	function Add($username, $password, $firstname, $lastname, $email, $address1, $address2, $city, $state, $zip, $phone)
 	{
 		global $db;
@@ -20,7 +23,7 @@ class User
 		$record["date"] = time();
 		$db->AutoExecute('user',$record,'INSERT');
 		
-		$query = "select user_id from user where username = '".mysql_real_escape_string($username)."'";
+		$query = "SELECT user_id FROM user WHERE username = '".mysql_real_escape_string($username)."'";
 		$result = $db->Execute($query);
 		$user	 = $result->FetchRow();
 		
@@ -144,6 +147,7 @@ class User
 		return $result->GetRows();
 		
 	}
+	
 	function BrowseAllUsers($start,$limit) {
 		global $db;
 		

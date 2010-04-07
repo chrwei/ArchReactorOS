@@ -99,12 +99,7 @@ function ShowDetailUser() {
 /*===================================================
 	main
 ===================================================*/
-if ($_REQUEST['process'] == 'edit') {
-	ShowDetailUser();
-	ShowFormDetailUser();
-}
-else {
-	ShowDetailUser();
-	ShowFormDetailUser();
-}
+ShowDetailUser();
+ShowFormDetailUser();
+
 ?>

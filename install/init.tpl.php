@@ -29,14 +29,14 @@ $db->debug = false;
 $ADODB_FETCH_MODE = ADODB_FETCH_ASSOC;
 
 $tpl        = new Template;
-$mail       = new Email();
-$user       = new User();
-$product    = new Product();
-$order      = new Order();
-$banned     = new Banned();
-$coupon     = new Coupon();
-$pay_class  = new Payment();
-$inv_class  = new Invoice();
+$mail       = new Email;
+$user       = new User;
+$product    = new Product;
+$order      = new Order;
+$banned     = new Banned;
+$coupon     = new Coupon;
+$pay_class  = new Payment;
+$inv_class  = new Invoice;
 
 if (strpos($_SERVER['PHP_SELF'], '/install/') != TRUE) {
   GetConfig();
