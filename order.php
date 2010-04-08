@@ -62,7 +62,7 @@ function ShowFormAddOrder() {
 }
 
 function ProcessAddOrder() {
-	global $tpl, $product, $user, $order, $error_list, $mail, $coupon, $pay_class, $currency_code, $currency_unit;
+	global $tpl, $product, $user, $order, $error_list, $mail, $coupon, $pay_class, $currency_code, $currency_unit, $dispatcher;
 	
 	$users = $user->CheckUserActive($_SESSION['SESSION_USERNAME']);
 	$user_id = $users['user_id'];
@@ -111,8 +111,11 @@ function ProcessAddOrder() {
 		$description = $products['description'];
 		$item_name = $name." ( ".$description." )"; 
 		$invoice_id = getInvoiceId();
-		//**** for coupon ****//
 		
+		// let's trigger a hook
+		$dispatcher->trigger("newInvoice",$invoice_id);
+		
+		//**** for coupon ****//
 		if($coupon_code != "")
 		{
 			$discount_data = $coupon->CheckProductDiscount($coupon_code, $product_id);
@@ -185,80 +188,73 @@ function ProcessAddOrder() {
 			else
 				$gateway_data = $pay_class->GetPaymentGatewayDetail($payment_gateway); 
 			
-			
-				
-			if($payment_gateway == "paypal_payments")
-			{
-				$notify_url = CFG_SITE_URL.'/payment/paypal.ipn.php';
-				$paypal_payments_email = $gateway_data['payment_gateway_account'];
-				$paypal_email = $paypal_payments_email;
-				include 'payment/paypal.php';
-			}
-			elseif($payment_gateway == "paypal_subscribe")
-			{
-				$notify_url = CFG_SITE_URL.'/payment/paypal-subscribe.ipn.php';
-				$paypal_subscribe_email = $gateway_data['payment_gateway_account'];
-				$listing_period = $products['duration'];
-				$listing_period_code = strtoupper($products['duration_unit']);
-				$paypal_email = $paypal_subscribe_email;
-				include 'payment/paypal-subscribe.php';
-			}
-			elseif($payment_gateway == "co")
-			{
-				$notify_url = CFG_SITE_URL.'/payment/2co.ipn.php';
-				$co_account = $gateway_data['payment_gateway_account'];
-				$list_co_account = explode("&", $co_account);
-				$co_sid = $list_co_account[0];
-				$co_secret		  = $list_co_account[1];
-				$co_recurring = 0; //set subscribe
-				include 'payment/2co.php';
-			}
-			elseif($payment_gateway == "co_subscribe")
-			{
-				$notify_url = CFG_SITE_URL.'/payment/2co-subscribe.ipn.php';
-				$co_account = $gateway_data['payment_gateway_account'];
-				$list_co_account = explode("&", $co_account);
-				$co_sid = $list_co_account[0];
-				$co_secret		  = $list_co_account[1];
-				$co_recurring = 1; //set subscribe
-				$co_prod_id = $product_id;
-				include 'payment/2co-subscribe.php';
-			}
-			elseif($payment_gateway == "alertpay")
-			{
-				$notify_url = CFG_SITE_URL.'/payment/alertpay.ipn.php';
-				$alertpay_account = $gateway_data['payment_gateway_account'];
-				$list_alertpay_account = explode("&", $alertpay_account);
-				$payalert_email = $list_alertpay_account[0];
-				$payalert_security_code = $list_alertpay_account[1];
-				$ap_currency = $currency_code;
-				$ap_purchasetype = "service"; //lainnya subscription & service
-				include 'payment/alertpay.php';
-			}
-			elseif($payment_gateway == "alertpay_subscribe")
-			{
-				$notify_url = CFG_SITE_URL.'/payment/alertpay-subscribe.ipn.php';
-				$alertpay_subscribe_account = $gateway_data['payment_gateway_account'];
-				$list_alertpay_subscribe_account = explode("&", $alertpay_subscribe_account);
-				$payalert_email = $list_alertpay_subscribe_account[0];
-				$payalert_security_code = $list_alertpay_subscribe_account[1];
-				$ap_currency = $currency_code;
-				$ap_purchasetype = "subscription"; //lainnya subscription & service
-				if(strtolower($products['duration_unit']) == "d")
-					$ap_timeunit = "Day";
-				elseif(strtolower($products['duration_unit']) == "m")
-					$ap_timeunit = "Month";
-				elseif(strtolower($products['duration_unit']) == "y")
-					$ap_timeunit = "Year";
+			switch($payment_gateway){
+				case 'paypal_payments':
+					$notify_url = CFG_SITE_URL.'/payment/paypal.ipn.php';
+					$paypal_payments_email = $gateway_data['payment_gateway_account'];
+					$paypal_email = $paypal_payments_email;
+					include 'payment/paypal.php';
+				break;
+				case ' paypal_subscribe':
+					$notify_url = CFG_SITE_URL.'/payment/paypal-subscribe.ipn.php';
+					$paypal_subscribe_email = $gateway_data['payment_gateway_account'];
+					$listing_period = $products['duration'];
+					$listing_period_code = strtoupper($products['duration_unit']);
+					$paypal_email = $paypal_subscribe_email;
+					include 'payment/paypal-subscribe.php';
+				break;
+				case 'co':
+					$notify_url = CFG_SITE_URL.'/payment/2co.ipn.php';
+					$co_account = $gateway_data['payment_gateway_account'];
+					$list_co_account = explode("&", $co_account);
+					$co_sid = $list_co_account[0];
+					$co_secret		  = $list_co_account[1];
+					$co_recurring = 0; //set subscribe
+					include 'payment/2co.php';
+				break;
+				case 'co_subscribe':
+					$notify_url = CFG_SITE_URL.'/payment/2co-subscribe.ipn.php';
+					$co_account = $gateway_data['payment_gateway_account'];
+					$list_co_account = explode("&", $co_account);
+					$co_sid = $list_co_account[0];
+					$co_secret		  = $list_co_account[1];
+					$co_recurring = 1; //set subscribe
+					$co_prod_id = $product_id;
+					include 'payment/2co-subscribe.php';
+				break;
+				case 'alertpay':
+					$notify_url = CFG_SITE_URL.'/payment/alertpay.ipn.php';
+					$alertpay_account = $gateway_data['payment_gateway_account'];
+					$list_alertpay_account = explode("&", $alertpay_account);
+					$payalert_email = $list_alertpay_account[0];
+					$payalert_security_code = $list_alertpay_account[1];
+					$ap_currency = $currency_code;
+					$ap_purchasetype = "service"; //lainnya subscription & service
+					include 'payment/alertpay.php';
+				break;
+				case 'alertpay_subscribe':
+					$notify_url = CFG_SITE_URL.'/payment/alertpay-subscribe.ipn.php';
+					$alertpay_subscribe_account = $gateway_data['payment_gateway_account'];
+					$list_alertpay_subscribe_account = explode("&", $alertpay_subscribe_account);
+					$payalert_email = $list_alertpay_subscribe_account[0];
+					$payalert_security_code = $list_alertpay_subscribe_account[1];
+					$ap_currency = $currency_code;
+					$ap_purchasetype = "subscription"; //lainnya subscription & service
+					if(strtolower($products['duration_unit']) == "d")
+						$ap_timeunit = "Day";
+					elseif(strtolower($products['duration_unit']) == "m")
+						$ap_timeunit = "Month";
+					elseif(strtolower($products['duration_unit']) == "y")
+						$ap_timeunit = "Year";
 
-				$ap_periodlength = $products['duration'];
-				include 'payment/alertpay-subscribe.php';
-			}
-			elseif($payment_gateway == "moneybookers")
-			{
-				$notify_url = CFG_SITE_URL.'/payment/moneybookers.ipn.php';
-				$moneybookers_email = $gateway_data['payment_gateway_account'];
-				include 'payment/moneybookers.php';
+					$ap_periodlength = $products['duration'];
+					include 'payment/alertpay-subscribe.php';
+				break;
+				case 'moneybookers':
+					$notify_url = CFG_SITE_URL.'/payment/moneybookers.ipn.php';
+					$moneybookers_email = $gateway_data['payment_gateway_account'];
+					include 'payment/moneybookers.php';
+				break;
 			}
 		}
 	}

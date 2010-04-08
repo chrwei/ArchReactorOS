@@ -101,5 +101,4 @@ function ShowDetailUser() {
 ===================================================*/
 ShowDetailUser();
 ShowFormDetailUser();
-
 ?>

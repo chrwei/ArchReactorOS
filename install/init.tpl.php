@@ -13,6 +13,7 @@ include CFG_SITE_PATH.'lib/template.lib.php';
 include CFG_SITE_PATH.'lib/adodb5/adodb.inc.php';
 include CFG_SITE_PATH.'lib/phpmailer/class.phpmailer.php';
 include CFG_SITE_PATH.'lib/functions.php';
+include CFG_SITE_PATH.'lib/dispatcher.class.php';
 include CFG_SITE_PATH.'lib/form_validation.lib.php';
 include CFG_SITE_PATH.'lib/user.class.php';
 include CFG_SITE_PATH.'lib/email.class.php';
@@ -23,6 +24,7 @@ include CFG_SITE_PATH.'lib/coupon.class.php';
 include CFG_SITE_PATH.'lib/payment.class.php';
 include CFG_SITE_PATH.'lib/invoice.class.php';
 
+// required everywhere
 $db = ADONewConnection('mysql');
 $db->Connect(DB_HOST, DB_USER, DB_PWD, DB_NAME);
 $db->debug = false;
@@ -30,6 +32,9 @@ $ADODB_FETCH_MODE = ADODB_FETCH_ASSOC;
 
 $tpl        = new Template;
 $mail       = new Email;
+$dispatcher = new Dispatcher;
+
+// not required everywhere
 $user       = new User;
 $product    = new Product;
 $order      = new Order;
