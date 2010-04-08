@@ -156,7 +156,7 @@ SELECT
   `user`.`lastname`,
   GROUP_CONCAT(CONCAT(`product`.`path`, ' ',FROM_UNIXTIME(`orders`.`date_expire`, '%Y-%m')) ORDER BY `orders`.`date_expire` SEPARATOR ', ') as paid
 FROM
-  `user` LEFT JOIN `orders` ON `user`.`user_id` = `orders`.`user_id` AND `orders`.`date_expire` >= UNIX_TIMESTAMP()
+  `user` LEFT JOIN `orders` ON `user`.`user_id` = `orders`.`user_id` AND `orders`.`date_expire` >= UNIX_TIMESTAMP(DATE_SUB(now(), INTERVAL 2 MONTH))
     LEFT JOIN `product` ON `orders`.`product_id` = `product`.`product_id`
 GROUP BY 
   `user`.`user_id`,
