@@ -1,6 +1,45 @@
 <?php
 include '../init.php';
 
+/*###########################################################
+Section : Main
+###########################################################*/
+$user->AuthenticationAdmin();
+
+switch($_REQUEST['pf']){
+	default:	//fall-through
+	case 'browse':
+		ShowAllUsers();
+		ShowFormAllUsers();
+	break;
+	case 'detail':
+		ShowDetailUser();
+		ShowFormDetailUser();
+	break;
+	case 'delete':
+		DeleteUser($_REQUEST['delete']);
+	break;
+	case 'add':
+		if ($_REQUEST['process'] == 'add')
+			AddUser();
+		else ShowFormAddUser();
+	break;
+	case 'add_order':
+		GetPaymentCurrency();
+		if ($_REQUEST['process'] == 'add_order') 
+			ProcessAddOrder();
+		else ShowFormAddOrder();
+	break;
+	case 'search':
+		ShowSearchResult() ;
+		ShowFormSearchResult();
+	break;
+}
+
+/**
+ * Functions
+ * */
+
 function ShowFormAllUsers() {
   global $tpl, $users, $success, $paging;
   
@@ -445,50 +484,5 @@ function paging($total_data,$total_data_in_page)
     return $paging;
   }
 }
-/*###########################################################
-Section : Main
-###########################################################*/
-$user->AuthenticationAdmin();
 
-if (empty($_REQUEST['pf']) || $_REQUEST['pf'] == 'browse') 
-{
-  ShowAllUsers();
-  ShowFormAllUsers();
-}
-elseif ($_REQUEST['pf'] == 'detail') 
-{
-  ShowDetailUser();
-  ShowFormDetailUser();
-}
-elseif ($_REQUEST['pf'] == 'delete') {
-  DeleteUser($_REQUEST['delete']);
-}
-elseif ($_REQUEST['pf'] == 'add' ) 
-{
-  if ($_REQUEST['process'] == 'add') 
-  {
-    AddUser();
-  }
-  else 
-  {
-    ShowFormAddUser();
-  }
-}
-elseif ($_REQUEST['pf'] == 'add_order')
-{
-  GetPaymentCurrency();
-  if ($_REQUEST['process'] == 'add_order') 
-  {
-    ProcessAddOrder();
-  }
-  else 
-  {
-    ShowFormAddOrder();
-  }
-}
-elseif ($_REQUEST['pf'] == 'search')
-{
-  ShowSearchResult() ;
-  ShowFormSearchResult();
-}
 ?>

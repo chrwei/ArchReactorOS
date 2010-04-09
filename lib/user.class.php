@@ -162,6 +162,8 @@ SELECT
 FROM
   `user` LEFT JOIN `orders` ON `user`.`user_id` = `orders`.`user_id` AND `orders`.`date_expire` >= UNIX_TIMESTAMP(DATE_SUB(now(), INTERVAL 2 MONTH))
     LEFT JOIN `product` ON `orders`.`product_id` = `product`.`product_id`
+WHERE
+	`user`.`active` = 1
 GROUP BY 
   `user`.`user_id`,
   `user`.`username`,

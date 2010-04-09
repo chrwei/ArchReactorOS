@@ -1,7 +1,33 @@
 <?php
-
 include '../init.php';
-$pf = $_REQUEST['pf'];
+
+/*###########################################################
+Section : Main
+###########################################################*/
+$user->AuthenticationAdmin();
+switch($_REQUEST['pf']){
+	default:
+	case 'currency':
+		GetAllPaymentCurrency();
+		ShowPaymentCurrency();
+	break;
+	case 'change_currency':
+		ChangePaymentCurrency();
+	break;
+	case 'gateway':
+		GetAllPaymentGateway();
+		ShowPaymentGateway();
+	break;
+	case 'gateway_setting':
+		GetGatewayDetail();
+		ShowGatewayDetail();
+	break;
+}
+
+/** 
+ * Functions 
+ * */
+
 
 function ShowPaymentCurrency() {
   global $tpl, $currs, $currency_name, $currency_code;
@@ -438,23 +464,4 @@ function ShowGatewayDetail()
   $tpl->display('admin/payment.html');
 }
 
-/*###########################################################
-Section : Main
-###########################################################*/
-$user->AuthenticationAdmin();
-if (empty($pf) || $pf == 'currency') {
-  GetAllPaymentCurrency();
-  ShowPaymentCurrency();
-}
-elseif ($pf == 'change_currency') {
-  ChangePaymentCurrency();
-}
-elseif ($pf == 'gateway') {
-  GetAllPaymentGateway();
-  ShowPaymentGateway();
-}
-elseif ($pf == 'gateway_setting') {
-  GetGatewayDetail();
-  ShowGatewayDetail();
-}
 ?>

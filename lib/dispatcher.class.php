@@ -27,12 +27,13 @@ class Dispatcher {
 	 * @param $event string triggered event
 	 */
 	public function trigger($event,$args){
-		foreach($this->_observers[$event] as $listener => $params){
-			if(is_array($params))
-				list($method,$async) = $params;
-			else $method = $params;
-			if(CFG_DEBUG) print("Running $listener with method $method<br/>");
-			$this->_runListener($listener,$method,$args);
+		foreach($this->_observers[$event] as $current_observers){
+			foreach($current_observers as $listener => $params){
+				if(is_array($params))
+					list($method,$args) = $params;
+				else $method = $params;
+				$this->_runListener($listener,$method,$args);
+			}
 		}
 	}
 	
