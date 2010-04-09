@@ -16,7 +16,7 @@ class Dispatcher {
 	 * set variables and index the listeners.
 	 */
 	public function __construct(){
-		$this->_dir = dirname(__FILE__).'extensions';
+		$this->_dir = CFG_SITE_PATH.'extensions';
 		$this->_observers = array();
 		$this->_indexListeners();
 	}
