@@ -17,7 +17,7 @@ switch($_REQUEST['pf']){
 	case 'search':	// fall-through!
 	case 'browse':	// id
 	default:
-		$listeners = $dc->listListeners($_REQUEST['hook']);
+		$listeners = $ec->listListeners($_REQUEST['hook']);
 		$tpl->assign('pf',$_REQUEST['pf']);
 		$tpl->assign('listeners',$listeners);
 		$tpl->display('admin/extension.html');
