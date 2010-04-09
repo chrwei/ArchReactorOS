@@ -39,7 +39,7 @@ class Dispatcher {
 	 * @param $event string triggered event
 	 */
 	public function trigger($hook,$args=''){
-		if(empty($this->_observers)) return;    // nothing here, go away!...
+		if(empty($this->_observers[$hook])) return;    // nothing here, go away!...
 		foreach($this->_observers[$hook] as $current_observers){
 			foreach($current_observers as $listener => $params){
 				if(is_array($params))

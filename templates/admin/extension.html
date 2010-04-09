@@ -71,14 +71,15 @@
                 <form id="frm1" action="extensions.php?pf=toggle" method="post">
                 {assign var="i_tmp" value="1"}
                 {section name=i loop=$listeners}
+
                 <tr bgcolor="{$listeners[i].color}">             
                   <td class="td_data_middle"><input type="checkbox" value="{$listeners[i].0}" name="toggle[]"></td>
                   <td class="td_data_middle" style="text-align:left;padding-left:5px;">
                     <!--<div class="view_detail" ajaxurl="ajax.php?tooltip=user&id={$listeners[i].user_id}" style="cursor: pointer;">-->
-                      {$listeners[i].?}
+                      {$listeners[i].hook}
                     </div> 
                   </td>  
-                  <td class="td_data_middle" style="text-align:left;padding-left:5px;">{$listeners[i].name} </td>  
+                  <td class="td_data_middle" style="text-align:left;padding-left:5px;">{$listeners[i].listener} </td>  
                   <td class="td_data_middle"><a href="extensions.php?pf=toggle&listener_id={$listener[i].user_id}">toggle (enable/disable)</a></td>
                   <td class="td_data_middle"><a href="extensions.php?pf=add_order&user_id={$users[i].user_id}">config</a></td>
                 </tr>

@@ -12,7 +12,15 @@ class ExtensionController {
 	 * */
 	public function listListeners($hook=''){
 		$dc = Dispatcher::Instance();
-		return($dc->getListeners($hook));
+		$listeners = $dc->getListeners($hook);
+		$output = array();
+		foreach($listeners as $hook => $lstnr){
+			foreach($lstnr as $class){
+				$final = array_keys($class);
+				$output[] = array('hook' => $hook, 'listener' => $final[0]);
+			}
+		}
+		return $output;
 	}
 	
 	public function listExtensions(){
