@@ -33,14 +33,14 @@ checked = false;
 	
   if (check == true)  
   {
-    var conf_del = confirm('Are you sure want to delete?');
+    var conf_del = confirm('Ok to delete?');
     if (conf_del == true) {
       aa.submit();
     }
     
   }  
   else {
-    alert("Not user selected");    
+    alert("No user selected");    
   }
  
   }
@@ -102,14 +102,14 @@ checked = false;
                 <tr>
                   <td colspan="5" class="success">
                     Confirmation :
-                    <ul><li>Delete data is success</li></ul>
+                    <ul><li>Data deleted successfully</li></ul>
                   </td>
                 </tr>
                 {/if}                 
                 {if !$users}
                 <tr>
                   <td colspan="5" style="font-size:11px;text-align:center;color:red;">
-                    ======== Not user data ========
+                    ======== No user data ========
                   </td>
                 </tr>
                 {else}
@@ -220,7 +220,7 @@ checked = false;
               {if !$users}
                 <tr>
                   <td colspan="5" style="font-size:11px;text-align:center;color:red;">
-                     ======== Not search result ========
+                     ======== No search result ========
                   </td>
                 </tr>
               {else}
@@ -285,7 +285,7 @@ checked = false;
           <tr>
             <td colspan="2" class="success">
               Confirmation :
-              <ul><li>Update data is success</li></ul>
+              <ul><li>Data updated successfully</li></ul>
             </td>
           </tr>
           {/if}                 

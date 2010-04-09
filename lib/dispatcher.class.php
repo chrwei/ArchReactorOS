@@ -31,7 +31,8 @@ class Dispatcher {
 			if(is_array($params))
 				list($method,$async) = $params;
 			else $method = $params;
-			$this->_runListener($listener,$method,$args);	
+			if(CFG_DEBUG) print("Running $listener with method $method<br/>");
+			$this->_runListener($listener,$method,$args);
 		}
 	}
 	

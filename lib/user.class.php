@@ -230,10 +230,10 @@ ORDER BY
 	}	
 	
 	function Delete($user_id) {
-		global $db;
-		
+		global $db, $dispatcher;	
 		$query = "update user set active=0 where user_id=".intval($user_id);
-		$db->Execute($query);
+		if($db->Execute($query))
+			$dispatcher->trigger('onUserDelete',$id);
 	}	
 	
 	function CheckUserActive($username) {

@@ -187,35 +187,20 @@ function ShowDetailUser()
 	}
 }
 
-function DeleteUser($user_id_list) 
-{
+function DeleteUser($user_id_list) {
   global $tpl, $user, $success;
   
-  $delete_admin = false;
-  for($i=0;$i<=count($user_id_list);$i++)
-  {
-    if($user_id_list[$i] != 1)
-    {
-      $user->Delete($user_id_list[$i]);
-    }
-    else
-    {
-      $delete_admin = true;
-    }
-  }
-  $file_htgroup   = CFG_DATA_PATH.'.htgroup';
-  $file_htpasswd  = CFG_DATA_PATH.'.htpasswd';
-  //GenerateHtgroup($file_htgroup);
-  //GenerateHtpasswd($file_htpasswd);
+	$delete_admin = false;
+	for($i=0;$i<=count($user_id_list);$i++) {
+		if($user_id_list[$i] != 1)
+			$user->Delete($user_id_list[$i]);
+		else $delete_admin = true;
+	}
+	$file_htgroup   = CFG_DATA_PATH.'.htgroup';
+	$file_htpasswd  = CFG_DATA_PATH.'.htpasswd';
   
-  if($delete_admin)
-  {
-    header("Location: user.php?pf=browse&delete_admin=true");
-  }
-  else
-  {
-    header("Location: user.php?pf=browse&success=true");
-  }
+	if($delete_admin) header("Location: user.php?pf=browse&delete_admin=true");
+	else header("Location: user.php?pf=browse&success=true");
 }
 
 function ShowFormAddUser() {
