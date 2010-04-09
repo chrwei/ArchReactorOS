@@ -36,7 +36,7 @@ $ADODB_FETCH_MODE = ADODB_FETCH_ASSOC;
 
 $tpl        = new Template;
 $mail       = new Email;
-$dispatcher = new Dispatcher;
+$dispatcher = Dispatcher::Instance();
 
 // not required everywhere
 $user       = new User;
