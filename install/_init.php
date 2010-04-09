@@ -10,7 +10,8 @@ $req_php_module = array(
 
 $req_chmod_777 = array(
   array('name'=>'init.php', 'type'=>'file'),
-  array('name'=>'templates_c', 'type'=>'dir')
+  array('name'=>'templates_c', 'type'=>'dir'),
+  array('name'=>'extensions', 'type'=>'dir')
 );
 
 $sql_option = array(
