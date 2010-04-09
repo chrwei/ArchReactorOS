@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id$
+ * $Id:$
  * @author David Raison <david@hackerspace.lu>
  * @license GPLv3
  * @version 0.1.1
@@ -18,7 +18,7 @@ class Dispatcher {
 	public function __construct(){
 		$this->_dir = CFG_SITE_PATH.'extensions';
 		$this->_observers = array();
-		$this->_indexListeners();
+		$this->_indexListeners($this->_dir);
 	}
 
 	/** 
@@ -26,7 +26,8 @@ class Dispatcher {
 	 * @param $args array of parameters to be passed to callback function
 	 * @param $event string triggered event
 	 */
-	public function trigger($event,$args){
+	public function trigger($event,$args=''){
+		if(empty($this->_observers)) return;    // nothing to see here...
 		foreach($this->_observers[$event] as $current_observers){
 			foreach($current_observers as $listener => $params){
 				if(is_array($params))
@@ -37,7 +38,7 @@ class Dispatcher {
 		}
 	}
 	
-	private function _runListener($listener,$method,$args){
+	private function _runListener($listener,$method,$args=''){
 		$lstnr = new $listener;
 		if(method_exists($lstnr,$method)){
 			call_user_func_array(array($lstnr,$method),$args);
@@ -46,17 +47,21 @@ class Dispatcher {
 	}
 	
 	private function _indexListeners(){
-		$dh = opendir($this->_dir);
-		while($file = readdir($dh)){
-			if(preg_match('/^\.+.*/',$file)) continue; // filter everything starting with a dot
-			elseif(strstr($file,'.extension.php')){
-				if(file_exists($this->_dir.DIRECTORY_SEPARATOR.$file)){
-					include_once $this->_dir.DIRECTORY_SEPARATOR.$file;
-					$this->_observers = array_merge_recursive($this->_observers,$arosHooks);
-				}
+		if(file_exists($dir) && is_readable($dir)){
+			$dh = opendir($dir);
+			while($file = readdir($dh)){
+				if(preg_match('/^\.+.*/',$file)) continue; // filter everything starting with a dot
+				elseif(is_dir($dir.DIRECTORY_SEPARATOR.$file))
+					$this->_indexListeners($dir.DIRECTORY_SEPARATOR.$file);
+				elseif(strstr($file,'.extension.php')){
+					include_once $dir.DIRECTORY_SEPARATOR.$file;
+					if($arosHooks) $this->_observers = array_merge_recursive($this->_observers,$arosHooks);
+				} else throw new Exception('Encountered unexpected exception while indexing listeners.');
 			}
+			closedir($dh);
 		}
-		closedir($dh);
+		return;
 	}
+	
 }
 ?>
