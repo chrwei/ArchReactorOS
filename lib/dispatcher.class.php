@@ -5,20 +5,32 @@
  * @license GPLv3
  * @version 0.1.1
  * This is the ArchReactor OS dispatch controller
+ * Singleton
  */
 
 class Dispatcher {
 	
 	private $_observers;
+	private static $_instance = null;
 	
 	/**
 	 * constructs the dispatcher
 	 * set variables and index the listeners.
 	 */
-	public function __construct(){
+	private function __construct(){
 		$this->_dir = CFG_SITE_PATH.'extensions';
 		$this->_observers = array();
 		$this->_indexListeners($this->_dir);
+	}
+	
+	/**
+	 * Ensure that we always have but one instance of this Controller
+	 * @return Dispatcher object
+	 */
+	public static function Instance(){
+		if (self::$_instance == null)
+			self::$_instance = new Dispatcher;
+		return self::$_instance;
 	}
 
 	/** 
@@ -26,9 +38,9 @@ class Dispatcher {
 	 * @param $args array of parameters to be passed to callback function
 	 * @param $event string triggered event
 	 */
-	public function trigger($event,$args=''){
-		if(empty($this->_observers)) return;    // nothing to see here...
-		foreach($this->_observers[$event] as $current_observers){
+	public function trigger($hook,$args=''){
+		if(empty($this->_observers)) return;    // nothing here, go away!...
+		foreach($this->_observers[$hook] as $current_observers){
 			foreach($current_observers as $listener => $params){
 				if(is_array($params))
 					list($method,$args) = $params;
@@ -36,6 +48,13 @@ class Dispatcher {
 				$this->_runListener($listener,$method,$args);
 			}
 		}
+	}
+	
+	/**
+	 * Let us be queried about the registered listeners
+	 * */
+	public function getListeners($hook=''){
+		return ($hook != '') ? array($hook => $this->_observers[$hook]) : $this->_observers;
 	}
 	
 	private function _runListener($listener,$method,$args=''){

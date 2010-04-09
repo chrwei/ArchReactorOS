@@ -13,6 +13,9 @@ include CFG_SITE_PATH.'lib/template.lib.php';
 include CFG_SITE_PATH.'lib/adodb5/adodb.inc.php';
 include CFG_SITE_PATH.'lib/phpmailer/class.phpmailer.php';
 include CFG_SITE_PATH.'lib/functions.php';
+
+// replace the following by an autoload function
+// (see http://github.com/chrwei/ArchReactorOS/issues/issue/21)
 include CFG_SITE_PATH.'lib/dispatcher.class.php';
 include CFG_SITE_PATH.'lib/form_validation.lib.php';
 include CFG_SITE_PATH.'lib/user.class.php';
@@ -23,6 +26,7 @@ include CFG_SITE_PATH.'lib/banned.class.php';
 include CFG_SITE_PATH.'lib/coupon.class.php';
 include CFG_SITE_PATH.'lib/payment.class.php';
 include CFG_SITE_PATH.'lib/invoice.class.php';
+include CFG_SITE_PATH.'lib/extension_controller.class.php';
 
 // required everywhere
 $db = ADONewConnection('mysql');
@@ -96,4 +100,7 @@ elseif (!ini_get('register_globals')) {
   if (!empty($_POST)) safe_extract($_POST);
   if (!empty($_COOKIE)) safe_extract($_COOKIE);
 }
+
+// Done with setup.. let extensions know
+$dispatcher->trigger('onSystemInitialised');
 ?>
