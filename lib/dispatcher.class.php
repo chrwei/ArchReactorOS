@@ -65,7 +65,7 @@ class Dispatcher {
 		} else throw new Exception("Extension $listener does not have required method $method!");
 	}
 	
-	private function _indexListeners(){
+	private function _indexListeners($dir){
 		if(file_exists($dir) && is_readable($dir)){
 			$dh = opendir($dir);
 			while($file = readdir($dh)){
@@ -78,8 +78,8 @@ class Dispatcher {
 				} else throw new Exception('Encountered unexpected exception while indexing listeners.');
 			}
 			closedir($dh);
-		}
-		return;
+			return;
+		} else throw new Exception('Extensions directory does not exist or is not readable');
 	}
 	
 }
