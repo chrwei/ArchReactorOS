@@ -503,18 +503,11 @@ checked = false;
               <td class="td2">
               		Select the month to apply this order to. <br />
               		<select name="date_order">
-              			<option value=1 {if $date_order == 1}SELECTED{/if}>January</option>
-						<option value=2 {if $date_order == 2}SELECTED{/if}>February</option>
-						<option value=3 {if $date_order == 3}SELECTED{/if}>March</option>
-						<option value=4 {if $date_order == 4}SELECTED{/if}>April</option>
-						<option value=5 {if $date_order == 5}SELECTED{/if}>May</option>
-						<option value=6 {if $date_order == 6}SELECTED{/if}>June</option>
-						<option value=7 {if $date_order == 7}SELECTED{/if}>July</option>
-						<option value=8 {if $date_order == 8}SELECTED{/if}>August</option>
-						<option value=9 {if $date_order == 9}SELECTED{/if}>September</option>
-						<option value=10 {if $date_order == 10}SELECTED{/if}>October</option>
-						<option value=11 {if $date_order == 11}SELECTED{/if}>November</option>
-						<option value=12 {if $date_order == 12}SELECTED{/if}>December</option>
+              		{assign var="i_tmp" value="0"}
+                	{section name=i loop=$calmonths}
+              			<option value="{$calmonths[i].value}" {if $date_order == $calmonths[i].value}SELECTED{/if}>{$calmonths[i].text}</option>
+					{assign var="i_tmp" value=$i_tmp+1}
+					{/section}  
               		</select>
               </td>
              </tr>  

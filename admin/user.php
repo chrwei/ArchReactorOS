@@ -371,6 +371,12 @@ function ShowFormAddOrder() {
 		}
 		$i++;       
 	}
+	$calmonths = array();
+	//build for select list, 2 month ago to 1 year ahead
+	for($i=-2; $i < 14; $i++)
+	{
+		$calmonths[]=array('value'=>strtotime(date("Y-m-01",strtotime($i." months"))), 'text'=>date("F Y", strtotime($i." months")));
+	}
 
 	$user_data  = $user->GetUser($_REQUEST['user_id']);
 	$user_id    = $user_data['user_id'];
@@ -387,7 +393,8 @@ function ShowFormAddOrder() {
 	$tpl->assign('lastname',$lastname);   
 	$tpl->assign('email',$email);     
 	$tpl->assign('product_data',$product_data); 
-	$tpl->assign('date_order', date('m')); 
+	$tpl->assign('calmonths', $calmonths);
+	$tpl->assign('date_order', isset($_REQUEST['date_order']) ? $_REQUEST['date_order'] : strtotime(date("Y-m-01"))); 
 	$tpl->assign('pf',$_REQUEST['pf']);
 	$tpl->display("admin/user.html");
 }
@@ -400,20 +407,11 @@ function ProcessAddOrder() {
   $product_id     = $_REQUEST['product_id'];
   $confirm_user   = $_REQUEST['confirm_user'];
   $email          = $_REQUEST['email'];
-  $date_order_mo  = $_REQUEST['date_order'];
-  
-  //figure out what the timestamp for the month should be
-  if ($date_order_mo < date('m'))
-  { //year+1
-	  $date_order = strtotime((date('Y')+1).'/'.$date_order_mo.'/1');
-  }
-  else
-  {
-	  $date_order = strtotime(date('Y').'/'.$date_order_mo.'/1');
-  }
+  $date_order     = $_REQUEST['date_order'];
   
   $i = 0;
-  if (!$order->CheckActiveOrder($product_id,$user_id, $date_order))
+  
+  if (!$order->CheckActiveOrder($product_id,$user_id, $date_order, true)) //pass admin flag to allow overrides
   {
     $error_list[$i] = "Order is already active for the selected month";
     $i++;
