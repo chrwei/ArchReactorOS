@@ -1,51 +1,5 @@
 {include file="admin/header.html"}
-{literal}
-<script language="javascript">
-checked = false;
-  function checkedAll (frm1) {
-	var aa= document.getElementById('frm1');
-	    if (checked == false)
-          {
-           checked = true
-          }
-        else
-          {
-          checked = false
-          }
-	for (var i =0; i < aa.elements.length; i++) 
-	{
-	 aa.elements[i].checked = checked;
-	}
-  }
-  
-  function delete_user(frm1) {
-   
-  var aa = document.getElementById('frm1');
-	var check = false;
-	
-  for (var i =0; i < aa.elements.length; i++) 
-	{
-    if (aa.elements[i].checked == true)
-	  {
-      check = true;
-    }
-	}
-	
-  if (check == true)  
-  {
-    var conf_del = confirm('Ok to delete?');
-    if (conf_del == true) {
-      aa.submit();
-    }
-    
-  }  
-  else {
-    alert("No user selected");    
-  }
- 
-  }
-  </script>
-{/literal}
+
   <tr>
     <td class="middle">
       <div class="middle_content">  
@@ -55,9 +9,9 @@ checked = false;
           <tr>
             <td>
               <table style="border-collapse:collapse;" align="left">
-                <form action="user.php?pf=search" method="post">
+                <form action="extensions.php?pf=search" method="post">
                 <tr>
-                  <td colspan="2" class="td_caption">Search User</td>
+                  <td colspan="2" class="td_caption">Search Extensions</td>
                 </tr>
                 <tr>
                   <td class="td_search_1">Search For :</td>
@@ -67,10 +21,7 @@ checked = false;
                   <td class="td_search_1">Search In :</td>
                   <td class="td_search_2">
                     <select name="search_in" class="textbox" style="width:200px;">
-                      <option value="username">Username</option>
-                      <option value="firstname">Firstname</option>
-                      <option value="lastname">Lastname</option>
-                      <option value="email">Email</option>
+                      <option value="hook">Hooks</option>
                     </select>
                   </td>
                 </tr>
@@ -87,29 +38,21 @@ checked = false;
               <table style="width:570px;border-collapse:collapse;" align="left">
                 <tr>
                   <td colspan="6" class="td_caption">
-                    Users
+                    Extensions
                   </td>
                 </tr>
-                {if $delete_admin}    
-                <tr>
-                  <td colspan="5" class="error">
-                    Confirmation :
-                    <ul><li>Can not delete user admin</li></ul>
-                  </td>
-                </tr>
-                {/if}
                 {if $success}    
                 <tr>
                   <td colspan="5" class="success">
                     Confirmation :
-                    <ul><li>Data deleted successfully</li></ul>
+                    <ul><li>Something happened successfully</li></ul>
                   </td>
                 </tr>
                 {/if}                 
-                {if !$users}
+                {if !$listeners}
                 <tr>
                   <td colspan="5" style="font-size:11px;text-align:center;color:red;">
-                    ======== No user data ========
+                    ======== No listeners registered ========
                   </td>
                 </tr>
                 {else}
@@ -120,32 +63,33 @@ checked = false;
                 {/if}
                 <tr>
                   <td class="td_data_top" style="width:20px;"><input type='checkbox' name='checkall' onclick='checkedAll();'></td>
-                  <td class="td_data_top" style="">Username</td>
-                  <td class="td_data_top" style="">Paid</td>
-                  <td class="td_data_top" style="width:100px;">Edit Data</td>
-                  <td class="td_data_top" style="width:100px;">Add Order</td>
+                  <td class="td_data_top" style="">Hook</td>
+                  <td class="td_data_top" style="">Listener</td>
+                  <td class="td_data_top" style="width:100px;">Toggle</td>
+                  <td class="td_data_top" style="width:100px;">Configure</td>
                 </tr>
-                <form id="frm1" action="user.php?pf=delete" method="post">
+                <form id="frm1" action="extensions.php?pf=toggle" method="post">
                 {assign var="i_tmp" value="1"}
-                {section name=i loop=$users}
-                <tr bgcolor="{$users[i].color}">             
-                  <td class="td_data_middle"><input type="checkbox" value="{$users[i].user_id}" name="delete[]"></td>
+                {section name=i loop=$listeners}
+
+                <tr bgcolor="{$listeners[i].color}">             
+                  <td class="td_data_middle"><input type="checkbox" value="{$listeners[i].0}" name="toggle[]"></td>
                   <td class="td_data_middle" style="text-align:left;padding-left:5px;">
-                    <div class="view_detail" ajaxurl="ajax.php?tooltip=user&id={$users[i].user_id}" style="cursor: pointer;">
-                      {$users[i].firstname} {$users[i].lastname}
+                    <!--<div class="view_detail" ajaxurl="ajax.php?tooltip=user&id={$listeners[i].user_id}" style="cursor: pointer;">-->
+                      {$listeners[i].hook}
                     </div> 
                   </td>  
-                  <td class="td_data_middle" style="text-align:left;padding-left:5px;">{$users[i].paid} </td>  
-                  <td class="td_data_middle"><a href="user.php?pf=detail&user_id={$users[i].user_id}">edit</a></td>
-                  <td class="td_data_middle"><a href="user.php?pf=add_order&user_id={$users[i].user_id}">add</a></td>
+                  <td class="td_data_middle" style="text-align:left;padding-left:5px;">{$listeners[i].listener} </td>  
+                  <td class="td_data_middle"><a href="extensions.php?pf=toggle&listener_id={$listener[i].user_id}">toggle (enable/disable)</a></td>
+                  <td class="td_data_middle"><a href="extensions.php?pf=add_order&user_id={$users[i].user_id}">config</a></td>
                 </tr>
                 {assign var="i_tmp" value=$i_tmp+1}
                 {/section}
-                <tr>
+              <!--  <tr>
                   <td colspan="5" style="height:50px;text-align:left;">
                     <input type="button" name="del" value="Delete" onclick="delete_user();">
                   </td>
-                </tr>     
+                </tr>     -->
                 {/if}
                 </form>  
               </table>        
@@ -153,6 +97,7 @@ checked = false;
           </tr>        
         </table>
     {/if}
+    <!--
     {if $pf == 'search'} 
         <table style="margin-left:15px;width:570px;border-collapse:collapse;" align="left">
           <tr>
@@ -503,11 +448,18 @@ checked = false;
               <td class="td2">
               		Select the month to apply this order to. <br />
               		<select name="date_order">
-              		{assign var="i_tmp" value="0"}
-                	{section name=i loop=$calmonths}
-              			<option value="{$calmonths[i].value}" {if $date_order == $calmonths[i].value}SELECTED{/if}>{$calmonths[i].text}</option>
-					{assign var="i_tmp" value=$i_tmp+1}
-					{/section}  
+              			<option value=1 {if $date_order == 1}SELECTED{/if}>January</option>
+						<option value=2 {if $date_order == 2}SELECTED{/if}>February</option>
+						<option value=3 {if $date_order == 3}SELECTED{/if}>March</option>
+						<option value=4 {if $date_order == 4}SELECTED{/if}>April</option>
+						<option value=5 {if $date_order == 5}SELECTED{/if}>May</option>
+						<option value=6 {if $date_order == 6}SELECTED{/if}>June</option>
+						<option value=7 {if $date_order == 7}SELECTED{/if}>July</option>
+						<option value=8 {if $date_order == 8}SELECTED{/if}>August</option>
+						<option value=9 {if $date_order == 9}SELECTED{/if}>September</option>
+						<option value=10 {if $date_order == 10}SELECTED{/if}>October</option>
+						<option value=11 {if $date_order == 11}SELECTED{/if}>November</option>
+						<option value=12 {if $date_order == 12}SELECTED{/if}>December</option>
               		</select>
               </td>
              </tr>  
@@ -522,6 +474,7 @@ checked = false;
             </form>  
           </table>
         {/if}
+        -->
       </div>
     </td>
   </tr>

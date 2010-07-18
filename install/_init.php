@@ -9,8 +9,9 @@ $req_php_module = array(
 );
 
 $req_chmod_777 = array(
-  'init.php',
-  'templates_c'
+  array('name'=>'init.php', 'type'=>'file'),
+  array('name'=>'templates_c', 'type'=>'dir'),
+  array('name'=>'extensions', 'type'=>'dir')
 );
 
 $sql_option = array(
@@ -101,10 +102,15 @@ $message_step6 = "
   SQL query executed successfully.
 ";
 
+$message_step6_err = "
+  SQL query errored, fix and refresh or go back a page or 2.
+";
+
 $message_step7 = "
 <p>You have successfully installed AROS!
 Please delete this <b>/install</b> folder to secure
 to your web site. Thank you and enjoy our product.</p>
+<p>Your initial password for 'admin' is 'adminpw', change it as soon as possible.</p>
 <p><a href=../admin>Go to admin panel</a></p>
 ";
 ?>

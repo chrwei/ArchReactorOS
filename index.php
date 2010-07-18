@@ -24,8 +24,7 @@ function RenewOrder() {
 		$name           = $products['name'];
 		$description    = $products['description'];
 		//**** for coupon ****//
-		if($price == 0)
-		{
+		if($price == 0) {
 		  $order_id         = $GLOBALS['order']->AddOrder($user_id,$product_id,$date_order);
 		  
 		  $order_data       = $GLOBALS['order']->GetOrder($order_id);
@@ -42,12 +41,9 @@ function RenewOrder() {
 		  $GLOBALS['order']->UpdateLastEmailSent($order_id,time());
 		  $login = $GLOBALS['user']->Login($username, $password, $expire);
 		  header("Location: index.php"); 
+		} else {
+			header("Location: order.php?pf=renewal&product_id=$product_id");
 		}
-		else
-		{
-		  header("Location: order.php?pf=renewal&product_id=$product_id");
-		}
-
 	}
 }
 
@@ -144,7 +140,9 @@ switch($_REQUEST['pf'])
 		RenewOrder();
 		break;
 	case '':
+	default:
 		GetOrder();  
 		ShowOrder();
+		break;
 }
 ?>

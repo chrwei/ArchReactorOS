@@ -1,6 +1,9 @@
 <?php
 class User
 {
+	public function __construct(){
+	}
+	
 	function Add($username, $password, $firstname, $lastname, $email, $address1 = '', $address2 = '', $city = '', $state = '', $zip = '', $phone = '')
 	{
 		global $db;
@@ -20,7 +23,7 @@ class User
 		$record["date"] = time();
 		$db->AutoExecute('user',$record,'INSERT');
 		
-		$query = "select user_id from user where username = '".mysql_real_escape_string($username)."'";
+		$query = "SELECT user_id FROM user WHERE username = '".mysql_real_escape_string($username)."'";
 		$result = $db->Execute($query);
 		$user	 = $result->FetchRow();
 		
@@ -144,6 +147,7 @@ class User
 		return $result->GetRows();
 		
 	}
+	
 	function BrowseAllUsers($start,$limit) {
 		global $db;
 		
@@ -156,8 +160,10 @@ SELECT
   `user`.`lastname`,
   GROUP_CONCAT(CONCAT(`product`.`path`, ' ',FROM_UNIXTIME(`orders`.`date_expire`, '%Y-%m')) ORDER BY `orders`.`date_expire` SEPARATOR ', ') as paid
 FROM
-  `user` LEFT JOIN `orders` ON `user`.`user_id` = `orders`.`user_id` AND `orders`.`date_expire` >= UNIX_TIMESTAMP()
+  `user` LEFT JOIN `orders` ON `user`.`user_id` = `orders`.`user_id` AND `orders`.`date_expire` >= UNIX_TIMESTAMP(DATE_SUB(now(), INTERVAL 2 MONTH))
     LEFT JOIN `product` ON `orders`.`product_id` = `product`.`product_id`
+WHERE
+	`user`.`active` = 1
 GROUP BY 
   `user`.`user_id`,
   `user`.`username`,
@@ -226,10 +232,10 @@ ORDER BY
 	}	
 	
 	function Delete($user_id) {
-		global $db;
-		
+		global $db, $dispatcher;	
 		$query = "update user set active=0 where user_id=".intval($user_id);
-		$db->Execute($query);
+		if($db->Execute($query))
+			$dispatcher->trigger('onUserDelete',$id);
 	}	
 	
 	function CheckUserActive($username) {

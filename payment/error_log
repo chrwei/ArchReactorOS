@@ -1,0 +1,26 @@
+[09-Sep-2008 21:10:22] PHP Fatal error:  Using $this when not in object context in /home/indexute/public_html/order/lib/functions.php on line 72
+[09-Sep-2008 21:11:34] PHP Fatal error:  Using $this when not in object context in /home/indexute/public_html/order/lib/functions.php on line 72
+[09-Sep-2008 21:23:49] PHP Parse error:  syntax error, unexpected T_VARIABLE, expecting ',' or ';' in /home/indexute/public_html/order/lib/order.class.php on line 129
+[09-Sep-2008 21:25:27] PHP Parse error:  syntax error, unexpected T_VARIABLE, expecting ',' or ';' in /home/indexute/public_html/order/lib/order.class.php on line 129
+[09-Sep-2008 21:26:08] PHP Parse error:  syntax error, unexpected T_VARIABLE, expecting ',' or ';' in /home/indexute/public_html/order/lib/order.class.php on line 129
+[09-Sep-2008 21:27:55] PHP Parse error:  syntax error, unexpected T_VARIABLE, expecting ',' or ';' in /home/indexute/public_html/order/lib/order.class.php on line 129
+[09-Sep-2008 21:28:41] PHP Parse error:  syntax error, unexpected T_VARIABLE, expecting ',' or ';' in /home/indexute/public_html/order/lib/order.class.php on line 129
+[09-Sep-2008 21:29:58] PHP Parse error:  syntax error, unexpected T_VARIABLE, expecting ',' or ';' in /home/indexute/public_html/order/lib/order.class.php on line 129
+[09-Sep-2008 21:30:52] PHP Parse error:  syntax error, unexpected T_VARIABLE, expecting ',' or ';' in /home/indexute/public_html/order/lib/order.class.php on line 129
+[09-Sep-2008 21:33:49] PHP Parse error:  syntax error, unexpected T_VARIABLE, expecting ',' or ';' in /home/indexute/public_html/order/lib/order.class.php on line 129
+[09-Sep-2008 21:55:15] PHP Parse error:  syntax error, unexpected T_VARIABLE, expecting ',' or ';' in /home/indexute/public_html/order/lib/order.class.php on line 129
+[09-Sep-2008 21:58:00] PHP Parse error:  syntax error, unexpected T_VARIABLE, expecting ',' or ';' in /home/indexute/public_html/order/lib/order.class.php on line 129
+[09-Sep-2008 22:00:42] PHP Parse error:  syntax error, unexpected T_VARIABLE, expecting ',' or ';' in /home/indexute/public_html/order/lib/order.class.php on line 129
+[09-Sep-2008 22:02:37] PHP Parse error:  syntax error, unexpected T_VARIABLE, expecting ',' or ';' in /home/indexute/public_html/order/lib/order.class.php on line 129
+[09-Sep-2008 22:04:47] PHP Parse error:  syntax error, unexpected T_VARIABLE, expecting ',' or ';' in /home/indexute/public_html/order/lib/order.class.php on line 129
+[09-Sep-2008 22:06:24] PHP Parse error:  syntax error, unexpected T_VARIABLE, expecting ',' or ';' in /home/indexute/public_html/order/lib/order.class.php on line 129
+[09-Sep-2008 22:08:54] PHP Parse error:  syntax error, unexpected T_VARIABLE, expecting ',' or ';' in /home/indexute/public_html/order/lib/order.class.php on line 129
+[09-Sep-2008 22:10:15] PHP Parse error:  syntax error, unexpected T_VARIABLE, expecting ',' or ';' in /home/indexute/public_html/order/lib/order.class.php on line 129
+[09-Sep-2008 22:31:53] PHP Parse error:  syntax error, unexpected T_VARIABLE, expecting ',' or ';' in /home/indexute/public_html/order/lib/order.class.php on line 134
+[09-Sep-2008 22:35:12] PHP Parse error:  syntax error, unexpected T_VARIABLE, expecting ',' or ';' in /home/indexute/public_html/order/lib/order.class.php on line 134
+[09-Sep-2008 22:42:47] PHP Parse error:  syntax error, unexpected T_VARIABLE, expecting ',' or ';' in /home/indexute/public_html/order/lib/order.class.php on line 134
+[09-Sep-2008 22:45:30] PHP Parse error:  syntax error, unexpected T_VARIABLE, expecting ',' or ';' in /home/indexute/public_html/order/lib/order.class.php on line 134
+[09-Sep-2008 22:46:37] PHP Parse error:  syntax error, unexpected T_VARIABLE, expecting ',' or ';' in /home/indexute/public_html/order/lib/order.class.php on line 134
+[09-Sep-2008 22:49:37] PHP Parse error:  syntax error, unexpected T_VARIABLE, expecting ',' or ';' in /home/indexute/public_html/order/lib/order.class.php on line 134
+[09-Sep-2008 22:51:51] PHP Parse error:  syntax error, unexpected T_VARIABLE, expecting ',' or ';' in /home/indexute/public_html/order/lib/order.class.php on line 134
+[09-Sep-2008 22:53:55] PHP Parse error:  syntax error, unexpected T_VARIABLE, expecting ',' or ';' in /home/indexute/public_html/order/lib/order.class.php on line 134

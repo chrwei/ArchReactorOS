@@ -262,18 +262,30 @@ order by
   }
 */
 
-  function CheckActiveOrder($product_id,$user_id,$date_order)
+  function CheckActiveOrder($product_id,$user_id,$date_order, $admin=false)
   {
     global $db;
     
-    $query  = "select max(date_expire) as max_date_expire from orders where product_id = ".intval($product_id)." and user_id = ".intval($user_id);
-    $result = $db->Execute($query);
-    $data   = $result->FetchRow();
-    
-    if($data['max_date_expire'] <= $date_order)
-      return true;
-    else
-      return false;
+    if ($admin) //if admin, only validate that order doens't exist
+    {
+		$query  = "select count(*) as check_date from orders where product_id = ".intval($product_id)." and user_id = ".intval($user_id)." and date_order=".intval($date_order);
+		$result = $db->Execute($query);
+		$data   = $result->FetchRow();
+		if($data['check_date'] == 0)
+		  return true;
+		else
+		  return false;
+	}
+	else //if not admin, only allow future payments
+	{
+		$query  = "select max(date_expire) as check_date from orders where product_id = ".intval($product_id)." and user_id = ".intval($user_id);
+		$result = $db->Execute($query);
+		$data   = $result->FetchRow();
+		if($data['check_date'] <= $date_order)
+		  return true;
+		else
+		  return false;
+	}
   }
 }
 ?>

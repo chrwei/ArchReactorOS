@@ -13,6 +13,10 @@ include CFG_SITE_PATH.'lib/template.lib.php';
 include CFG_SITE_PATH.'lib/adodb5/adodb.inc.php';
 include CFG_SITE_PATH.'lib/phpmailer/class.phpmailer.php';
 include CFG_SITE_PATH.'lib/functions.php';
+
+// replace the following by an autoload function
+// (see http://github.com/chrwei/ArchReactorOS/issues/issue/21)
+include CFG_SITE_PATH.'lib/dispatcher.class.php';
 include CFG_SITE_PATH.'lib/form_validation.lib.php';
 include CFG_SITE_PATH.'lib/user.class.php';
 include CFG_SITE_PATH.'lib/email.class.php';
@@ -22,21 +26,26 @@ include CFG_SITE_PATH.'lib/banned.class.php';
 include CFG_SITE_PATH.'lib/coupon.class.php';
 include CFG_SITE_PATH.'lib/payment.class.php';
 include CFG_SITE_PATH.'lib/invoice.class.php';
+include CFG_SITE_PATH.'lib/extension_controller.class.php';
 
+// required everywhere
 $db = ADONewConnection('mysql');
 $db->Connect(DB_HOST, DB_USER, DB_PWD, DB_NAME);
 $db->debug = false;
 $ADODB_FETCH_MODE = ADODB_FETCH_ASSOC;
 
 $tpl        = new Template;
-$mail       = new Email();
-$user       = new User();
-$product    = new Product();
-$order      = new Order();
-$banned     = new Banned();
-$coupon     = new Coupon();
-$pay_class  = new Payment();
-$inv_class  = new Invoice();
+$mail       = new Email;
+$dispatcher = Dispatcher::Instance();
+
+// not required everywhere
+$user       = new User;
+$product    = new Product;
+$order      = new Order;
+$banned     = new Banned;
+$coupon     = new Coupon;
+$pay_class  = new Payment;
+$inv_class  = new Invoice;
 
 if (strpos($_SERVER['PHP_SELF'], '/install/') != TRUE) {
   GetConfig();
@@ -91,4 +100,7 @@ elseif (!ini_get('register_globals')) {
   if (!empty($_POST)) safe_extract($_POST);
   if (!empty($_COOKIE)) safe_extract($_COOKIE);
 }
+
+// Done with setup.. let extensions know
+$dispatcher->trigger('onSystemInitialised');
 ?>

@@ -31,11 +31,11 @@ function ProcessFormLogin() {
     }
   }
   elseif(!$user->CheckUserLogin($username)){
-    $error_list[$i] = "User doesnt exist";
+    $error_list[$i] = _("User doesnt exist");
     $i++;    
   }
   elseif(!$user->CheckPasswordLogin($username,$password)){
-    $error_list[$i] = "Invalid password";
+    $error_list[$i] = _("Invalid password");
     $i++;    
   }
   
