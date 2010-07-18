@@ -194,33 +194,28 @@ function ProcessFormRegister() {
 			}
 		}
 				
+		$user_id = $user->Add($username, $password, $firstname, $lastname,$email, $address1, $address2, $city, $state, $zip, $phone);
 		if($price == 0)
 		{
-				$user_id = $user->Add($username, $password, $firstname, $lastname,$email, $address1, $address2, $city, $state, $zip, $phone);
-				$order_id = $order->AddOrder($user_id,$product_id,$date_order);
-				
-				$order_data			 = $order->GetOrder($order_id);
-				$product_name		 = $order_data['name'];
-				$product_desc		 = $order_data['description'];
-				$product_price		= $order_data['price'];
-				$product_expire	 = date("Y-m-d",$order_data['date_expire']);
-				$from_email = CFG_NOTIFY_EMAIL;
-				$from_name = CFG_NOTIFY_FROM;						
-				
-				$mail->ConfirmOrderEmail(CFG_SITE_NAME,$firstname,$lastname,$from_email,$from_name,$product_name,$product_desc,$product_price,$product_expire,$email);
-				$mail->ReceivedOrderEmail(CFG_SITE_NAME,$firstname,$lastname,$from_email,$from_name,$product_name,$product_desc,$product_price,$date_order,$product_expire,CFG_SITE_MAIL);
-				
-				$order->UpdateLastEmailSent($order_id,time());
-				$login = $user->Login($username, $password, $expire);
-				header("Location: index.php");
+			$order_id = $order->AddOrder($user_id,$product_id,$date_order);
+			
+			$order_data			 = $order->GetOrder($order_id);
+			$product_name		 = $order_data['name'];
+			$product_desc		 = $order_data['description'];
+			$product_price		= $order_data['price'];
+			$product_expire	 = date("Y-m-d",$order_data['date_expire']);
+			$from_email = CFG_NOTIFY_EMAIL;
+			$from_name = CFG_NOTIFY_FROM;						
+			
+			$mail->ConfirmOrderEmail(CFG_SITE_NAME,$firstname,$lastname,$from_email,$from_name,$product_name,$product_desc,$product_price,$product_expire,$email);
+			$mail->ReceivedOrderEmail(CFG_SITE_NAME,$firstname,$lastname,$from_email,$from_name,$product_name,$product_desc,$product_price,$date_order,$product_expire,CFG_SITE_MAIL);
+			
+			$order->UpdateLastEmailSent($order_id,time());
+			$login = $user->Login($username, $password, $expire);
+			header("Location: index.php");
 		}
 		else
 		{
-			$firstname			= $_REQUEST['firstname'];
-			$lastname			 = $_REQUEST['lastname'];
-			$email					= $_REQUEST['email'];
-			$username			 = $_REQUEST['username'];
-			$password			 = $_REQUEST['password'];
 			$currency_code	= $currency_code;//$currency_unit ===== GLOBAL VARIABLE
 			$return_url		 = CFG_SITE_URL;
 			$cancel_url		 = CFG_SITE_URL;

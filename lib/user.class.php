@@ -1,7 +1,7 @@
 <?php
 class User
 {
-	function Add($username, $password, $firstname, $lastname, $email, $address1, $address2, $city, $state, $zip, $phone)
+	function Add($username, $password, $firstname, $lastname, $email, $address1 = '', $address2 = '', $city = '', $state = '', $zip = '', $phone = '')
 	{
 		global $db;
 	
