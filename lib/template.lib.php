@@ -23,7 +23,7 @@ class Template extends Smarty {
 		// setting some smarty vars
 		$this->caching 			= FALSE;	// set to true in production
 		$this->use_sub_dirs		= false;
-		$this->debugging 		= OFF;		// debug popup
+		$this->debugging 		= false;		// debug popup
 		$this->compile_check 	= TRUE;		// set to false in production
 		$this->security 		= FALSE;	// set to true if untrusted parties have access to template files
 			
