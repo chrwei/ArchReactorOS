@@ -7,33 +7,7 @@
 {literal}
 <script src="../lib/js/lib/jquery.js" type="text/javascript"></script>
 <script src="../lib/js/jquery.tooltip.js" type="text/javascript"></script>
-<script type="text/javascript">
-$(function() {
-var dumy='';
-$(".view_detail").tooltip({
-  delay: 200,
-  position: 'mouse',
-    bodyHandler: function() {
-    
-    var send = $(this).attr('ajaxurl');
-    $.ajax({
-    url:send,
-    type:'post',
-    success:function(msg){
-       dumy = msg; 
-       
-    },
-	  async:   false
-    });
-    
-		return dumy;
-	},
-  top: -15,
-	left: 5,
-  showCFG_SITE_URL: false
-});
-});
-</script>
+<script src="../aros.js" type="text/javascript"></script>
 {/literal}
 </head>
 <body>
