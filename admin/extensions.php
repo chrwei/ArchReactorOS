@@ -28,4 +28,3 @@ switch($_REQUEST['pf']){
 	break;
 }
 
-?>

@@ -288,8 +288,8 @@
             </tr>
             {if !$orders}
             <tr>
-              <td colspan="6" style="font-size:11px;text-align:center;color:red;">
-                ======== There's no order data ========
+              <td colspan="6" class="generic-warning">
+                There's no order data
               </td>
             </tr>
             {else}
@@ -326,7 +326,7 @@
 <!-- end :: midle -->
 {include file="footer.html"}
 {literal}
-<script language="javascript">
+<script>
 
 function GetProductCheckedValue(radioObj) {
 	if(!radioObj)

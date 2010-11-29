@@ -138,16 +138,16 @@ function ShowAddBannedIp()
     $ip_d = $_REQUEST['ip_d'];
 
     if(!IsDigit($ip_a) || !IsDigit($ip_b) || !IsDigit($ip_c) || !IsDigit($ip_d)){
-      $error_list_banned_single_ip[$i] = "Ip must be digit";
+      $error_list_banned_single_ip[$i] = "IP must be a digit";
       $i++;    
     }
     elseif($ip_a >=256 || $ip_b >=256 || $ip_c >=256 || $ip_d >=256){
-      $error_list_banned_single_ip[$i] = "Ip is not valid";
+      $error_list_banned_single_ip[$i] = "IP is not valid";
       $i++;    
     }
     elseif($banned->CheckBannedIp($ip_a.".".$ip_b.".".$ip_c.".".$ip_d,$ip_a.".".$ip_b.".".$ip_c.".".$ip_d))
     {
-      $error_list_banned_single_ip[$i] = "This Banned ip is already exist";
+      $error_list_banned_single_ip[$i] = "This Banned IP already exists";
       $i++; 
     }
     
@@ -174,19 +174,19 @@ function ShowAddBannedIp()
     $ip_end_d   = $_REQUEST['ip_end_d'];
 
     if(!IsDigit($ip_start_a) || !IsDigit($ip_start_b) || !IsDigit($ip_start_c) || !IsDigit($ip_start_d) || !IsDigit($ip_end_a) || !IsDigit($ip_end_b) || !IsDigit($ip_end_c) || !IsDigit($ip_end_d)){
-      $error_list_banned_range_ip[$i] = "Ip must be digit";
+      $error_list_banned_range_ip[$i] = "IP must be a digit";
       $i++;    
     }
     elseif($ip_start_a >=256 || $ip_start_b >=256 || $ip_start_c >=256 || $ip_start_d >=256 || $ip_end_a >=256 || $ip_end_b >=256 || $ip_end_c >=256 || $ip_end_d >=256){
-      $error_list_banned_range_ip[$i] = "Ip is not valid";
+      $error_list_banned_range_ip[$i] = "IP is not valid";
       $i++;    
     }
     elseif($banned->GetIpNumber($ip_start_a.".".$ip_start_b.".".$ip_start_c.".".$ip_start_d) >  $banned->GetIpNumber($ip_end_a.".".$ip_end_b.".".$ip_end_c.".".$ip_end_d)){
-      $error_list_banned_range_ip[$i] = "Ip address start must be large than Ip address end";
+      $error_list_banned_range_ip[$i] = "IP address range start must be larger than its end address";
       $i++; 
     }
     elseif($banned->CheckBannedIp($ip_start_a.".".$ip_start_b.".".$ip_start_c.".".$ip_start_d,$ip_end_a.".".$ip_end_b.".".$ip_end_c.".".$ip_end_d)){
-      $error_list_banned_range_ip[$i] = "This Banned ip is already exist";
+      $error_list_banned_range_ip[$i] = "This Banned IP already exists";
       $i++; 
     }
     

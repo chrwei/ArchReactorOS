@@ -112,11 +112,16 @@
     A:visited {text-decoration: none;  color: inherit;}
     A:active {text-decoration: none; color: inherit;}
     A:hover {text-decoration: none; color: #333333;}
+    .install-frame { width:700px;border:1px solid  #C4D3D6;border-collapse:collapse; }
+    .install-heading { font-size:20px;font-weight:bold;color:#ff9900; }
+    .install-main-box {margin-left:20px;width:480px;}
+    .install-body {font-size:12px;}
+    .next-button-container {text-align:left;padding:10 0 10px 0;}
   </style>
 </head>
 
 <body>
-<table style="width:700px;border:1px solid  #C4D3D6;border-collapse:collapse;"align="center">
+<table class="install-frame" align="center">
   <tr>
     <td class="header"></td>
   </tr>
@@ -125,7 +130,7 @@
       <table align="left" style="border-collapse:collapse;background-color:#e4edf6;" align="left">
         <tr>
           <td class="sidebar_top">
-            Step Instalations
+            Installation steps
           </td>
         </tr>
         <tr>
@@ -168,20 +173,20 @@
           <td class="sidebar_bottom"></td>
         </tr>
       </table>
-      <table style="margin-left:20px;width:480px;" align="left">
+      <table class="install-main-box" align="left">
         <tr>
           <td>
-            <font style="font-size:20px;font-weight:bold;color:#ff9900;"><?=$process_title?></font>
+            <span class="install-heading"><?=$process_title?></font>
           </td>
         </tr>
         <form action="install.php" method="post">
         <tr>
-          <td style="font-size:12px;">
+          <td class="install-body">
             <?=$message?>
           </td>
         </tr>
         <tr>
-          <td style="text-align:left;padding:10 0 10px 0;">
+          <td class="next-button-container">
             <input type="hidden" name="s" value="<?=$next_step?>">
             <?=$next_bt?>
           </td>

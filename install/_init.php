@@ -111,6 +111,6 @@ $message_step7 = "
 Please delete this <b>/install</b> folder to secure
 to your web site. Thank you and enjoy our product.</p>
 <p>Your initial password for 'admin' is 'adminpw', change it as soon as possible.</p>
-<p><a href=../admin>Go to admin panel</a></p>
+<p><a style='text-decoration:underline;' href='../admin'>Go to admin panel &raquo;</a></p>
 ";
 ?>

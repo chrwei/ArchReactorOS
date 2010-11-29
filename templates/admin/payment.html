@@ -1,14 +1,13 @@
 {literal}
-<script language="javascript">
+<script>
 function GetCurrencyCheckedValue(radioObj) {
-	if(!radioObj)
+	if(!radioObj) {
 		return "";
+	}
 	var radioLength = radioObj.length;
-	if(radioLength == undefined)
-		if(radioObj.checked)
-			return radioObj.value;
-		else
-			return "";
+	if(radioLength == undefined) {
+		return (radioObj.checked) ? radioObj.value : '';
+	}
 	for(var i = 0; i < radioLength; i++) {
 		if(radioObj[i].checked) {
 			return radioObj[i].value;
@@ -21,13 +20,9 @@ function change_currency()
 {
   var currency_id  = GetCurrencyCheckedValue(document.forms['frm1'].elements['currency_id']);
   var form         = document.getElementById('frm1');
-    
-  if(!currency_id)
-  {
+  if(!currency_id) {
     alert("No currency selected");
-  }
-  else
-  {
+  } else {
     form.submit();
   }
 }

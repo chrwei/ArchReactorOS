@@ -1,17 +1,10 @@
 {include file="admin/header.html"}
 {literal}
-<script language=javascript>
+<script>
 checked = false;
   function checkedAll (frm1) {
 	var aa= document.getElementById('frm1');
-	    if (checked == false)
-          {
-           checked = true
-          }
-        else
-          {
-          checked = false
-          }
+    checked = !checked;
 	for (var i =0; i < aa.elements.length; i++) 
 	{
 	 aa.elements[i].checked = checked;
@@ -242,14 +235,14 @@ checked = false;
               <tr>
                 <td colspan="5" class="success">
                   Confirmation :
-                  <ul><li>Delete data is success</li></ul>
+                  <ul><li>Successfully deleted data</li></ul>
                 </td>
               </tr>
               {/if}                 
               {if !$orders}
               <tr>
                 <td colspan="5" style="font-size:11px;text-align:center;color:red;">
-                  ======== Not order data ========
+                  ======== No order data ========
                 </td>
               </tr>
               {else}

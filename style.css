@@ -94,7 +94,6 @@ body
    color:#003366;
    text-align:left;
    height: 30px;
-   text-decoration: underline;
 }
 
 .td_search_1
@@ -260,3 +259,16 @@ A:hover {text-decoration: none; color: #003366;}
 
 
 
+.generic-warning {
+	font-size:11px;
+	text-align:center;
+	color:red;
+}
+
+
+.masthead-text {
+	font-family:trebuchet ms;
+	font-size:11px;
+	height:25px;
+	color:#000000;
+}

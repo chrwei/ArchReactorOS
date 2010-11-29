@@ -1,110 +1,72 @@
 {include file="admin/header.html"}
 {literal}
-<script language="javascript">
+<script>
 checked = false;
-  function checkedAll (frm1) {
+function checkedAll (frm1) {
 	var aa= document.getElementById('frm1');
-	    if (checked == false)
-          {
-           checked = true
-          }
-        else
-          {
-          checked = false
-          }
-	for (var i =0; i < aa.elements.length; i++) 
-	{
-	 aa.elements[i].checked = checked;
+	checked = !checked;
+	for (var i =0; i < aa.elements.length; i++) {
+		aa.elements[i].checked = checked;
 	}
-  }
-  
-  function delete_coupon(frm1) {
-   
-  var aa = document.getElementById('frm1');
-	var check = false;
-	
-  for (var i =0; i < aa.elements.length; i++) 
-	{
-	  
-    if (aa.elements[i].checked == true)
-	  {
-      check = true;
-    }    
-	}
-	
-	
-  if (check == true)  
-  {
-    var conf_del = confirm('Are you sure want to delete ?');
-    if (conf_del == true) {
-      aa.submit();
-    }
-    
-  }  
-  else {
-    alert("Not coupon selected");    
-  }
- 
-  }
-  
-  function add_product_discount(frm1) {
-   
-  var aa = document.getElementById('frm1');
-	var check = false;
-	
-  for (var i =0; i < aa.elements.length; i++) 
-	{
-	  
-    if (aa.elements[i].checked == true)
-	  {
-      check = true;
-    }    
-	}
-	
-	
-  if (check == true)  
-  {
-    var conf_del = confirm('Are you sure want to add?');
-    if (conf_del == true) {
-      aa.submit();
-    }
-    
-  }  
-  else {
-    alert("Not product selected");    
-  }
- 
-  }
+}
 
-  
-  function delete_product_discount(frm1) {
-   
-  var aa = document.getElementById('frm1');
+function delete_coupon(frm1) {
+	var aa = document.getElementById('frm1');
 	var check = false;
-	
-  for (var i =0; i < aa.elements.length; i++) 
-	{
-	  
-    if (aa.elements[i].checked == true)
-	  {
-      check = true;
-    }    
+	for (var i =0; i < aa.elements.length; i++) {
+		if (aa.elements[i].checked) {
+			check = true;
+		}    
 	}
-	
-	
-  if (check == true)  
-  {
-    var conf_del = confirm('Are you sure want to add?');
-    if (conf_del == true) {
-      aa.submit();
-    }
-    
-  }  
-  else {
-    alert("Not product selected");    
-  }
- 
-  }
+
+	if (check) {
+		var conf_del = confirm('Are you sure want to delete ?');
+		if (conf_del == true) {
+			aa.submit();
+		}
+	}  
+	else {
+		alert("No coupon selected");    
+	}
+}
+
+function add_product_discount(frm1) {
+	var aa = document.getElementById('frm1');
+	var check = false;
+
+	for (var i =0; i < aa.elements.length; i++) {
+		if (aa.elements[i].checked) {
+			check = true;
+		}    
+	}
+
+	if (check) {
+		if (confirm('Are you sure want to add?')) {
+			aa.submit();
+		}
+	} else {
+		alert("No product selected");
+	}
+}
+
+
+function delete_product_discount(frm1) {
+	var aa = document.getElementById('frm1');
+	var check = false;
+	for (var i =0; i < aa.elements.length; i++) {
+		if (aa.elements[i].checked) {
+			check = true;
+		}
+	}
+
+	if (check) {
+		if (confirm('Are you sure want to add?')) {
+			aa.submit();
+		}
+	} else {
+		alert("No product selected");
+	}
+}
   </script>
 {/literal}
   <tr>
@@ -153,14 +115,14 @@ checked = false;
               <tr>
                 <td colspan="5" class="success">
                   Confirmation :
-                  <ul><li>Delete data is success</li></ul>
+                  <ul><li>Data was deleted successfully</li></ul>
                 </td>
               </tr>
               {/if}                 
               {if !$coupons}
               <tr>
-                <td colspan="5" style="font-size:11px;text-align:center;color:red;">
-                 ======== Not coupon data ========
+                <td colspan="5" class="generic-warning">
+                 No coupon data
                 </td>
               </tr>
               {else}

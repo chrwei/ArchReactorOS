@@ -191,17 +191,15 @@
   </tr>
 {include file="footer.html"}
 {literal}
-<script language="javascript">
+<script>
 
 function GetProductCheckedValue(radioObj) {
 	if(!radioObj)
 		return "";
 	var radioLength = radioObj.length;
-	if(radioLength == undefined)
-		if(radioObj.checked)
-			return radioObj.value;
-		else
-			return "";
+	if(typeof radioLength == "undefined") {
+		return (radioObj.checked) ? radioObj.value : '';
+	}
 	for(var i = 0; i < radioLength; i++) {
 		if(radioObj[i].checked) {
 			return radioObj[i].value;
@@ -234,7 +232,7 @@ function check_coupon()
       	{
       	  document.getElementById("coupon_confirmation").innerHTML = XMLHttpRequest.responseText;
       	}
-    }
+    };
   	XMLHttpRequest.open('GET',url,true);
   	XMLHttpRequest.send(null);
 	}

@@ -1,63 +1,39 @@
 {include file="admin/header.html"}
 {literal}
-<script language=javascript>
+<script>
 checked = false;
-  function checkedAll (frm1) {
+function checkedAll (frm1) {
 	var aa= document.getElementById('frm1');
-	    if (checked == false)
-          {
-           checked = true
-          }
-        else
-          {
-          checked = false
-          }
-	for (var i =0; i < aa.elements.length; i++) 
-	{
-	 aa.elements[i].checked = checked;
+	checked = !checked;
+	for (var i =0; i < aa.elements.length; i++) {
+		aa.elements[i].checked = checked;
 	}
-  }
-  
-  function delete_email(frm1) {
-   
-  var aa = document.getElementById('frm1');
+}
+
+function delete_email(frm1) {
+	var aa = document.getElementById('frm1');
 	var check = false;
-	
-  for (var i =0; i < aa.elements.length; i++) 
-	{
-	  
-    if (aa.elements[i].checked == true)
-	  {
-      check = true;
-    }
-    
+	for (var i =0; i < aa.elements.length; i++) {
+		if (aa.elements[i].checked) {
+			check = true;
+		}
 	}
-	
-	
-  if (check == true)  
-  {
-    var conf_del = confirm('Are you sure want to delete?');
-    if (conf_del == true) {
-      aa.submit();
-    }
-    
-  }  
-  else {
-    alert("Please check item to delete first");    
-  }
- 
-  }
-  
-  
-  function paste()
-	{
-    document.getElementById('b').value = document.getElementById('a').value;
-    
-  }
-  
-  
-  
-  </script>
+
+	if (check) {
+		var conf_del = confirm('Are you sure want to delete?');
+		if (conf_del == true) {
+			aa.submit();
+		}
+	} else {
+		alert("Please check item to delete first");    
+	}
+}
+
+function paste() {
+	document.getElementById('b').value = document.getElementById('a').value;
+}
+
+</script>
 {/literal}
  <!-- begin :: midle -->
   <tr>

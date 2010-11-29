@@ -1,5 +1,5 @@
 {literal}
-<script language="javascript">
+<script>
 checked = false;
   function checkedAll (frm1) {
 	var aa= document.getElementById('frm1');
@@ -115,8 +115,8 @@ checked = false;
                 {/if}
                 {if !$ban_country}
                 <tr>
-                  <td colspan="4" style="font-size:11px;text-align:center;color:red;">
-                    ======== Not coutry banned ========<br>
+                  <td colspan="4" class="generic-warning">
+                    No country banned<br>
                   </td>
                 </tr>
                 <tr>
@@ -171,8 +171,8 @@ checked = false;
                 {/if}    
                 {if !$ban_ip}
                 <tr>
-                  <td colspan="6" style="font-size:11px;text-align:center;color:red;">
-                    ======== Not ip banned ========<br>
+                  <td colspan="6" class="generic-warning">
+                    No IPs banned<br>
                   </td>
                 </tr>
                 <tr>

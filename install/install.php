@@ -17,16 +17,17 @@ include "_init.php";
 *************************************/
 
 if (empty($_POST['s'])) {
+	$s = '';
 	$next_step = 2;
 	$process_title = "$script_name Installation";
 	$message = $message_step1;
 }
 
-
 /*************************************
  step 2
 *************************************/
 elseif ($_POST['s']==2) {
+	$s = 2;
 	$next_step = 3;
 	$process_title = "Checking Server";
 	$message = CheckServerReq();
@@ -37,6 +38,7 @@ elseif ($_POST['s']==2) {
  step 3
 *************************************/
 elseif ($_POST['s']==3) {
+	$s = 3;
 	if (InitExixst()) {
 		$next_step = 5;
 	}
@@ -52,6 +54,7 @@ elseif ($_POST['s']==3) {
  step 4
 *************************************/
 elseif ($_POST['s']==4) {
+	$s = 4;
 	$next_step = 5;
 	$process_title = "Application Setting";
 	$message = ShowForm();
@@ -62,6 +65,7 @@ elseif ($_POST['s']==4) {
  step 5
 *************************************/
 elseif ($_POST['s']==5) {
+	$s = 5;
 	if (!InitExixst()) {
 		$error_message = CheckForm();
 	}
@@ -86,6 +90,7 @@ elseif ($_POST['s']==5) {
  step 6
 *************************************/
 elseif ($_POST['s']==6) {
+	$s = 6;
 	if (!empty($_POST['sql_select'])) {
 		$next_step = 7;
 		$process_title = "Prepare Database";
@@ -104,6 +109,7 @@ elseif ($_POST['s']==6) {
  step 7
 *************************************/
 elseif ($_POST['s']==7) {
+	$s = 7;
 	$next_bt = "";
 	$process_title = "Installation Complete";
 	$message = Finish();
@@ -331,13 +337,8 @@ function ShowFormSQL() {
 	$i = 0;
 	$out = "<p>Select your installation type:<br>";
 	foreach($sql_option as $key => $val) {
-		if ($i==0) {
-			$checked = "checked";
-		}
-		else {
-			$checked = "";
-		}
-		$out .= "<br><input type=radio name=sql_select value=\"$val\" $checked> $key";
+		$checked = ($i ===0 ) ? 'checked' : '';
+		$out .= "<br><label><input type=radio name=sql_select value=\"$val\" $checked> $key</label>";
 		$i++;
 	}
 	return $out;
@@ -437,5 +438,3 @@ function IsValidEmailAddress($str) {
 	}
 }
 
-
-?>
