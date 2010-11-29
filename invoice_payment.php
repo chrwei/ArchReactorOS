@@ -69,4 +69,3 @@ function ShowInvoice()
 GetInvoice($_REQUEST['invoice_id']);
 ShowInvoice();
 
-?>

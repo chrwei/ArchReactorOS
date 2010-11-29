@@ -328,4 +328,3 @@ elseif ($pf == 'reg') {
 	ProcessFormRegister();
 }
 
-?>

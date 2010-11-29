@@ -78,4 +78,3 @@ if (empty($_REQUEST['pf'])) {
 elseif ($_REQUEST['pf'] == 'login') {
   ProcessFormLogin();
 }
-?>

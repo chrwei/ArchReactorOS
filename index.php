@@ -145,4 +145,3 @@ switch($_REQUEST['pf'])
 		ShowOrder();
 		break;
 }
-?>

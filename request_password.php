@@ -73,4 +73,3 @@ elseif ($pf == 'success') {
   ShowFormSuccess();
   ProcessRequestPassword();
 }
-?>

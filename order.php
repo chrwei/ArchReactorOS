@@ -621,4 +621,3 @@ elseif ($pf =='renewal') {
 		ShowFormRenewOrder();
 	}	
 }
-?>

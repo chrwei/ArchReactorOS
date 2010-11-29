@@ -108,4 +108,3 @@ if ($_REQUEST['tooltip'] == 'order') {
     </table>
   ";  
 }
-?>
