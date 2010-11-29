@@ -29,8 +29,7 @@ $writeable_failed = "<font color=red>not writeable</font>";
 
 $message_step1 = "
 <p>Welcome to $script_name installation!</p>
-<p>Please follow the steps carefully. If you have any troubles,
-do not hesitate to contact our support department.</p>
+<p>Please follow the steps carefully.</p>
 ";
 
 
@@ -99,11 +98,11 @@ $message_step5 = "
 ";
 
 $message_step6 = "
-  SQL query executed successfully.
+  The SQL query executed successfully.
 ";
 
 $message_step6_err = "
-  SQL query errored, fix and refresh or go back a page or 2.
+  The SQL query had an error, fix and refresh, or go back a page or two.
 ";
 
 $message_step7 = "
