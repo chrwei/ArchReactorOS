@@ -2,7 +2,11 @@
 
 ArchReactorOS is a membership application software for your website.
 
-Copyright(C), ArchReactor, 2010, All Rights Reserved. Parts Copyright(C), Nicecoder, 2008, All Rights Reserved. See license.txt for license.
+Copyright(C), ArchReactor, 2010, All Rights Reserved.
+
+Parts Copyright(C), Nicecoder, 2008, All Rights Reserved. 
+
+See license.txt for license (GPL 2).
 
 ## Features
 
