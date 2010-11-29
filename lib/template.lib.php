@@ -21,11 +21,11 @@ class Template extends Smarty {
 		$this->config_dir 		= '';
 		
 		// setting some smarty vars
-		$this->caching 			= FALSE;	// set to true in production
+		$this->caching 			= false;	// set to true in production
 		$this->use_sub_dirs		= false;
 		$this->debugging 		= false;		// debug popup
-		$this->compile_check 	= TRUE;		// set to false in production
-		$this->security 		= FALSE;	// set to true if untrusted parties have access to template files
+		$this->compile_check 	= true;		// set to false in production
+		$this->security 		= false;	// set to true if untrusted parties have access to template files
 			
 		parent::__construct();
       }
