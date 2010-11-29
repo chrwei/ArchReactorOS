@@ -112,4 +112,4 @@ to your web site. Thank you and enjoy our product.</p>
 <p>Your initial password for 'admin' is 'adminpw', change it as soon as possible.</p>
 <p><a style='text-decoration:underline;' href='../admin'>Go to admin panel &raquo;</a></p>
 ";
-?>
+

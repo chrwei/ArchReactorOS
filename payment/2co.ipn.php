@@ -27,4 +27,3 @@ $co_secret     		 = $list_co_account[1];
 $payment_date      = time();
 ProcessIPN($co_sid,$_POST['sid'],$_POST['total'],$val_product_id,$val_username,$val_password,$val_firstname,$val_lastname,$val_email,$log,$payment_date,$payment_gateway,$_POST['invoice_id'],$val_coupon_code,$val_date_order);
   
-?>

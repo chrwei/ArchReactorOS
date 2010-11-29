@@ -20,4 +20,3 @@ $invoice_html = "
 
 // do not change here
 $enable_paypal_sandbox = "0";
-?>

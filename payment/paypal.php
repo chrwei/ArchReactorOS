@@ -27,4 +27,4 @@ else
 <input type="hidden" name="notify_url" value="<?= $notify_url; ?>">
 <input type="hidden" name="return" value="<?= $return_url; ?>">
 <input type="hidden" name="cancel_return" value="<?= $cancel_url; ?>">
-</form>  
+</form>

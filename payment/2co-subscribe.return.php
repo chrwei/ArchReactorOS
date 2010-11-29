@@ -44,4 +44,3 @@ elseif (ereg('2co.check-invoice.php', $_POST['notify_url'])) {
   exit;
 }
 
-?>

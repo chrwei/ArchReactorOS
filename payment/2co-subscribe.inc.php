@@ -15,4 +15,3 @@ $invoice_html = "
 	</p>
 ";
 
-?>

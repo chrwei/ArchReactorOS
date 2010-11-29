@@ -393,4 +393,3 @@ class DB_Session {
 
 DB_Session::Init();
 
-?>

@@ -16,4 +16,3 @@ $invoice_html = "
 
 // Do not change here
 $enable_paypal_sandbox = "0";
-?>

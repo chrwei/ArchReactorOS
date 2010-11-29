@@ -39,4 +39,4 @@ if (!$co_recurring) {
 <input type="hidden" name="custom" value="<?= urlencode($custom) ?>">
 <input type="hidden" name="total" value="<?= $price ?>">  
 </form>
-<? } ?>	
+<? } ?>

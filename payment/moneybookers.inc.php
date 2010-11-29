@@ -20,4 +20,3 @@ $invoice_html = "
 
 $enable_alertpay_sandbox = "0";
 
-?>

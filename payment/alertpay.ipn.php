@@ -95,4 +95,4 @@ function setSubscriptionVariables()
   $ap_TrialPeriodLength           = $_POST['ap_trialperiodlength'];
   $ap_TrialAmount                 = $_POST['ap_trialamount'];
 }
-?>
+
