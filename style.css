@@ -44,7 +44,7 @@ body
   font-size: 12px;
   font-family: arial;
   color: #7E8186;
-  background: url('images/form_bg.png') repeat-x #FFFFFF;
+  background: url('images/form_bg.png') repeat-x white;
 }
 
 .bottom
@@ -55,7 +55,7 @@ body
   padding: 0 0 0 20px;
   height: 30px;
   background: url('images/footer_bg.png');
-  color:  #fff;
+  color: white;
   
 }
 .footer
@@ -158,7 +158,7 @@ body
   font-weight:bold;font-size:11px;height:30px;
   border:1px solid #D7D8DA;
   background-color: #336699;
-  color: #fff;
+  color: white;
   text-align: center;
 }
 
@@ -174,7 +174,7 @@ body
 /*login form*/
 .sidebar_top
 {
-  font-size:11px;height:25px;color:#FFFFFF;font-weight:bold;text-align:left;background:url('images/sidebar_top.png');
+  font-size:11px;height:25px;color: white;font-weight:bold;text-align:left;background:url('images/sidebar_top.png');
   padding-left: 10px;
 }
 
@@ -187,7 +187,7 @@ body
 
 .sidebar_bottom
 {
- font-size:12px;height:25px;color:#fff;font-weight:bold;text-align:left;background:url('images/sidebar_bottom.png');
+ font-size:12px;height:25px;color: white;font-weight:bold;text-align:left;background:url('images/sidebar_bottom.png');
 }
 
 
@@ -219,9 +219,9 @@ body
 }
 
 
-A:link {text-decoration: none; color: #000000;}
-A:visited {text-decoration: none;  color: #000000;}
-A:active {text-decoration: none; color: #000000;}
+A:link {text-decoration: none; color: black;}
+A:visited {text-decoration: none;  color: black;}
+A:active {text-decoration: none; color: black;}
 A:hover {text-decoration: none; color: #003366;}
 
 .top_sidebar_table
@@ -240,23 +240,7 @@ A:hover {text-decoration: none; color: #003366;}
   padding-left: 10px;
 }
 
-  .td1_tooltip
-  {
-    font-size: 11px;
-    font-family: arial;
-    font-weight: bold;
-    text-align: right;
-  }
-  .td2_tooltip
-  {
-    font-size: 11px;
-    font-family: arial;
-    text-align: left;
-  }
 /*Login area*/
-
-
-
 
 
 .generic-warning {
@@ -267,8 +251,24 @@ A:hover {text-decoration: none; color: #003366;}
 
 
 .masthead-text {
-	font-family:trebuchet ms;
+	font-family:trebuchet ms,sans-serif;
 	font-size:11px;
 	height:25px;
-	color:#000000;
+	color: black;
+}
+
+.site-name {
+	color:#003366;
+	padding-right:10px;
+	font-size:20px;
+	font-family:'arial black';
+}
+
+.td1_tooltip {
+	font: bold 11px Arial, sans-serif;
+	text-align: right;
+}
+.td2_tooltip {
+	font: normal 11px Arial, sans-serif;
+	text-align: left;
 }
