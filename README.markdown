@@ -2,20 +2,29 @@
 
 ArchReactorOS is a membership application software for your website.
 
-Copyright(C), ArchReactor, 2010, All Rights Reserved.
+## License
 
-Parts Copyright(C), Nicecoder, 2008, All Rights Reserved. 
+&copy; 2010, ArchReactor, All Rights Reserved.
 
-See license.txt for license (GPL 2).
+Parts &copy; 2008, Nicecoder, All Rights Reserved. 
+
+ArchReactorOS is made available under [the GPL 2 license](http://www.gnu.org/licenses/gpl-2.0.html). See license.txt for details.
 
 ## Features
 
-* With this application you can deliver many kinds of membership.
-* Nice member can manage members payment options.
-* Nice member can manage orders and mailing lists for members.
-* Integrated payment system (supporting PayPal).
+* Handle many kinds of membership
+* Manage members' payment options
+* Manage orders and mailing lists for members
+* Integrate with 3rd-party payment systems (including PayPal)
 
 ## Installation
+
+### Prerequisites 
+
+* MySQL
+* PHP 5.1.0+
+
+### Steps
 
 * Upload the files to your website.
 * To begin installation visit
@@ -25,3 +34,4 @@ See license.txt for license (GPL 2).
 
 2010-03-08 CW - This is the current code, but the db schema is not current.
 
+NiceMember, a membership system released under the GPL, was a building block in creating the ArchReactorOS.
